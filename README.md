@@ -27,14 +27,14 @@ TODO:
 
 4. Character Sheet Creation
  -  Design character creator
-... -  Race section
-... -  Class section
-... -  Ability score section
-... -  Background section
-... -  Equipment modal
-... -  Spell modal
-... -  Description section
-... -  Navigation menu
+ -  Race section
+    -  Class section
+    -  Ability score section
+    -  Background section
+    -  Equipment modal
+    -  Spell modal
+    -  Description section
+    -  Navigation menu
  -  Create tables for DnD API data
  -  DnD API description data pull
  -  Saving characters endpoint
