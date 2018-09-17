@@ -27,7 +27,7 @@ TODO:
 
 4. Character Sheet Creation
     -  Design character creator
-    -  Race section
+       -  Race section
        -  Class section
        -  Ability score section
        -  Background section
