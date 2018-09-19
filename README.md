@@ -2,6 +2,7 @@
 
 ## List of Flask Extensions Used For Convenience Sake
 
+
 ### Sprint 1
 TODO:
 1. Registration
