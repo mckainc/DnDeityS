@@ -10,94 +10,96 @@ import CollapsableSection from '../../components/CollapsableSection';
 import RaceDetails from './RaceDetails';
 
 const testJSON = `{
-	"_id": "5a52baf5559f00418e532721",
-	"index": 1,
-	"name": "Dwarf",
+	"_id": "5a52baf5559f00418e532726",
+	"index": 5,
+	"name": "Dragonborn",
 	"speed": 30,
 	"ability_bonuses": [
-		0,
-		0,
 		2,
 		0,
 		0,
-		0
+		0,
+		0,
+		1
 	],
-	"alignment": "Most dwarves are lawful, believing firmly in the benefits of a well-ordered society. They tend toward good as well, with a strong sense of fair play and a belief that everyone deserves to share in the benefits of a just order.",
-	"age": "Dwarves mature at the same rate as humans, but they’re considered young until they reach the age of 50. On average, they live about 350 years.",
+	"alignment": " Dragonborn tend to extremes, making a conscious choice for one side or the other in the cosmic war between good and evil. Most dragonborn are good, but those who side with evil can be terrible villains.",
+	"age": "Young dragonborn grow quickly. They walk hours after hatching, attain the size and development of a 10-year-old human child by the age of 3, and reach adulthood by 15. They live to be around 80.",
 	"size": "Medium",
-	"size_description": "Dwarves stand between 4 and 5 feet tall and average about 150 pounds. Your size is Medium.",
-	"starting_proficiencies": [
-		{
-			"name": "Battleaxes",
-			"url": "http://www.dnd5eapi.co/api/proficiencies/20"
-		},
-		{
-			"name": "Handaxes",
-			"url": "http://www.dnd5eapi.co/api/proficiencies/24"
-		},
-		{
-			"name": "Light hammers",
-			"url": "http://www.dnd5eapi.co/api/proficiencies/26"
-		},
-		{
-			"name": "Warhammers",
-			"url": "http://www.dnd5eapi.co/api/proficiencies/51"
-		}
-	],
-	"starting_proficiency_options": {
-		"choose": 1,
-		"type": "proficiencies",
-		"from": [
-			{
-				"name": "Smith's tools",
-				"url": "http://www.dnd5eapi.co/api/proficiencies/71"
-			},
-			{
-				"name": "Brewer's supplies",
-				"url": "http://www.dnd5eapi.co/api/proficiencies/59"
-			},
-			{
-				"name": "Mason's tools",
-				"url": "http://www.dnd5eapi.co/api/proficiencies/68"
-			}
-		]
-	},
+	"size_description": "Dragonborn are taller and heavier than humans, standing well over 6 feet tall and averaging almost 250 pounds. Your size is Medium.",
+	"starting_proficiencies": [],
 	"languages": [
 		{
 			"name": "Common",
 			"url": "http://www.dnd5eapi.co/api/languages/1"
 		},
 		{
-			"name": "Dwarvish",
-			"url": "http://www.dnd5eapi.co/api/languages/2"
+			"name": "Draconic",
+			"url": "http://www.dnd5eapi.co/api/languages/11"
 		}
 	],
-	"language_desc": "You can speak, read, and write Common and Dwarvish. Dwarvish is full of hard consonants and guttural sounds, and those characteristics spill over into whatever other language a dwarf might speak.",
+	"language_desc": "You can speak, read, and write Common and Draconic. Draconic is thought to be one of the oldest languages and is often used in the study of magic. The language sounds harsh to most other creatures and includes numerous hard consonants and sibilants.",
 	"traits": [
 		{
-			"url": "http://www.dnd5eapi.co/api/traits/1",
-			"name": "Darkvision (Dwarf)"
+			"url": "http://www.dnd5eapi.co/api/traits/24",
+			"name": "Draconic Anscestry"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/traits/2",
-			"name": "Dwarven Resilience"
+			"url": "http://www.dnd5eapi.co/api/traits/25",
+			"name": "Breath Weapon"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/traits/3",
-			"name": "Stonecunning"
+			"url": "http://www.dnd5eapi.co/api/traits/36",
+			"name": "Damage Resistance (Dragonborn)"
 		}
 	],
-	"subraces": [
-		{
-			"name": "Hill Dwarf",
-			"url": "http://www.dnd5eapi.co/api/subraces/1"
-		},
-		{
-			"name": "Mountain Dwarf",
-			"url": "http://www.dnd5eapi.co/api/subraces/4"
-		}
-	],
-	"url": "http://www.dnd5eapi.co/api/races/1"
+	"trait_options": {
+		"choose": 1,
+		"from": [
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/26",
+				"name": "Breath Weapon (Black)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/27",
+				"name": "Breath Weapon (Blue)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/28",
+				"name": "Breath Weapon (Brass)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/29",
+				"name": "Breath Weapon (Bronze)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/30",
+				"name": "Breath Weapon (Copper)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/31",
+				"name": "Breath Weapon (Gold)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/32",
+				"name": "Breath Weapon (Green)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/33",
+				"name": "Breath Weapon (Red)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/34",
+				"name": "Breath Weapon (Silver)"
+			},
+			{
+				"url": "http://www.dnd5eapi.co/api/traits/35",
+				"name": "Breath Weapon (White)"
+			}
+		],
+		"type": "trait"
+	},
+	"subraces": [],
+	"url": "http://www.dnd5eapi.co/api/races/5"
 }`
 
 const testJSON2 = `{
@@ -196,9 +198,9 @@ const testJSON2 = `{
 	"url": "http://www.dnd5eapi.co/api/races/4"
 }`
 
-const dwarf = new RaceType('Dwarf', testJSON);
+const dragonborn = new RaceType('Dragonborn', testJSON);
 const human = new RaceType("Human", testJSON2)
-console.log(dwarf);
+console.log(dragonborn);
 console.log(human);
 
 class RaceSection extends Component {
@@ -215,8 +217,8 @@ class RaceSection extends Component {
 		// TODO traverse array of races from server
 		// find race by name
 		switch(e) {
-			case "Dwarf":
-				race = dwarf;
+			case "Dragonborn":
+				race = dragonborn;
 				break;
 			case "Human":
 				race = human
@@ -240,7 +242,7 @@ class RaceSection extends Component {
             <ToggleButton>Elf</ToggleButton>
             <ToggleButton value="Halfling">Halfling</ToggleButton>
             <ToggleButton value="Human">Human</ToggleButton>
-            <ToggleButton>Dragonborn</ToggleButton>
+            <ToggleButton value="Dragonborn">Dragonborn</ToggleButton>
           </ToggleButtonGroup>
 					{this.state.race !== 'none' && <RaceDetails race={this.state.race}/>}
         </CollapsableSection>

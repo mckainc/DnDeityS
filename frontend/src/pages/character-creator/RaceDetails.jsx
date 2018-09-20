@@ -17,6 +17,7 @@ class RaceDetails extends PureComponent {
     this.state = {
       pickedLanguage: 'Choose Another Language',
       pickedProficiency: 'Choose Another Proficiency',
+      pickedTrait: 'Choose Another Trait',
     }
   }
 
@@ -26,6 +27,10 @@ class RaceDetails extends PureComponent {
 
   setPickedProficiency = (pickedProficiency) => {
     this.setState({ pickedProficiency });
+  }
+
+  setPickedTrait = (pickedTrait) => {
+    this.setState({ pickedTrait });
   }
 
   render() {
@@ -52,11 +57,20 @@ class RaceDetails extends PureComponent {
             }
           </div>
 
+          <div>
           <b>Traits:</b>
-          {race.description.traits.map(trait => (
-            <p>- {trait.name}</p>
-          ))}
-          {race.description.traits.length === 0 && <p>(none)</p>}
+            {race.description.traits.map(trait => (
+              <p>- {trait.name}</p>
+            ))}
+            {race.description.trait_options !== undefined &&
+              <DropdownButton title={this.state.pickedTrait}>
+                {race.description.trait_options.from.map(trait => (
+                  <MenuItem id={trait.name} onSelect={this.setPickedTrait} eventKey={trait.name}>{trait.name}</MenuItem>
+                ))}
+              </DropdownButton>
+            }
+            {race.description.traits.length === 0 && <p>(none)</p>}
+          </div>
 
           <div>
             <b>Proficiencies:</b>
