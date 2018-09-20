@@ -200,8 +200,6 @@ const testJSON2 = `{
 
 const dragonborn = new RaceType('Dragonborn', testJSON);
 const human = new RaceType("Human", testJSON2)
-console.log(dragonborn);
-console.log(human);
 
 class RaceSection extends Component {
 	constructor(props) {

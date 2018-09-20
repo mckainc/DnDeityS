@@ -45,9 +45,9 @@ class RaceDetails extends PureComponent {
 
           <div>
             <b>Languages:</b>
-            {race.description.languages.map(language => {
-              return (<p>- {language.name}</p>);
-            })}
+            {race.description.languages.map(language => (
+              <p>- {language.name}</p>
+            ))}
             {race.description.language_options !== undefined &&
               <DropdownButton title={this.state.pickedLanguage}>
                 {languages.map(language => (
