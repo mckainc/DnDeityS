@@ -17,7 +17,13 @@ class CollapsableSection extends PureComponent {
     render() {
         return (
             <div>
-                <h2 onClick={this.toggleCollapse}>{this.props.title}</h2>
+                <h2 onClick={this.toggleCollapse}>
+                    {this.props.title + " "}
+                    {this.state.open ?
+                        <i class="fas fa-caret-down"></i> :
+                        <i class="fas fa-caret-right"></i>
+                    }
+                </h2>
                 <Collapse in={this.state.open}>
                     <div>{this.props.children}</div>
                 </Collapse>
