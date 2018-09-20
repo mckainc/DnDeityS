@@ -2,9 +2,10 @@ from flask import Flask
 from flask import request
 from flask import make_response
 from flask import jsonify
-# check if in production or development
+
 app = Flask(__name__)
 
+# check if in production or development
 if app.config['DEBUG']:
 	from db_dev import *
 else:
