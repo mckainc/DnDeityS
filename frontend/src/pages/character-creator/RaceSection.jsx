@@ -10,55 +10,94 @@ import CollapsableSection from '../../components/CollapsableSection';
 import RaceDetails from './RaceDetails';
 
 const testJSON = `{
-	"_id": "5a52baf5559f00418e532723",
-	"index": 3,
-	"name": "Halfling",
-	"speed": 25,
+	"_id": "5a52baf5559f00418e532721",
+	"index": 1,
+	"name": "Dwarf",
+	"speed": 30,
 	"ability_bonuses": [
+		0,
 		0,
 		2,
 		0,
 		0,
-		0,
 		0
 	],
-	"age": "A halfling reaches adulthood at the age of 20 and generally lives into the middle of his or her second century.",
-	"alignment": "Most halflings are lawful good. As a rule, they are good-hearted and kind, hate to see others in pain, and have no tolerance for oppression. They are also very orderly and traditional, leaning heavily on the support of their community and the comfort of their old ways.",
-	"size": "Small",
-	"size_description": "Halflings average about 3 feet tall and weigh about 40 pounds. Your size is Small.",
-	"starting_proficiencies": [],
+	"alignment": "Most dwarves are lawful, believing firmly in the benefits of a well-ordered society. They tend toward good as well, with a strong sense of fair play and a belief that everyone deserves to share in the benefits of a just order.",
+	"age": "Dwarves mature at the same rate as humans, but they’re considered young until they reach the age of 50. On average, they live about 350 years.",
+	"size": "Medium",
+	"size_description": "Dwarves stand between 4 and 5 feet tall and average about 150 pounds. Your size is Medium.",
+	"starting_proficiencies": [
+		{
+			"name": "Battleaxes",
+			"url": "http://www.dnd5eapi.co/api/proficiencies/20"
+		},
+		{
+			"name": "Handaxes",
+			"url": "http://www.dnd5eapi.co/api/proficiencies/24"
+		},
+		{
+			"name": "Light hammers",
+			"url": "http://www.dnd5eapi.co/api/proficiencies/26"
+		},
+		{
+			"name": "Warhammers",
+			"url": "http://www.dnd5eapi.co/api/proficiencies/51"
+		}
+	],
+	"starting_proficiency_options": {
+		"choose": 1,
+		"type": "proficiencies",
+		"from": [
+			{
+				"name": "Smith's tools",
+				"url": "http://www.dnd5eapi.co/api/proficiencies/71"
+			},
+			{
+				"name": "Brewer's supplies",
+				"url": "http://www.dnd5eapi.co/api/proficiencies/59"
+			},
+			{
+				"name": "Mason's tools",
+				"url": "http://www.dnd5eapi.co/api/proficiencies/68"
+			}
+		]
+	},
 	"languages": [
 		{
 			"name": "Common",
 			"url": "http://www.dnd5eapi.co/api/languages/1"
 		},
 		{
-			"name": "Halfling",
-			"url": "http://www.dnd5eapi.co/api/languages/7"
+			"name": "Dwarvish",
+			"url": "http://www.dnd5eapi.co/api/languages/2"
 		}
 	],
-	"language_desc": "You can speak, read, and write Common and Halfling. The Halfling language isn’t secret, but halflings are loath to share it with others. They write very little, so they don’t have a rich body of literature. Their oral tradition, however, is very strong. Almost all halflings speak Common to converse with the people in whose lands they dwell or through which they are traveling.",
+	"language_desc": "You can speak, read, and write Common and Dwarvish. Dwarvish is full of hard consonants and guttural sounds, and those characteristics spill over into whatever other language a dwarf might speak.",
 	"traits": [
 		{
-			"url": "http://www.dnd5eapi.co/api/traits/21",
-			"name": "Brave"
+			"url": "http://www.dnd5eapi.co/api/traits/1",
+			"name": "Darkvision (Dwarf)"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/traits/22",
-			"name": "Halfling Nimbleness"
+			"url": "http://www.dnd5eapi.co/api/traits/2",
+			"name": "Dwarven Resilience"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/traits/23",
-			"name": "Lucky"
+			"url": "http://www.dnd5eapi.co/api/traits/3",
+			"name": "Stonecunning"
 		}
 	],
 	"subraces": [
 		{
-			"name": "Lightfoot Halfling",
-			"url": "http://www.dnd5eapi.co/api/subraces/3"
+			"name": "Hill Dwarf",
+			"url": "http://www.dnd5eapi.co/api/subraces/1"
+		},
+		{
+			"name": "Mountain Dwarf",
+			"url": "http://www.dnd5eapi.co/api/subraces/4"
 		}
 	],
-	"url": "http://www.dnd5eapi.co/api/races/3"
+	"url": "http://www.dnd5eapi.co/api/races/1"
 }`
 
 const testJSON2 = `{
@@ -157,9 +196,9 @@ const testJSON2 = `{
 	"url": "http://www.dnd5eapi.co/api/races/4"
 }`
 
-const halfling = new RaceType('Halfling', testJSON);
+const dwarf = new RaceType('Dwarf', testJSON);
 const human = new RaceType("Human", testJSON2)
-console.log(halfling);
+console.log(dwarf);
 console.log(human);
 
 class RaceSection extends Component {
@@ -176,8 +215,8 @@ class RaceSection extends Component {
 		// TODO traverse array of races from server
 		// find race by name
 		switch(e) {
-			case "Halfling":
-				race = halfling;
+			case "Dwarf":
+				race = dwarf;
 				break;
 			case "Human":
 				race = human
@@ -197,7 +236,7 @@ class RaceSection extends Component {
 						name="race-options"
 						onChange={this.handleRaceChange}
 					>
-            <ToggleButton>Dwarf</ToggleButton>
+            <ToggleButton value="Dwarf">Dwarf</ToggleButton>
             <ToggleButton>Elf</ToggleButton>
             <ToggleButton value="Halfling">Halfling</ToggleButton>
             <ToggleButton value="Human">Human</ToggleButton>

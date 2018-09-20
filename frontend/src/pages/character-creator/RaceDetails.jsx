@@ -16,12 +16,16 @@ class RaceDetails extends PureComponent {
 
     this.state = {
       pickedLanguage: 'Choose Another Language',
+      pickedProficiency: 'Choose Another Proficiency',
     }
   }
 
   setPickedLanguage = (pickedLanguage) => {
-    console.log(pickedLanguage);
     this.setState({ pickedLanguage });
+  }
+
+  setPickedProficiency = (pickedProficiency) => {
+    this.setState({ pickedProficiency });
   }
 
   render() {
@@ -33,6 +37,7 @@ class RaceDetails extends PureComponent {
           <p><b>Alignment: </b>{race.description.alignment}</p>          
           <p><b>Size: </b>{race.description.size}</p>
           <p><b>Speed: </b>{race.description.speed}</p>
+
           <div>
             <b>Languages:</b>
             {race.description.languages.map(language => {
@@ -46,16 +51,28 @@ class RaceDetails extends PureComponent {
               </DropdownButton>
             }
           </div>
+
           <b>Traits:</b>
-          {race.description.traits.map(trait => {
-            return (<p>- {trait.name}</p>);
-          })}
+          {race.description.traits.map(trait => (
+            <p>- {trait.name}</p>
+          ))}
           {race.description.traits.length === 0 && <p>(none)</p>}
-          <b>Proficiencies:</b>
-          {race.description.starting_proficiencies.map(proficiency => {
-            return (<p>- {proficiency.name}</p>);
-          })}
-          {race.description.starting_proficiencies.length === 0 && <p>(none)</p>}
+
+          <div>
+            <b>Proficiencies:</b>
+            {race.description.starting_proficiencies.map(proficiency => (
+              <p>- {proficiency.name}</p>
+            ))}
+            {race.description.starting_proficiency_options !== undefined &&
+              <DropdownButton title={this.state.pickedProficiency}>
+                {race.description.starting_proficiency_options.from.map(proficiency => (
+                  <MenuItem id={proficiency.name} onSelect={this.setPickedProficiency} eventKey={proficiency.name}>{proficiency.name}</MenuItem>
+                ))}
+              </DropdownButton>
+            }
+            {race.description.starting_proficiencies.length === 0 && <p>(none)</p>}
+          </div>
+
         </Well>
       </div>
     );
