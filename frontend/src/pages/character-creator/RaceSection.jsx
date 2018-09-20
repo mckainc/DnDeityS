@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
+// types
 import RaceType from '../../objects/RaceType';
 
+// components
+import ToggleButtonGroup from 'react-bootstrap/lib/ToggleButtonGroup'
+import ToggleButton from 'react-bootstrap/lib/ToggleButton';
 import CollapsableSection from '../../components/CollapsableSection';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import Button from 'react-bootstrap/lib/Button';
+import RaceDetails from './RaceDetails';
 
 const testJSON = `{
 	"_id": "5a52baf5559f00418e532723",
@@ -58,21 +61,147 @@ const testJSON = `{
 	"url": "http://www.dnd5eapi.co/api/races/3"
 }`
 
+const testJSON2 = `{
+	"_id": "5a52baf5559f00418e532722",
+	"index": 4,
+	"name": "Human",
+	"speed": 30,
+	"ability_bonuses": [
+		1,
+		1,
+		1,
+		1,
+		1,
+		1
+	],
+	"age": "Humans reach adulthood in their late teens and live less than a century.",
+	"alignment": "Humans tend toward no particular alignment. The best and the worst are found among them.",
+	"size": "Medium",
+	"size_description": "Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall. Regardless of your position in that range, your size is Medium.",
+	"starting_proficiencies": [],
+	"languages": [
+		{
+			"name": "Common",
+			"url": "http://www.dnd5eapi.co/api/languages/1"
+		}
+	],
+	"language_options": {
+		"choose": 1,
+		"type": "languages",
+		"from": [
+			{
+				"name": "Dwarvish",
+				"url": "http://www.dnd5eapi.co/api/languages/2"
+			},
+			{
+				"name": "Elvish",
+				"url": "http://www.dnd5eapi.co/api/languages/3"
+			},
+			{
+				"name": "Giant",
+				"url": "http://www.dnd5eapi.co/api/languages/4"
+			},
+			{
+				"name": "Gnomish",
+				"url": "http://www.dnd5eapi.co/api/languages/5"
+			},
+			{
+				"name": "Goblin",
+				"url": "http://www.dnd5eapi.co/api/languages/6"
+			},
+			{
+				"name": "Halfling",
+				"url": "http://www.dnd5eapi.co/api/languages/7"
+			},
+			{
+				"name": "Orc",
+				"url": "http://www.dnd5eapi.co/api/languages/8"
+			},
+			{
+				"name": "Abyssal",
+				"url": "http://www.dnd5eapi.co/api/languages/9"
+			},
+			{
+				"name": "Celestial",
+				"url": "http://www.dnd5eapi.co/api/languages/10"
+			},
+			{
+				"name": "Draconic",
+				"url": "http://www.dnd5eapi.co/api/languages/11"
+			},
+			{
+				"name": "Deep Speech",
+				"url": "http://www.dnd5eapi.co/api/languages/12"
+			},
+			{
+				"name": "Infernal",
+				"url": "http://www.dnd5eapi.co/api/languages/13"
+			},
+			{
+				"name": "Primordial",
+				"url": "http://www.dnd5eapi.co/api/languages/14"
+			},
+			{
+				"name": "Sylvan",
+				"url": "http://www.dnd5eapi.co/api/languages/15"
+			},
+			{
+				"name": "Undercommon",
+				"url": "http://www.dnd5eapi.co/api/languages/16"
+			}
+		]
+	},
+	"language_desc": "You can speak, read, and write Common and one extra language of your choice. Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.",
+	"traits": [],
+	"subraces": [],
+	"url": "http://www.dnd5eapi.co/api/races/4"
+}`
+
+const halfling = new RaceType('Halfling', testJSON);
+const human = new RaceType("Human", testJSON2)
+console.log(halfling);
+console.log(human);
+
 class RaceSection extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+				race: human,
+		}
+	}
+	
+	handleRaceChange = (e) => {
+		let race = undefined;
+		// find race by name
+		switch(e) {
+			case "Halfling":
+				race = halfling;
+				break;
+			case "Human":
+				race = human
+				break;
+		}
+		this.setState({ race });
+	}
+
   render() {
-    const human = new RaceType('Halfling', testJSON);
-    console.log(human);
-    
     return (
       <div className="RaceSection">
         <CollapsableSection title="Race" open={true}>
-          <ButtonGroup>
-            <Button>Dwarf</Button>
-            <Button>Elf</Button>
-            <Button>Halfling</Button>
-            <Button>Human</Button>
-            <Button>Dragonborn</Button>
-          </ButtonGroup>
+          <ToggleButtonGroup
+						value={this.state.race.name}
+						type="radio"
+						name="race-options"
+						onChange={this.handleRaceChange}
+					>
+            <ToggleButton>Dwarf</ToggleButton>
+            <ToggleButton>Elf</ToggleButton>
+            <ToggleButton value="Halfling">Halfling</ToggleButton>
+            <ToggleButton value="Human">Human</ToggleButton>
+            <ToggleButton>Dragonborn</ToggleButton>
+          </ToggleButtonGroup>
+					<RaceDetails race={this.state.race}/>
         </CollapsableSection>
       </div>
     );

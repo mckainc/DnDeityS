@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+
+// components
 import Collapse from 'react-bootstrap/lib/Collapse';
 
 class CollapsableSection extends PureComponent {
