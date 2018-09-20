@@ -21,6 +21,12 @@ class RaceDetails extends PureComponent {
           {race.description.traits.map(trait => {
             return (<p>- {trait.name}</p>);
           })}
+          {race.description.traits.length === 0 && <p>(none)</p>}
+          <b>Proficiencies:</b>
+          {race.description.starting_proficiencies.map(proficiency => {
+            return (<p>- {proficiency.name}</p>);
+          })}
+          {race.description.starting_proficiencies.length === 0 && <p>(none)</p>}
         </Well>
       </div>
     );

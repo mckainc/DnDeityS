@@ -172,7 +172,8 @@ class RaceSection extends Component {
 	}
 	
 	handleRaceChange = (e) => {
-		let race = undefined;
+		let race = 'none';
+		// TODO traverse array of races from server
 		// find race by name
 		switch(e) {
 			case "Halfling":
@@ -186,6 +187,7 @@ class RaceSection extends Component {
 	}
 
   render() {
+		// TODO traverse array of races from server to render race buttons
     return (
       <div className="RaceSection">
         <CollapsableSection title="Race" open={true}>
@@ -201,7 +203,7 @@ class RaceSection extends Component {
             <ToggleButton value="Human">Human</ToggleButton>
             <ToggleButton>Dragonborn</ToggleButton>
           </ToggleButtonGroup>
-					<RaceDetails race={this.state.race}/>
+					{this.state.race !== 'none' && <RaceDetails race={this.state.race}/>}
         </CollapsableSection>
       </div>
     );
