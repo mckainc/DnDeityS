@@ -167,7 +167,7 @@ class RaceSection extends Component {
 		super(props);
 
 		this.state = {
-				race: human,
+				race: 'none',
 		}
 	}
 	
