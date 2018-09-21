@@ -7,7 +7,7 @@ import RaceType from '../../objects/RaceType';
 import ToggleButtonGroup from 'react-bootstrap/lib/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/lib/ToggleButton';
 import CollapsableSection from '../../components/CollapsableSection';
-import RaceDetails from './RaceDetails';
+import ClassDetails from './ClassDetails';
 
 const testJSON = `{
 	"_id": "5afe386947afbaf224116cf0",
@@ -243,23 +243,23 @@ class ClassSection extends Component {
 		super(props);
 
 		this.state = {
-				class: 'none',
+				currentClass: 'none',
 		}
 	}
 	
 	handleClassChange = (e) => {
-		let className = 'none';
+		let currentClass = 'none';
 		// TODO traverse array of classes from server
 		// find class by name
 		switch(e) {
 			case "Fighter":
-        className = fighter;
+        currentClass = fighter;
 				break;
 			case "Druid":
-        className = druid;
+        currentClass = druid;
 				break;
 		}
-		this.setState({ class: className });
+		this.setState({ currentClass });
 	}
 
   render() {
@@ -268,7 +268,7 @@ class ClassSection extends Component {
       <div className="ClassSection">
         <CollapsableSection title="Class" open={true}>
           <ToggleButtonGroup
-						value={this.state.class.name}
+						value={this.state.currentClass.name}
 						type="radio"
 						name="class-options"
 						onChange={this.handleClassChange}
@@ -277,7 +277,7 @@ class ClassSection extends Component {
             <ToggleButton value="Druid">Druid</ToggleButton>
             <ToggleButton value="Barbarian">Barbarian</ToggleButton>
           </ToggleButtonGroup>
-					{this.state.class !== 'none' && <p>Class Details</p>}
+					{this.state.currentClass !== 'none' && <ClassDetails currentClass={this.state.currentClass}/>}
         </CollapsableSection>
       </div>
     );
