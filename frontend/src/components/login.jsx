@@ -12,9 +12,13 @@ export default class login extends Component {
                     <h1>DnDeity</h1>
                     <p>personal reminder to update css</p>
                 </Jumbotron>
+
+                <button> bsStyle="primary" </button>
+                <button> bsStyle="primary" </button>
             </Grid>
             
-            //login button section
+            
+            
         )
     }
 }
