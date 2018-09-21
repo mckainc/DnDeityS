@@ -22,6 +22,14 @@ class ClassDetails extends PureComponent {
           <p><b>Hit Die: </b>{currentClass.description.hit_die}</p>
 
           <div>
+            <b>Saving Throws:</b>
+            {currentClass.description.saving_throws.map(saving_throw => (
+              <p>- {saving_throw.name}</p>
+            ))}
+            {currentClass.description.saving_throws.length === 0 && <p>(none)</p>}
+          </div>
+
+          <div>
             <b>Proficiencies:</b>
             {currentClass.description.proficiencies.map(proficiency => (
               <p>- {proficiency.name}</p>
