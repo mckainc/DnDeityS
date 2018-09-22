@@ -49,7 +49,7 @@ class RaceDetails extends PureComponent {
               <p>- {language.name}</p>
             ))}
             {race.description.language_options !== undefined &&
-              <DropdownButton title={this.state.pickedLanguage}>
+              <DropdownButton id="language choice" title={this.state.pickedLanguage}>
                 {languages.map(language => (
                   <MenuItem id={language} onSelect={this.setPickedLanguage} eventKey={language}>{language}</MenuItem>
                 ))}
@@ -63,7 +63,7 @@ class RaceDetails extends PureComponent {
               <p>- {trait.name}</p>
             ))}
             {race.description.trait_options !== undefined &&
-              <DropdownButton title={this.state.pickedTrait}>
+              <DropdownButton id="trait choice" title={this.state.pickedTrait}>
                 {race.description.trait_options.from.map(trait => (
                   <MenuItem id={trait.name} onSelect={this.setPickedTrait} eventKey={trait.name}>{trait.name}</MenuItem>
                 ))}
@@ -78,7 +78,7 @@ class RaceDetails extends PureComponent {
               <p>- {proficiency.name}</p>
             ))}
             {race.description.starting_proficiency_options !== undefined &&
-              <DropdownButton title={this.state.pickedProficiency}>
+              <DropdownButton id="proficiency choice" title={this.state.pickedProficiency}>
                 {race.description.starting_proficiency_options.from.map(proficiency => (
                   <MenuItem id={proficiency.name} onSelect={this.setPickedProficiency} eventKey={proficiency.name}>{proficiency.name}</MenuItem>
                 ))}
