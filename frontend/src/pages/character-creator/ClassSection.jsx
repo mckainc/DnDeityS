@@ -100,13 +100,17 @@ const testJSON = `{
 }`
 
 const testJSON2 = `{
-	"_id": "5afe386947afbaf224116cef",
-	"index": 4,
-	"name": "Druid",
+	"_id": "5afe386947afbaf224116ced",
+	"index": 2,
+	"name": "Bard",
 	"hit_die": 8,
 	"proficiency_choices": [
 		{
 			"from": [
+				{
+					"name": "Skill: Acrobatics",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/105"
+				},
 				{
 					"name": "Skill: Animal Handling",
 					"url": "http://www.dnd5eapi.co/api/proficiencies/106"
@@ -116,8 +120,28 @@ const testJSON2 = `{
 					"url": "http://www.dnd5eapi.co/api/proficiencies/107"
 				},
 				{
+					"name": "Skill: Athletics",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/108"
+				},
+				{
+					"name": "Skill: Deception",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/109"
+				},
+				{
+					"name": "Skill: History",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/110"
+				},
+				{
 					"name": "Skill: Insight",
 					"url": "http://www.dnd5eapi.co/api/proficiencies/111"
+				},
+				{
+					"name": "Skill: Intimidation",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/112"
+				},
+				{
+					"name": "Skill: Investigation",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/113"
 				},
 				{
 					"name": "Skill: Medicine",
@@ -132,8 +156,24 @@ const testJSON2 = `{
 					"url": "http://www.dnd5eapi.co/api/proficiencies/116"
 				},
 				{
+					"name": "Skill: Performance",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/117"
+				},
+				{
+					"name": "Skill: Persuasion",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/118"
+				},
+				{
 					"name": "Skill: Religion",
 					"url": "http://www.dnd5eapi.co/api/proficiencies/119"
+				},
+				{
+					"name": "Skill: Sleight of Hand",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/120"
+				},
+				{
+					"name": "Skill: Stealth",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/121"
 				},
 				{
 					"name": "Skill: Survival",
@@ -141,7 +181,53 @@ const testJSON2 = `{
 				}
 			],
 			"type": "proficiencies",
-			"choose": 2
+			"choose": 3
+		},
+		{
+			"from": [
+				{
+					"name": "Bagpipes",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/81"
+				},
+				{
+					"name": "Drum",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/82"
+				},
+				{
+					"name": "Dulcimer",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/83"
+				},
+				{
+					"name": "Flute",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/84"
+				},
+				{
+					"name": "Lute",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/85"
+				},
+				{
+					"name": "Lyre",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/86"
+				},
+				{
+					"name": "Horn",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/87"
+				},
+				{
+					"name": "Pan flute",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/88"
+				},
+				{
+					"name": "Shawm",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/89"
+				},
+				{
+					"name": "Viol",
+					"url": "http://www.dnd5eapi.co/api/proficiencies/90"
+				}
+			],
+			"type": "proficiencies",
+			"choose": 3
 		}
 	],
 	"proficiencies": [
@@ -150,93 +236,61 @@ const testJSON2 = `{
 			"name": "Light armor"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/2",
-			"name": "Medium armor"
+			"url": "http://www.dnd5eapi.co/api/proficiencies/19",
+			"name": "Simple weapons"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/18",
-			"name": "Shields"
+			"url": "http://www.dnd5eapi.co/api/proficiencies/42",
+			"name": "Longswords"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/21",
-			"name": "Clubs"
+			"url": "http://www.dnd5eapi.co/api/proficiencies/46",
+			"name": "Rapiers"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/22",
-			"name": "Daggers"
+			"url": "http://www.dnd5eapi.co/api/proficiencies/48",
+			"name": "Shortswords"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/25",
-			"name": "Javelins"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/27",
-			"name": "Maces"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/28",
-			"name": "Quarterstaffs"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/29",
-			"name": "Sickles"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/30",
-			"name": "Spears"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/32",
-			"name": "Darts"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/34",
-			"name": "Slings"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/47",
-			"name": "Scimitars"
-		},
-		{
-			"url": "http://www.dnd5eapi.co/api/proficiencies/93",
-			"name": "Herbalism Kit"
+			"url": "http://www.dnd5eapi.co/api/proficiencies/54",
+			"name": "Crossbows, hand"
 		}
 	],
 	"saving_throws": [
 		{
-			"url": "http://www.dnd5eapi.co/api/ability-scores/4",
-			"name": "INT"
+			"url": "http://www.dnd5eapi.co/api/ability-scores/2",
+			"name": "DEX"
 		},
 		{
-			"url": "http://www.dnd5eapi.co/api/ability-scores/5",
-			"name": "WIS"
+			"url": "http://www.dnd5eapi.co/api/ability-scores/6",
+			"name": "CHA"
 		}
 	],
 	"starting_equipment": {
-		"url": "http://www.dnd5eapi.co/api/startingequipment/4",
-		"class": "Druid"
+		"url": "http://www.dnd5eapi.co/api/startingequipment/2",
+		"class": "Bard"
 	},
 	"class_levels": {
-		"url": "http://www.dnd5eapi.co/api/classes/Druid/levels",
-		"class": "Druid"
+		"url": "http://www.dnd5eapi.co/api/classes/Bard/levels",
+		"class": "Bard"
 	},
 	"subclasses": [
 		{
-			"name": "Land",
-			"url": "http://www.dnd5eapi.co/api/subclasses/4"
+			"name": "Lore",
+			"url": "http://www.dnd5eapi.co/api/subclasses/2"
 		}
 	],
 	"spellcasting": {
-		"url": "http://www.dnd5eapi.co/api/spellcasting/3",
-		"class": "Druid"
+		"url": "http://www.dnd5eapi.co/api/spellcasting/1",
+		"class": "Bard"
 	},
-	"url": "http://www.dnd5eapi.co/api/classes/4"
+	"url": "http://www.dnd5eapi.co/api/classes/2"
 }`
 
 const fighter = new RaceType('Fighter', testJSON);
-const druid = new RaceType("Druid", testJSON2)
+const bard = new RaceType("Bard", testJSON2)
 console.log(fighter);
-console.log(druid);
+console.log(bard);
 
 class ClassSection extends Component {
 	constructor(props) {
@@ -255,8 +309,8 @@ class ClassSection extends Component {
 			case "Fighter":
         currentClass = fighter;
 				break;
-			case "Druid":
-        currentClass = druid;
+			case "Bard":
+        currentClass = bard;
 				break;
 		}
 		this.setState({ currentClass });
@@ -274,7 +328,7 @@ class ClassSection extends Component {
 						onChange={this.handleClassChange}
 					>
             <ToggleButton value="Fighter">Fighter</ToggleButton>
-            <ToggleButton value="Druid">Druid</ToggleButton>
+            <ToggleButton value="Bard">bard</ToggleButton>
             <ToggleButton value="Barbarian">Barbarian</ToggleButton>
           </ToggleButtonGroup>
 					{this.state.currentClass !== 'none' && <ClassDetails currentClass={this.state.currentClass}/>}
