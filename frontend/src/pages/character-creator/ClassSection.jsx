@@ -289,8 +289,6 @@ const testJSON2 = `{
 
 const fighter = new RaceType('Fighter', testJSON);
 const bard = new RaceType("Bard", testJSON2)
-console.log(fighter);
-console.log(bard);
 
 class ClassSection extends Component {
 	constructor(props) {

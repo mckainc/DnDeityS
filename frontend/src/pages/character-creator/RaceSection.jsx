@@ -237,7 +237,7 @@ class RaceSection extends Component {
 						onChange={this.handleRaceChange}
 					>
             <ToggleButton value="Dwarf">Dwarf</ToggleButton>
-            <ToggleButton>Elf</ToggleButton>
+            <ToggleButton value="Elf">Elf</ToggleButton>
             <ToggleButton value="Halfling">Halfling</ToggleButton>
             <ToggleButton value="Human">Human</ToggleButton>
             <ToggleButton value="Dragonborn">Dragonborn</ToggleButton>
