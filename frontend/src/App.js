@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import RaceSection from './pages/character-creator/RaceSection';
 import ClassSection from './pages/character-creator/ClassSection';
-import AbilityScore from './components/AbilityScore';
+import ScoreSection from './pages/character-creator/ScoreSection';
 
 class App extends Component {
   render() {
@@ -10,7 +10,7 @@ class App extends Component {
       <div className="App">
         <RaceSection/>
         <ClassSection/>
-        <AbilityScore type="STR"/>
+        <ScoreSection/>
       </div>
     );
   }
