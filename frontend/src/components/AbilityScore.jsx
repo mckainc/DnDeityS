@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // components
-import Panel from 'react-bootstrap/lib/Panel'
+import { FormControl, Panel } from 'react-bootstrap';
 
 class AbilityScore extends Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class AbilityScore extends Component {
         <b>{type}</b>
         <Panel>
           <Panel.Body>
-            <input type="number" name={`${type}-value`} id={type} value={score} onChange={this.updateModifier}/>
+            <FormControl type="number" name={`${type}-value`} id={type} value={score} onChange={this.updateModifier}/>
           </Panel.Body>
         </Panel>
         {modifier >= 0 && <p>{`+${modifier}`}</p>}
