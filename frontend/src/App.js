@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// components
 import CharacterCreator from './pages/character-creator/CharacterCreator';
 
 class App extends Component {
