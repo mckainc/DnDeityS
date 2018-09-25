@@ -7,7 +7,7 @@ class SiteNaveBar extends Component {
   render() {
     return (
       <div className="SiteNavBar">
-        <Navbar fixedTop>
+        <Navbar fixedTop fluid>
           <Navbar.Header>
             <Navbar.Brand>DnDeity</Navbar.Brand>
           </Navbar.Header>
