@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import RaceSection from './RaceSection';
 import ClassSection from './ClassSection';
 import ScoreSection from './ScoreSection';
+import EquipmentSection from './EquipmentSection';
 import SiteNavBar from '../../components/SiteNavBar';
 
 import { FormControl } from 'react-bootstrap';
@@ -19,6 +20,7 @@ class CharacterCreator extends Component {
         <RaceSection/>
         <ClassSection/>
         <ScoreSection/>
+        <EquipmentSection/>
       </div>
     );
   }
