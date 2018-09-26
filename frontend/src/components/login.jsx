@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Grid, Row, Col, Image, Button } from 'react-bootstrap';
+import { Jumbotron, Grid, Row, Col, Image, Button  } from 'react-bootstrap';
 import './login.css'
+import Form from '/loginForm';
 
 export default class login extends Component {
     render() {
@@ -10,11 +11,17 @@ export default class login extends Component {
             <Grid>
                 <Jumbotron>
                     <h1>DnDeity</h1>
-                    <p>personal reminder to update css</p>
+                    <p>Please enter you login info</p>
                 </Jumbotron>
 
-                <button> bsStyle="primary" </button>
-                <button> bsStyle="primary" </button>
+                <Form />
+
+                <Link to="/newUser">
+                    <button> bsStyle="primary" </button>
+                </Link>
+                <Link to="/home">
+                    <button> bsStyle="primary" </button>
+                </Link>
             </Grid>
             
             
