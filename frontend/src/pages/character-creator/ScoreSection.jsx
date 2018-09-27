@@ -59,7 +59,7 @@ class ScoreSection extends Component {
           }
           <Row>
             {abilityScores.map(score => (
-              <Col xs={3} md={2}><AbilityScore type={score} score={8} manual={manual} updatePoints={this.updatePoints}/></Col>
+              <Col xs={2} md={1}><AbilityScore type={score} score={8} manual={manual} updatePoints={this.updatePoints}/></Col>
             ))}
           </Row>
         </CollapsableSection>

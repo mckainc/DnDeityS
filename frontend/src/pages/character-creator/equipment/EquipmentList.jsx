@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // types
-import RaceType from '../../objects/RaceType';
+import RaceType from '../../../objects/RaceType';
 
 // components
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
