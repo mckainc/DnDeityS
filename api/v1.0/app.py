@@ -54,5 +54,8 @@ def get_user(username):
 	abort(400)
 	# return user_id
 
+@app.route('/character', methods=['POST'])
+def create_character():
+	
 if __name__ == '__main__':
     app.run(debug=True)
