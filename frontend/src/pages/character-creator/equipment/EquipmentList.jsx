@@ -4,9 +4,11 @@ import React, { Component } from 'react';
 import RaceType from '../../../objects/RaceType';
 
 // components
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import EquipmentListItem from './EquipmentListItem';
 
-const itemNames = ['Club', 'Leatherworker\'s tools', 'Antitoxin', 'Arrow']
+import { Well, ListGroup } from 'react-bootstrap';
+
+const itemNames = ['Club', 'Leatherworker\'s tools', 'Antitoxin', 'Arrow', 'Barding']
 
 const itemJSONs = [
   `{
@@ -91,6 +93,22 @@ const itemJSONs = [
     "weight": 1,
     "url": "http://www.dnd5eapi.co/api/equipment/54"
   }`,
+  `{
+    "_id": "5a52bca1559f00418e53362e",
+    "index": 209,
+    "name": "Barding: Ring mail",
+    "equipment_category": "Mounts and Vehicles",
+    "vehicle_category": "Tack, Harness, and Drawn Vehicles",
+    "cost": {
+      "quantity": 12,
+      "unit": "gp"
+    },
+    "weight": 80,
+    "desc": [
+      "Barding is armor designed to protect an animal’s head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
+    ],
+    "url": "http://www.dnd5eapi.co/api/equipment/209"
+  }`,
 ]
 
 const items = new Array();
@@ -102,11 +120,14 @@ class EquipmentList extends Component {
   render() {
     return (
       <div className="EquipmentList">
-        <ListGroup>
-          {items.map(item => (
-            <ListGroupItem>{item.name}</ListGroupItem>
-          ))}
-        </ListGroup>
+        <Well>
+          <b>List of Equipment:</b>
+          <ListGroup>
+            {items.map(item => (
+              <EquipmentListItem item={item}/>
+            ))}
+          </ListGroup>
+          </Well>
       </div>
     );
   }

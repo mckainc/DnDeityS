@@ -1,18 +1,49 @@
 import React, { Component } from 'react';
+import { DropTarget } from 'react-dnd';
 
 // components
-import { Well } from 'react-bootstrap';
+import { Well, ListGroup, ListGroupItem } from 'react-bootstrap';
+
+// Type for drag and drop
+const EquipmentType = {
+  EQUIPMENT: 'equipment',
+};
+
+// Methods for drag and drop
+const InventoryTarget = {
+  drop(props, monitor) {
+    const item = monitor.getItem().item;
+    props.addItemToInventory(item);
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 class Inventory extends Component {
   render() {
-    return (
+    const { connectDropTarget, inventory } = this.props;
+    console.log(inventory);
+    return connectDropTarget(
       <div>
         <Well>
-          Drag Items here
+          <b>Character's Inventory:</b>
+          <ListGroup>
+            {inventory.valueSeq().map(item => (
+              <ListGroupItem>
+                {item.name}
+                <i className="fas fa-times" onClick={() => this.props.removeItem(item)}></i>
+              </ListGroupItem>
+              ))}
+          </ListGroup>
         </Well>
       </div>
     );
   }
 }
 
-export default Inventory;
+export default DropTarget(EquipmentType.EQUIPMENT, InventoryTarget, collect)(Inventory);
