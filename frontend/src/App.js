@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // components
 import CharacterCreator from './pages/character-creator/CharacterCreator';
-import login from './pages/login/Login';
+import Login from './pages/login-package/Login';
 
 class App extends Component {
   render() {
