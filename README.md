@@ -1,6 +1,7 @@
 # DnDeity
 
 ## List of Flask Extensions Used For Convenience Sake
+flask-mysql (`pip3 install flask-mysqldb`, docs: https://flask-mysqldb.readthedocs.io/en/latest/)
 
 ### Sprint 1
 TODO:

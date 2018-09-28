@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask import make_response
 from flask import jsonify
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
@@ -26,6 +27,15 @@ def create_user():
 		password = request.json()['password']
 		email = request.json()['email']
 		# check if email/username are taken
+		# connect to database
+		app['MYSQL_HOST'] = db_dnd_host
+		app['MYSQL_USER'] = db_dnd_user
+		app['MYSQL_PASSWORD'] = db_dnd_passsword
+		app['MYSQL_DB'] = db_dnd
+		db = MySQL(app)
+		cur = db.connection.cursor()
+		cur.execute('''select * from users where UserName = %s''' % username)
+		print(cur.fetchall())
 	except KeyError as e:
 		abort(400)
 
