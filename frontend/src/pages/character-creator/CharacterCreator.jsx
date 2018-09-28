@@ -10,11 +10,14 @@ import CharacterNavBar from '../../components/CharacterNavBar';
 
 import { FormControl, Grid, Row, Col } from 'react-bootstrap';
 
+import './CharacterCreator.css';
+
 class CharacterCreator extends Component {
   render() {
     return (
       <div className="CharacterCreator">
-        <Grid fluid>
+        <SiteNavBar/>
+        <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
               <CharacterNavBar/>
@@ -23,7 +26,6 @@ class CharacterCreator extends Component {
               <h1>Character Creator</h1>
               <b>Name: </b>
               <FormControl id="name" placeholder="Enter Character Name" type="text" />
-              <SiteNavBar/>
               <RaceSection/>
               <ClassSection/>
               <ScoreSection/>

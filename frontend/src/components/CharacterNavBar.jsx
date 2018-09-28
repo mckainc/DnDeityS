@@ -8,7 +8,7 @@ const sections = ['Race', 'Class', 'Ability Scores', 'Equipment'];
 class CharacterNavBar extends Component {
   render() {
     return (
-      <div className="CharacterNavBar">
+      <div className="CharacterNavBar" style={{position: "fixed"}}>
         <Nav bsStyle="pills" stacked>
           {sections.map(section => (
             <NavItem eventKey={section}>{section}</NavItem>
