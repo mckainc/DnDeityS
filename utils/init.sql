@@ -42,12 +42,13 @@ CREATE TABLE Classes (
     PRIMARY KEY (ClassId));
 \! echo 'Done.\n';
 
-\! echo 'Create Equipment table... ';
-CREATE TABLE Equipment (
+\! echo 'Create Equipments table... ';
+CREATE TABLE Equipments (
 	EquipmentId INT NOT NULL AUTO_INCREMENT, 
 	EquipmentName VARCHAR(128) NOT NULL,
-	EquipmentURL VARCHAR(255) NOT NULL, 
+	#EquipmentURL VARCHAR(255) NOT NULL, 
 	CharacterId int,
+	EquipmentData TEXT,
 	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId), 
 	PRIMARY KEY (EquipmentId));
 \! echo 'Done.\n';

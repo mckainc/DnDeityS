@@ -21,6 +21,64 @@ try:
 except Exception, e:
     print('Error connecting to database: {0}'.format(e))
     sys.exit(-1)
+
+
+#Call API for equipment
+
+api_url = 'http://www.dnd5eapi.co/api/equipment'
+
+try:
+    resp = requests.get(url=api_url)
+    data = resp.json()
+except Exception, e:
+    print('Error retrieving data: {0}'.format(e))
+    sys.exit(-1)
+
+# Truncate (empty) table
+try:
+    print('\nTruncating Equipments table...')
+    cursor.execute('TRUNCATE TABLE Equipments')
+    print('Done.')
+except Exception, e:
+    print('Error truncating Equipments table: {0}'.format(e))
+    sys.exit(-1)
+
+# Populate database with data from API
+print('\nInserting rows into Equipments table from API data...')
+num_rows = 0
+for equipment in data['results']:
+    # Get equipment data
+    print equipment['url']
+    try:
+        e_resp = requests.get(url=equipment['url'])
+        e_data = e_resp.json()
+    except Exception, e:
+        print('Error retrieving equipment data: {0}'.format(e))
+        sys.exit(-1)
+
+    # Insert equipment data into table
+    try:
+        query = 'INSERT INTO Equipments(EquipmentName, EquipmentData) values(%s, %s);'
+        rows = cursor.execute(query, (equipment['name'], e_data))
+        num_rows += rows
+    except Exception, e:
+        print('Error inserting data into Equipments table: {0}'.format(e))
+        sys.exit(-1)
+
+# Commit changes
+try:
+    db.commit()
+    print('Done. {0} rows inserted into Equipment table.\n'.format(num_rows))
+except Exception, e:
+    print('Error committing inserts to Equipments table: {0}'.format(e))
+    print('Rolling back.\n')
+    db.rollback()
+
+
+
+
+
+
 # Call API for classes
 
 api_url = 'http://www.dnd5eapi.co/api/classes'
@@ -34,7 +92,7 @@ except Exception, e:
 
 # Truncate (empty) table
 try:
-    print('\nTruncating Classess table...')
+    print('\nTruncating Classes table...')
     cursor.execute('TRUNCATE TABLE Classes')
     print('Done.')
 except Exception, e:
