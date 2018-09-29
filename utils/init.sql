@@ -9,6 +9,7 @@ CREATE TABLE Users (
 	UserId INT NOT NULL AUTO_INCREMENT, 
 	UserName VARCHAR(128) NOT NULL, 
 	UserPassword VARCHAR(128) NOT NULL, 
+	UserEmail VARCHAR (128) NOT NULL,
 	PRIMARY KEY (UserId));
 \! echo 'Done. \n';
 
@@ -35,8 +36,7 @@ CREATE TABLE Characters (
 CREATE TABLE Classes (
     ClassId INT NOT NULL AUTO_INCREMENT,
     ClassName VARCHAR(128) NOT NULL,
-    #ClassUrl VARCHAR(256) NOT NULL,
-	ClassData TEXT,
+    ClassData TEXT,
     CharacterId int,
     FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
     PRIMARY KEY (ClassId));
@@ -46,10 +46,7 @@ CREATE TABLE Classes (
 CREATE TABLE Equipments (
 	EquipmentId INT NOT NULL AUTO_INCREMENT, 
 	EquipmentName VARCHAR(128) NOT NULL,
-	#EquipmentURL VARCHAR(255) NOT NULL, 
-	CharacterId int,
 	EquipmentData TEXT,
-	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId), 
 	PRIMARY KEY (EquipmentId));
 \! echo 'Done.\n';
 
@@ -57,7 +54,6 @@ CREATE TABLE Equipments (
 CREATE TABLE Backgrounds (
 	BackgroundId INT NOT NULL AUTO_INCREMENT,
 	BackgroundName VARCHAR(128) NOT NULL, 
-	BackgroundUrl VARCHAR(255) NOT NULL,
 	BackgroundJSON TEXT,	
 	CharacterId int,
 	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
@@ -68,7 +64,6 @@ CREATE TABLE Backgrounds (
 CREATE TABLE Races (
 	RaceId INT NOT NULL AUTO_INCREMENT, 
 	RaceName VARCHAR(128) NOT NULL, 
-	#RaceURL VARCHAR(255) NOT NULL,
 	RaceData TEXT,
 	PRIMARY KEY (RaceId),
 	CharacterId int,
@@ -79,10 +74,9 @@ CREATE TABLE Races (
 CREATE TABLE Spells (
 	SpellId INT NOT NULL AUTO_INCREMENT,
 	SpellName VARCHAR(128) NOT NULL,
-	#SpellURL VARCHAR(255) NOT NULL, 
 	SpellData TEXT,
 	CharacterId int,
-        FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
+    FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
 	PRIMARY KEY (SpellId));
 \! echo 'Done.\n';
 
@@ -90,7 +84,6 @@ CREATE TABLE Spells (
 CREATE TABLE Feats (
 	FeatId INT NOT NULL AUTO_INCREMENT, 
 	FeatName VARCHAR(128) NOT NULL, 
-	FeatURL VARCHAR(255) NOT NULL, 
 	FeatJSON TEXT,
 	CharacterId int,
 	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
@@ -115,7 +108,6 @@ CREATE TABLE Maps (
 CREATE TABLE Monsters (
     MonsterId INT NOT NULL AUTO_INCREMENT,
     MonsterName VARCHAR(128) NOT NULL,
-    #MonsterUrl VARCHAR(255) NOT NULL,
     MonsterData TEXT,
     MapId int,
     FOREIGN KEY (MapId) REFERENCES Maps(MapId),
