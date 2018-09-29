@@ -45,15 +45,15 @@ class NewUserForm extends React.Component{
                 <h2>Password</h2>
                 <input 
                     name="passWord"
-                    placeholder="friendlykitty"
+                    placeholder="Schleinkofer"
                     value={this.state.passWord}
                     onChange={e => this.change(e)}
                 />
                 <br />
-                <h2>Conferm Password</h2>
+                <h2>Confirm Password</h2>
                 <input 
                     name="passCheck"
-                    placeholder="friendlykitty"
+                    placeholder="Schleinkofer"
                     value={this.state.passCheck}
                     onChange={e => this.change(e)}
                 />
