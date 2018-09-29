@@ -18,7 +18,9 @@ class Login extends Component {
                 <h1>Welcome to DnDeity</h1>
                 <h2>Please enter your login</h2>
                 <LoginForm onSubmit={fields => this.onSubmit(fields)} />
-                <Button onClick>New</Button>
+                <Link to="/home">
+                <Button onClick>testing</Button>
+                </Link>
             </div>
             
         );
