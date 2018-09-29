@@ -36,6 +36,7 @@ CREATE TABLE Classes (
     ClassId INT NOT NULL AUTO_INCREMENT,
     ClassName VARCHAR(128) NOT NULL,
     #ClassUrl VARCHAR(256) NOT NULL,
+	ClassData TEXT,
     CharacterId int,
     FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
     PRIMARY KEY (ClassId));

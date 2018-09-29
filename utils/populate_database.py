@@ -21,6 +21,57 @@ try:
 except Exception, e:
     print('Error connecting to database: {0}'.format(e))
     sys.exit(-1)
+# Call API for classes
+
+api_url = 'http://www.dnd5eapi.co/api/classes'
+
+try:
+    resp = requests.get(url=api_url)
+    data = resp.json()
+except Exception, e:
+    print('Error retrieving data: {0}'.format(e))
+    sys.exit(-1)
+
+# Truncate (empty) table
+try:
+    print('\nTruncating Classess table...')
+    cursor.execute('TRUNCATE TABLE Classes')
+    print('Done.')
+except Exception, e:
+    print('Error truncating classes table: {0}'.format(e))
+    sys.exit(-1)
+
+# Populate database with data from API
+print('\nInserting rows into Classes table from API data...')
+num_rows = 0
+for _class in data['results']:
+    # Get class data
+    print _class['url']
+    try:
+        c_resp = requests.get(url=_class['url'])
+        c_data = c_resp.json()
+    except Exception, e:
+        print('Error retrieving class data: {0}'.format(e))
+        sys.exit(-1)
+
+    # Insert monster data into table
+    try:
+        query = 'INSERT INTO Classes(ClassName, ClassData) values(%s, %s);'
+        rows = cursor.execute(query, (_class['name'], c_data))
+        num_rows += rows
+    except Exception, e:
+        print('Error inserting data into Classs table: {0}'.format(e))
+        sys.exit(-1)
+
+# Commit changes
+try:
+    db.commit()
+    print('Done. {0} rows inserted into Classes table.\n'.format(num_rows))
+except Exception, e:
+    print('Error committing inserts to Classes table: {0}'.format(e))
+    print('Rolling back.\n')
+    db.rollback()
+
 
 # Call API for races
 
