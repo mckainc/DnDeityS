@@ -22,6 +22,59 @@ except Exception, e:
     print('Error connecting to database: {0}'.format(e))
     sys.exit(-1)
 
+# Call API for races
+
+api_url = 'http://www.dnd5eapi.co/api/races'
+try:
+    resp = requests.get(url=api_url)
+    data = resp.json()
+except Exception, e:
+    print('Error retrieving data: {0}'.format(e))
+    sys.exit(-1)
+
+# Truncate (empty) table
+try:
+    print('\nTruncating Races table...')
+    cursor.execute('TRUNCATE TABLE Races')
+    print('Done.')
+except Exception, e:
+    print('Error truncating races table: {0}'.format(e))
+    sys.exit(-1)
+
+# Populate database with data from API
+print('\nInserting rows into Races table from API data...')
+num_rows = 0
+for race in data['results']:
+    # Get  data
+    print race['url']
+    try:
+        r_resp = requests.get(url=race['url'])
+        r_data = r_resp.json()
+    except Exception, e:
+        print('Error retrieving race data: {0}'.format(e))
+        sys.exit(-1)
+
+    # Insert race data into table
+    try:
+        query = 'INSERT INTO Races(RaceName, RaceData) values(%s, %s);'
+        rows = cursor.execute(query, (race['name'], r_data))
+        num_rows += rows
+    except Exception, e:
+        print('Error inserting data into Races table: {0}'.format(e))
+        sys.exit(-1)
+
+# Commit changes
+try:
+    db.commit()
+    print('Done. {0} rows inserted into Races table.\n'.format(num_rows))
+except Exception, e:
+    print('Error committing inserts to Races table: {0}'.format(e))
+    print('Rolling back.\n')
+    db.rollback()
+
+
+
+
 # Call API for spells
 
 

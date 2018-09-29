@@ -66,8 +66,8 @@ CREATE TABLE Backgrounds (
 CREATE TABLE Races (
 	RaceId INT NOT NULL AUTO_INCREMENT, 
 	RaceName VARCHAR(128) NOT NULL, 
-	RaceURL VARCHAR(255) NOT NULL,
-	RaceJSON TEXT,
+	#RaceURL VARCHAR(255) NOT NULL,
+	RaceData TEXT,
 	PRIMARY KEY (RaceId),
 	CharacterId int,
 	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId));
@@ -114,7 +114,7 @@ CREATE TABLE Monsters (
     MonsterId INT NOT NULL AUTO_INCREMENT,
     MonsterName VARCHAR(128) NOT NULL,
     #MonsterUrl VARCHAR(255) NOT NULL,
-    MonsterJSON TEXT,
+    MonsterData TEXT,
     MapId int,
     FOREIGN KEY (MapId) REFERENCES Maps(MapId),
     PRIMARY KEY (MonsterId));
