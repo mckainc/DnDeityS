@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
-import { FormControl, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import LoginForm from "./LoginForm"
-import { BrowserRouter, Link } from 'react-router-dom'
-import Route from 'react-router-dom/Route'
+import { Link } from 'react-router-dom'
 
 class Login extends Component {
     //fields are a JSON data type
@@ -18,8 +17,12 @@ class Login extends Component {
                 <h1>Welcome to DnDeity</h1>
                 <h2>Please enter your login</h2>
                 <LoginForm onSubmit={fields => this.onSubmit(fields)} />
-                <Link to="/home">
-                <Button onClick>testing</Button>
+                <Link to="/Home">
+                    <Button onClick>testing</Button>
+                </Link>
+
+                <Link to="/NewUser">
+                    <Button onClick>New User</Button>
                 </Link>
             </div>
             

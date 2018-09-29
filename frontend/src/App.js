@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import CharacterCreator from './pages/character-creator/CharacterCreator';
 import Login from './pages/login-package/Login';
 import HomePage from './pages/home/HomePage'
+import NewUser from './pages/login-package/NewUser';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
           <Route exact path="/" component={Login} />
           <Route exact path="/Home" component={HomePage} />
           <Route exact path="/CharacterCreater" component={CharacterCreator} />
+          <Route exact path="/NewUser" component={NewUser} />
         </div>
       </Router>
     );

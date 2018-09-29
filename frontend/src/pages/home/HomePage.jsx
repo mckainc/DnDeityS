@@ -5,6 +5,8 @@ class HomePage extends Component {
     return (
       <div className="HomePage">
         <h1>Home Page</h1>
+        <br />
+        <h1>DnDeity</h1>
         <Link to="/CharacterCreater">
           Character Creater
         </Link>
