@@ -1,4 +1,5 @@
 import React from "react";
+import Home from "../home/HomePage"
 
 class LoginForm extends React.Component{
     //existing stats for login
@@ -17,7 +18,8 @@ class LoginForm extends React.Component{
 
     onSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        this.props.onSubmit(this.state);
+        //console.log(this.state);
     };
 
     render() {
