@@ -15,7 +15,7 @@ CREATE TABLE Users (
 \! echo 'Create Rooms table... ';
 CREATE TABLE Rooms (
 	RoomId INT NOT NULL AUTO_INCREMENT, 
-	RoomUrl VARCHAR (255) NOT NULL,
+	#RoomUrl VARCHAR (255) NOT NULL,
 	PRIMARY KEY (RoomId),
 	UserId int,
 	FOREIGN KEY (UserId) REFERENCES Users(UserId));
@@ -35,7 +35,7 @@ CREATE TABLE Characters (
 CREATE TABLE Classes (
     ClassId INT NOT NULL AUTO_INCREMENT,
     ClassName VARCHAR(128) NOT NULL,
-    ClassUrl VARCHAR(256) NOT NULL,
+    #ClassUrl VARCHAR(256) NOT NULL,
     CharacterId int,
     FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
     PRIMARY KEY (ClassId));
@@ -77,8 +77,8 @@ CREATE TABLE Races (
 CREATE TABLE Spells (
 	SpellId INT NOT NULL AUTO_INCREMENT,
 	SpellName VARCHAR(128) NOT NULL,
-	SpellURL VARCHAR(255) NOT NULL, 
-	SpellJSON TEXT,
+	#SpellURL VARCHAR(255) NOT NULL, 
+	SpellData TEXT,
 	CharacterId int,
         FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
 	PRIMARY KEY (SpellId));
@@ -113,7 +113,7 @@ CREATE TABLE Maps (
 CREATE TABLE Monsters (
     MonsterId INT NOT NULL AUTO_INCREMENT,
     MonsterName VARCHAR(128) NOT NULL,
-    MonsterUrl VARCHAR(255) NOT NULL,
+    #MonsterUrl VARCHAR(255) NOT NULL,
     MonsterJSON TEXT,
     MapId int,
     FOREIGN KEY (MapId) REFERENCES Maps(MapId),
