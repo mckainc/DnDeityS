@@ -32,20 +32,37 @@ except Exception, e:
     sys.exit(-1)
 
 # Truncate (empty) table
-print('\nTruncating Monsters table...')
-cursor.execute('TRUNCATE TABLE Monsters')
-print('Done.')
+try:
+    print('\nTruncating Monsters table...')
+    cursor.execute('TRUNCATE TABLE Monsters')
+    print('Done.')
+except Exception, e:
+    print('Error truncating monsters table: {0}'.format(e))
+    sys.exit(-1)
 
 # Populate database with data from API
 print('\nInserting rows into Monsters table from API data...')
 num_rows = 0
 for monster in data['results']:
+    # Get monster data
+    print monster['url']
     try:
-        rows = cursor.execute('INSERT INTO Monsters(MonsterName, MonsterUrl) values("{0}", "{1}")'.format(monster['name'], monster['url']))
+        m_resp = requests.get(url=monster['url'])
+        m_data = m_resp.json()
+    except Exception, e:
+        print('Error retrieving monster data: {0}'.format(e))
+        sys.exit(-1)
+
+    # Insert monster data into table
+    try:
+        query = 'INSERT INTO Monsters(MonsterName, MonsterData) values(%s, %s);'
+        rows = cursor.execute(query, (monster['name'], m_data))
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Monsters table: {0}'.format(e))
         sys.exit(-1)
+
+# Commit changes
 try:
     db.commit()
     print('Done. {0} rows inserted into Monsters table.\n'.format(num_rows))
