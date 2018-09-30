@@ -28,6 +28,8 @@ CREATE TABLE Rooms (
 CREATE TABLE Characters (
         CharacterId INT NOT NULL AUTO_INCREMENT,
         CharacterJSON TEXT,
+		UserId int,
+		FOREIGN KEY (UserId) REFERENCES Users(UserId), 
         PRIMARY KEY (CharacterId));
 \! echo 'Done.\n';
 
