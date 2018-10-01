@@ -1,7 +1,7 @@
 # DnDeity
 
 ## List of Flask Extensions Used For Convenience Sake
-flask-mysql (`pip3 install flask-mysqldb`, docs: https://flask-mysqldb.readthedocs.io/en/latest/)
+flask-mysql (`pip3 install mysql-connector-python`, docs: https://dev.mysql.com/doc/connector-python/en/connector-python-introduction.html)
 
 
 ### Sprint 1
