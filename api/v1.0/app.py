@@ -43,12 +43,15 @@ def create_user():
 		# if neither are there..
 		cur.execute('insert into users (UserName, UserPassword, Email) values (%s, %s, %s)', (username, password, email))
 		db.commit()
+		# get row and return
+		cur.execute('select * from users where UserName = %s', (username,))
 		for row in cur:
 			cur.close()
 			return make_response(jsonify(row), 200)
 	except KeyError as e:
 		abort(400)
 
+# TODO!!!!
 @app.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
 	try:
