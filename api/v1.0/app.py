@@ -25,28 +25,36 @@ def not_found(error):
 @app.route('/user', methods=['POST'])
 def create_user():
 	try:
-		username = request.json()['username']
-		password = request.json()['password']
-		email = request.json()['email']
+		username = request.get_json(force=True)['username']
+		password = request.get_json(force=True)['password']
+		email = request.get_json(force=True)['email']
 		# check if email/username are taken
 		cur = db.cursor()
 		cur.execute('select * from users where UserName = %s', (username,))
-		print(cur)
+		for row in cur:
+			cur.close()
+			return make_response(jsonify({'error': 'username is already taken'}), 500)
 
 		cur.execute('select * from users where Email = %s', (email,))
-		print(cur)
+		for row in cur:
+			cur.close()
+			return make_response(jsonify({'error': 'email is already taken'}), 500)
 
 		# if neither are there..
-		cur.execute('insert into users (UserName, Password, Email) values (%s, %s, %s)', (username, password, email))
+		cur.execute('insert into users (UserName, UserPassword, Email) values (%s, %s, %s)', (username, password, email))
+		db.commit()
+		for row in cur:
+			cur.close()
+			return make_response(jsonify(row), 200)
 	except KeyError as e:
 		abort(400)
 
 @app.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
 	try:
-		username = request.json()['username']
-		password = request.json()['password']
-		email = request.json()['email']
+		username = request.get_json(force=True)['username']
+		password = request.get_json(force=True)['password']
+		email = request.get_json(force=True)['email']
 		# update user using user_id
 
 
@@ -60,6 +68,7 @@ def get_user(username):
 	for row in cur:
 		cur.close()
 		return make_response(jsonify(row), 200)
+	cur.close()
 	return make_response(jsonify({'error': 'No User'}), 500)
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
@@ -70,9 +79,9 @@ def get_characters(user_id):
 @app.route('/character', methods=['POST'])
 def create_character():
 	try:
-		name = request.json()['name']
-		race = request.json()['race']
-		description = request.json()['description']
+		name = request.get_json()['name']
+		race = request.get_json()['race']
+		description = request.get_json()['description']
 		
 	except KeyError as e:
 		abort(400)
