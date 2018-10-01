@@ -3,11 +3,12 @@ from flask import request
 from flask import make_response
 from flask import jsonify
 import mysql.connector
+import smptlib
 
 app = Flask(__name__)
 
 # check if in production or development
-if app.config['DEBUG']:
+if app.config['ENV'] == 'development':
 	from db_dev import *
 else:
 	from db_prod import *
@@ -49,7 +50,7 @@ def create_user():
 			cur.close()
 			return make_response(jsonify(row), 200)
 	except KeyError as e:
-		abort(400)
+		abort(500)
 
 # TODO!!!!
 @app.route('/user/<int:user_id>', methods=['PATCH'])
@@ -62,7 +63,7 @@ def update_user(user_id):
 
 
 	except KeyError as e:
-		abort(400)
+		abort(500)
 
 @app.route('/user/<string:username>', methods=['GET'])
 def get_user(username):
@@ -74,25 +75,51 @@ def get_user(username):
 	cur.close()
 	return make_response(jsonify({'error': 'No User'}), 500)
 
+@app.route('/user/<int:user_id>/resetpassword', methods=['POST'])
+def reset_password(user_id):
+	server = smtplib.SMTP('smtp.gmail.com', 587)
+	server.login(email_username, email_password)
+	message = '''
+	This is the link for you to reset your password: 
+	
+	If you did not request a password reset, please ignore this message
+	'''
+	cur = db.cursor()
+	cur.execute('select UserEmail from users where UserId = %s', (user_id,))
+	server.send_message(message)
+
 @app.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
 	cur = db.cursor()
-	cur.execute('select * from characters where UserId = %s', (user_id,))
+	cur.execute('select (class, level, background, alignment, race, experience) from characters where UserId = %s', (user_id,))
+	for row in cur:
+		cur.close()
+		return make_response(jsonify(row), 200)
+	cur.close()
+	return make_response(jsonify({'error': 'No Characters'}), 500)
 
 @app.route('/character', methods=['POST'])
 def create_character():
 	try:
-		name = request.get_json()['name']
-		race = request.get_json()['race']
-		description = request.get_json()['description']
-		
+		name = request.get_json(force=True)['name']
+		race = request.get_json(force=True)['race']
+		description = request.get_json(force=True)['description']
+		dnd_class = request.get_json(force=True)['class']
+		traits = request.get_json(force=True)['traits']
+		alignment = request.get_json(force=True)['alignment']
+		background = request.get_json(force=True)['background']
+
 	except KeyError as e:
-		abort(400)
+		abort(500)
 
 @app.route('/character/<int:character_id>', methods=['GET'])
 def get_character_by_id(character_id):
 	cur = db.cursor()
 	cur.execute('select * from characters where CharacterId = %s', (character_id,))
+
+@app.route('/spells', methods=['GET'])
+def get_spells():
+	abort(500)
 	
 if __name__ == '__main__':
     app.run(debug=True)
