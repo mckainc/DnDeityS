@@ -12,6 +12,12 @@ if app.config['DEBUG']:
 else:
 	from db_prod import *
 
+app['MYSQL_HOST'] = db_dnd_host
+app['MYSQL_USER'] = db_dnd_user
+app['MYSQL_PASSWORD'] = db_dnd_passsword
+app['MYSQL_DB'] = db_dnd
+db = MySQL(app)
+
 @app.route('/')
 def index():
     return "Hello, World!"
@@ -27,15 +33,15 @@ def create_user():
 		password = request.json()['password']
 		email = request.json()['email']
 		# check if email/username are taken
-		# connect to database
-		app['MYSQL_HOST'] = db_dnd_host
-		app['MYSQL_USER'] = db_dnd_user
-		app['MYSQL_PASSWORD'] = db_dnd_passsword
-		app['MYSQL_DB'] = db_dnd
-		db = MySQL(app)
 		cur = db.connection.cursor()
-		cur.execute('''select * from users where UserName = %s''' % username)
+		cur.execute('select * from users where UserName = ' + username)
 		print(cur.fetchall())
+
+		cur.execute('select * from users where Email = ' + email)
+		print(cur.fetchall())
+
+		# if neither are there..
+		cur.execute('insert into users (UserName, Password, Email) values (' + username + ', ' + password +', ' + email + ')')
 	except KeyError as e:
 		abort(400)
 
@@ -46,16 +52,37 @@ def update_user(user_id):
 		password = request.json()['password']
 		email = request.json()['email']
 		# update user using user_id
+
+		
 	except KeyError as e:
 		abort(400)
 
-@app.route('/user/<username>', methods=['GET'])
+@app.route('/user/<string:username>', methods=['GET'])
 def get_user(username):
 	abort(400)
 	# return user_id
 
+@app.route('/characters/<int:user_id>', methods=['GET'])
+def get_characters(user_id):
+	cur = db.connection.cursor()
+	cur.execute('select * from characters where UserId = ' + user_id)
+	print(cur.fetchall())
+
 @app.route('/character', methods=['POST'])
 def create_character():
+	try:
+		name = request.json()['name']
+		race = request.json()['race']
+		description = request.json()['description']
+		
+	except KeyError as e:
+		abort(400)
+
+@app.route('/character/<int:character_id>', methods=['GET'])
+def get_character_by_id(character_id):
+	cur = db.connection.cursor()
+	cur.execute('select * from characters where CharacterId = ' + character_id)
+	print(cur.fetchall())
 	
 if __name__ == '__main__':
     app.run(debug=True)
