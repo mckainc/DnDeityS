@@ -317,7 +317,7 @@ class ClassSection extends Component {
   render() {
 		// TODO traverse array of classes from server to render class buttons
     return (
-      <div className="ClassSection">
+      <div className="ClassSection" ref={this.props.innerRef}>
         <CollapsableSection title="Class" open={true}>
           <ToggleButtonGroup
 						value={this.state.currentClass.name}
@@ -336,4 +336,4 @@ class ClassSection extends Component {
   }
 }
 
-export default ClassSection;
+export default React.forwardRef((props, ref) => <ClassSection innerRef={ref} {...props}/>);

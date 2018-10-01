@@ -27,7 +27,6 @@ function collect(connect, monitor) {
 class Inventory extends Component {
   render() {
     const { connectDropTarget, inventory } = this.props;
-    console.log(inventory);
     return connectDropTarget(
       <div>
         <Well>

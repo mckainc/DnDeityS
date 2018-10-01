@@ -3,15 +3,17 @@ import React, { Component } from 'react';
 // components
 import { Nav, NavItem } from 'react-bootstrap';
 
-const sections = ['Race', 'Class', 'Ability Scores', 'Equipment'];
-
 class CharacterNavBar extends Component {
+  scrollToSection = (index) => {
+    this.props.refs[index].current.scrollIntoView({behavior: 'smooth'});
+  }
+
   render() {
     return (
       <div className="CharacterNavBar" style={{position: "fixed"}}>
         <Nav bsStyle="pills" stacked>
-          {sections.map(section => (
-            <NavItem eventKey={section}>{section}</NavItem>
+          {this.props.sections.map((section, index) => (
+            <NavItem eventKey={section} onClick={() => this.scrollToSection(index)}>{section}</NavItem>
           ))}
         </Nav>
       </div>

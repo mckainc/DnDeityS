@@ -111,7 +111,7 @@ const itemJSONs = [
   }`,
 ]
 
-const items = new Array();
+const items = [];
 for(let i = 0; i < itemJSONs.length; i++) {
   items.push(new RaceType(itemNames[i], itemJSONs[i]))
 }

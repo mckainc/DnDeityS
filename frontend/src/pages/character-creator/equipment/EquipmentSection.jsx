@@ -35,7 +35,7 @@ class EquipmentSection extends Component {
 
   render() {
     return (
-      <div>
+      <div ref={this.props.innerRef}>
         <CollapsableSection title="Equipment" open={true}>
             <Row>
               <Col xs={8} md={5}>
@@ -51,4 +51,4 @@ class EquipmentSection extends Component {
   }
 }
 
-export default EquipmentSection;
+export default React.forwardRef((props, ref) => <EquipmentSection innerRef={ref} {...props}/>);

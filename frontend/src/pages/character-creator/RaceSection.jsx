@@ -228,7 +228,7 @@ class RaceSection extends Component {
   render() {
 		// TODO traverse array of races from server to render race buttons
     return (
-      <div className="RaceSection">
+      <div className="RaceSection" ref={this.props.innerRef}>
         <CollapsableSection title="Race" open={true}>
           <ToggleButtonGroup
 						value={this.state.race.name}
@@ -249,4 +249,4 @@ class RaceSection extends Component {
   }
 }
 
-export default RaceSection;
+export default React.forwardRef((props, ref) => <RaceSection innerRef={ref} {...props}/>);
