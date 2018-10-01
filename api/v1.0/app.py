@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request
 from flask import make_response
 from flask import jsonify
-from flask_mysqldb import MySQL
+import mysql.connector
 
 app = Flask(__name__)
 
@@ -12,11 +12,7 @@ if app.config['DEBUG']:
 else:
 	from db_prod import *
 
-app['MYSQL_HOST'] = db_dnd_host
-app['MYSQL_USER'] = db_dnd_user
-app['MYSQL_PASSWORD'] = db_dnd_passsword
-app['MYSQL_DB'] = db_dnd
-db = MySQL(app)
+db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 
 @app.route('/')
 def index():
@@ -33,15 +29,15 @@ def create_user():
 		password = request.json()['password']
 		email = request.json()['email']
 		# check if email/username are taken
-		cur = db.connection.cursor()
-		cur.execute('select * from users where UserName = ' + username)
-		print(cur.fetchall())
+		cur = db.cursor()
+		cur.execute('select * from users where UserName = %s', (username,))
+		print(cur)
 
-		cur.execute('select * from users where Email = ' + email)
-		print(cur.fetchall())
+		cur.execute('select * from users where Email = %s', (email,))
+		print(cur)
 
 		# if neither are there..
-		cur.execute('insert into users (UserName, Password, Email) values (' + username + ', ' + password +', ' + email + ')')
+		cur.execute('insert into users (UserName, Password, Email) values (%s, %s, %s)', (username, password, email))
 	except KeyError as e:
 		abort(400)
 
@@ -53,20 +49,23 @@ def update_user(user_id):
 		email = request.json()['email']
 		# update user using user_id
 
-		
+
 	except KeyError as e:
 		abort(400)
 
 @app.route('/user/<string:username>', methods=['GET'])
 def get_user(username):
-	abort(400)
-	# return user_id
+	cur = db.cursor()
+	cur.execute('select * from users where UserName = %s', (username,))
+	for row in cur:
+		cur.close()
+		return make_response(jsonify(row), 200)
+	return make_response(jsonify({'error': 'No User'}), 500)
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
-	cur = db.connection.cursor()
-	cur.execute('select * from characters where UserId = ' + user_id)
-	print(cur.fetchall())
+	cur = db.cursor()
+	cur.execute('select * from characters where UserId = %s', (user_id,))
 
 @app.route('/character', methods=['POST'])
 def create_character():
@@ -80,9 +79,8 @@ def create_character():
 
 @app.route('/character/<int:character_id>', methods=['GET'])
 def get_character_by_id(character_id):
-	cur = db.connection.cursor()
-	cur.execute('select * from characters where CharacterId = ' + character_id)
-	print(cur.fetchall())
+	cur = db.cursor()
+	cur.execute('select * from characters where CharacterId = %s', (character_id,))
 	
 if __name__ == '__main__':
     app.run(debug=True)
