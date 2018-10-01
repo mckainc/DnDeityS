@@ -27,7 +27,7 @@ CREATE TABLE Rooms (
 \! echo 'Create Characters table... ';
 CREATE TABLE Characters (
         CharacterId INT NOT NULL AUTO_INCREMENT,
-        CharacterJSON TEXT,
+        CharacterData TEXT,
 		UserId int,
 		FOREIGN KEY (UserId) REFERENCES Users(UserId), 
         PRIMARY KEY (CharacterId));
