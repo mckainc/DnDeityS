@@ -45,7 +45,7 @@ class ScoreSection extends Component {
   render() {
     const { manual, pointTotal } = this.state;
     return (
-      <div className="ScoreSection">
+      <div className="ScoreSection" ref={this.props.innerRef}>
         <CollapsableSection title="Ability Scores" open={true}>
           <b>Score Generation Method:</b>
           <Radio checked={manual} name="methodGroup" onClick={() => this.setManual(true)}>Manual</Radio>
@@ -68,4 +68,4 @@ class ScoreSection extends Component {
   }
 }
 
-export default ScoreSection;
+export default React.forwardRef((props, ref) => <ScoreSection innerRef={ref} {...props}/>);
