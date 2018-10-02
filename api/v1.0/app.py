@@ -42,7 +42,7 @@ def create_user():
 			return make_response(jsonify({'error': 'email is already taken'}), 500)
 
 		# if neither are there..
-		cur.execute('insert into users (UserName, UserPassword, Email) values (%s, %s, %s)', (username, password, email))
+		cur.execute('insert into users (UserName, UserPassword, UserEmail) values (%s, %s, %s)', (username, password, email))
 		db.commit()
 		# get row and return
 		cur.execute('select * from users where UserName = %s', (username,))
@@ -60,7 +60,6 @@ def update_user(user_id):
 		password = request.get_json(force=True)['password']
 		email = request.get_json(force=True)['email']
 		# update user using user_id
-
 
 	except KeyError as e:
 		abort(500)
@@ -80,7 +79,7 @@ def reset_password(user_id):
 	server = smtplib.SMTP('smtp.gmail.com', 587)
 	server.login(email_username, email_password)
 	message = '''
-	This is the link for you to reset your password: 
+	This is the link for you to reset your password: &&
 	
 	If you did not request a password reset, please ignore this message
 	'''
@@ -92,11 +91,14 @@ def reset_password(user_id):
 def get_characters(user_id):
 	cur = db.cursor()
 	cur.execute('select (class, level, background, alignment, race, experience) from characters where UserId = %s', (user_id,))
+	returned = []
 	for row in cur:
-		cur.close()
-		return make_response(jsonify(row), 200)
+		returned.append(row)
 	cur.close()
-	return make_response(jsonify({'error': 'No Characters'}), 500)
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Characters'}), 500)
+	else:
+		return make_response(jsonify(returned), 200)
 
 @app.route('/character', methods=['POST'])
 def create_character():
@@ -119,7 +121,75 @@ def get_character_by_id(character_id):
 
 @app.route('/spells', methods=['GET'])
 def get_spells():
-	abort(500)
+	cur = db.cursor()
+	cur.execute('select * from spells')
+	returned = []
+	for row in cursor:
+		returned.append(row)
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Spells'}), 500)
+	else:
+		return make_response(jsonify(returned))
+
+@app.route('/equipment', methods=['GET'])
+def get_spells():
+	cur = db.cursor()
+	cur.execute('select * from equipment')
+	returned = []
+	for row in cursor:
+		returned.append(row)
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Equipment'}), 500)
+	else:
+		return make_response(jsonify(returned))
+
+@app.route('/classes', methods=['GET'])
+def get_spells():
+	cur = db.cursor()
+	cur.execute('select * from classes')
+	returned = []
+	for row in cursor:
+		returned.append(row)
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Classes'}), 500)
+	else:
+		return make_response(jsonify(returned))
+
+@app.route('/classes', methods=['GET'])
+def get_spells():
+	cur = db.cursor()
+	cur.execute('select * from classes')
+	returned = []
+	for row in cursor:
+		returned.append(row)
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Classes'}), 500)
+	else:
+		return make_response(jsonify(returned))
+
+@app.route('/races', methods=['GET'])
+def get_spells():
+	cur = db.cursor()
+	cur.execute('select * from races')
+	returned = []
+	for row in cursor:
+		returned.append(row)
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Races'}), 500)
+	else:
+		return make_response(jsonify(returned))
+
+@app.route('/monsters', methods=['GET'])
+def get_spells():
+	cur = db.cursor()
+	cur.execute('select * from monsters')
+	returned = []
+	for row in cursor:
+		returned.append(row)
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Monsters'}), 500)
+	else:
+		return make_response(jsonify(returned))
 	
 if __name__ == '__main__':
     app.run(debug=True)
