@@ -24,23 +24,11 @@ CREATE TABLE Rooms (
 
 
 
-\! echo 'Create Characters table... ';
-CREATE TABLE Characters (
-        CharacterId INT NOT NULL AUTO_INCREMENT,
-        CharacterData TEXT,
-		UserId int,
-		FOREIGN KEY (UserId) REFERENCES Users(UserId), 
-        PRIMARY KEY (CharacterId));
-\! echo 'Done.\n';
-
-
 \! echo 'Create Classes table... ';
 CREATE TABLE Classes (
     ClassId INT NOT NULL AUTO_INCREMENT,
     ClassName VARCHAR(128) NOT NULL,
     ClassData TEXT,
-    CharacterId int,
-    FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
     PRIMARY KEY (ClassId));
 \! echo 'Done.\n';
 
@@ -57,8 +45,6 @@ CREATE TABLE Backgrounds (
 	BackgroundId INT NOT NULL AUTO_INCREMENT,
 	BackgroundName VARCHAR(128) NOT NULL, 
 	BackgroundJSON TEXT,	
-	CharacterId int,
-	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
 	PRIMARY KEY (BackgroundId));
 \! echo 'Done.\n';
 
@@ -67,18 +53,14 @@ CREATE TABLE Races (
 	RaceId INT NOT NULL AUTO_INCREMENT, 
 	RaceName VARCHAR(128) NOT NULL, 
 	RaceData TEXT,
-	PRIMARY KEY (RaceId),
-	CharacterId int,
-	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId));
+	PRIMARY KEY (RaceId));
 \! echo 'Done.\n';
-
+;;
 \! echo 'Create Spells table... ';
 CREATE TABLE Spells (
 	SpellId INT NOT NULL AUTO_INCREMENT,
 	SpellName VARCHAR(128) NOT NULL,
 	SpellData TEXT,
-	CharacterId int,
-    FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
 	PRIMARY KEY (SpellId));
 \! echo 'Done.\n';
 
@@ -87,12 +69,26 @@ CREATE TABLE Feats (
 	FeatId INT NOT NULL AUTO_INCREMENT, 
 	FeatName VARCHAR(128) NOT NULL, 
 	FeatJSON TEXT,
-	CharacterId int,
-	FOREIGN KEY (CharacterId) REFERENCES Characters(CharacterId),
 	PRIMARY KEY (FeatId));
 \! echo 'Done. \n';
 
-
+\! echo 'Create Characters table... ';
+CREATE TABLE Characters (
+	CharacterId INT NOT NULL AUTO_INCREMENT,
+	RaceId int,
+	FOREIGN KEY (RaceId) REFERENCES Races(RaceId),
+	ClassId int,
+	FOREIGN KEY (ClassId) REFERENCES Classes(ClassId),
+	CharacterExperience int,
+	CharacterHp int,
+	CharacterMaxHp int,
+	CharacterAbilityScores TEXT,
+	CharacterGold TEXT,
+	CharaterEquipment TEXT,
+	CharacterChoices TEXT,
+	CharacterSpells TEXT,
+	PRIMARY KEY (CharacterId));
+\! echo 'Done.\n';
 
 \! echo 'Create Maps Table... ';
 CREATE TABLE Maps (
