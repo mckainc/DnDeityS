@@ -24,6 +24,10 @@ class Login extends Component {
                 <Link to="/NewUser">
                     <Button onClick>New User</Button>
                 </Link>
+
+                <Link to="/ForgottenPassword">
+                    <Button onClick>Forgot Password?</Button>
+                </Link>
             </div>
             
         );
