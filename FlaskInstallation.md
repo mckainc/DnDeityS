@@ -12,4 +12,20 @@ alias pip3='{$PYTHON3_INSTALLATION_LOCATION}/Scripts/pip3.exe'
 pip3 install Flask
 ```
 
-3. You're done. Thats not too hard, but it will probably require libraries later so more installation fun
+3. Install the mysql connector type
+```
+pip3 install mysql-connector-python
+```
+
+4. To make sure flask starts in the development environment, type
+```
+export FLASK_ENV=development
+```
+   in the api/v1.0/ directory
+
+5. To run the api type
+```
+python3 -m flask run
+```
+
+6. You're done. Thats not too hard, but it will probably require libraries later so more installation fun
