@@ -4,6 +4,8 @@ import { DropTarget } from 'react-dnd';
 // components
 import { Well, ListGroup, ListGroupItem } from 'react-bootstrap';
 
+import './Inventory.css';
+
 // Type for drag and drop
 const EquipmentType = {
   EQUIPMENT: 'equipment',
