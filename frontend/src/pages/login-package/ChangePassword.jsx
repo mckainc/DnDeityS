@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
+// components
 import { Panel, FormGroup, Form, FormControl, ControlLabel, Col, Button } from 'react-bootstrap';
+
+import './ChangePassword.css';
 
 class ChangePassword extends Component {
   constructor(props) {
@@ -36,10 +39,11 @@ class ChangePassword extends Component {
 
   render() {
     return (
-      <div className="ForgottenPassword">
+      <div className="ChangePassword">
+        <div className="bg" />
         <Panel>
           <Panel.Body>
-            <h1>DnDeity</h1>
+            <h1 className="logo">DnDeity</h1>
             <h3>Change Password</h3>
             <Form horizontal>
               <FormGroup>
@@ -69,10 +73,10 @@ class ChangePassword extends Component {
                 </Col>
               </FormGroup>
               {this.state.displayError === "empty" && 
-                <p>Please fill out all fields.</p>
+                <p className="error">Please fill out all fields.</p>
               }
               {this.state.displayError === "match" && 
-                <p>Passwords do not match.</p>
+                <p className="error">Passwords do not match.</p>
               }
               <FormGroup>
                 <Button onClick={this.changePassword}>Change Password</Button>
