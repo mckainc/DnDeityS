@@ -8,7 +8,7 @@ import CharacterCreator from './pages/character-creator/CharacterCreator';
 import Login from './pages/login-package/Login';
 import HomePage from './pages/home/HomePage'
 import NewUser from './pages/login-package/NewUser';
-import ChangePassword from './pages/login-package/ChangePassword';
+import ForgottenPassword from './pages/login-package/ForgottenPassword';
 
 class App extends Component {
   render() {
@@ -20,7 +20,7 @@ class App extends Component {
           <Route exact path="/Home" component={HomePage} />
           <Route exact path="/CharacterCreater" component={CharacterCreator} />
           <Route exact path="/NewUser" component={NewUser} />
-          <Route exact path="/ChangePassword" component={ChangePassword} />
+          <Route exact path="/ForgottenPassword" component={ForgottenPassword} />
         </div>
       </Router>
     );

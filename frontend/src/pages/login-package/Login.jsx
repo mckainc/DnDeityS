@@ -25,8 +25,8 @@ class Login extends Component {
                     <Button onClick>New User</Button>
                 </Link>
 
-                <Link to="/ChangePassword">
-                    <Button onClick>Change Password</Button>
+                <Link to="/ForgottenPassword">
+                    <Button onClick>Forgot Password?</Button>
                 </Link>
             </div>
             

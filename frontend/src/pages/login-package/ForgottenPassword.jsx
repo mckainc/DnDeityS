@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import { Panel, FormGroup, Form, FormControl, ControlLabel, Col, Button } from 'react-bootstrap';
 
-class ChangePassword extends Component {
+class ForgottenPassword extends Component {
   render() {
     return (
-      <div className="ChangePassword">
+      <div className="ForgottenPassword">
         <Panel>
           <Panel.Body>
             <h1>DnDeity</h1>
-            <h3>Send Email to Change Password</h3>
+            <h3>Change Password</h3>
             <Form horizontal>
               <FormGroup>
                 <Col sm={2}>
@@ -44,4 +44,4 @@ class ChangePassword extends Component {
   }
 }
 
-export default ChangePassword;
+export default ForgottenPassword;
