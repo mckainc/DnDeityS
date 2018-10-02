@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
+// components
 import { Panel, FormGroup, Form, FormControl, ControlLabel, Col, Button } from 'react-bootstrap';
+
+import './ForgottenPassword.css';
 
 class ForgottenPassword extends Component {
   constructor(props) {
@@ -34,9 +37,10 @@ class ForgottenPassword extends Component {
   render() {
     return (
       <div className="ForgottenPassword">
+        <div className="bg" />
         <Panel>
           <Panel.Body>
-            <h1>DnDeity</h1>
+            <h1 className="logo">DnDeity</h1>
             <h3>Forgotten Password</h3>
             <p>Enter your username and email to receive an email about changing your password.</p>
             <Form horizontal>
@@ -67,7 +71,7 @@ class ForgottenPassword extends Component {
                 </Col>
               </FormGroup>
               {this.state.displayError && 
-                <p>Please specify a username and email</p>
+                <p className="error">Please specify a username and email</p>
               }
               <FormGroup>
                 <Button onClick={this.sendEmail}>Send Email</Button>
