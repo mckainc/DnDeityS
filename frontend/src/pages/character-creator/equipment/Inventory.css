@@ -1,4 +1,21 @@
-.fa-times {
+.actions {
   float: right;
+}
+
+.fa-minus-square {
+  color: red;
+  margin-right: 0.5rem;
+}
+
+.quantity {
+  margin-right: 0.5rem;
+}
+
+.fa-plus-square {
+  color: green;
+  margin-right: 6rem;
+}
+
+.fa-times {
   color: red;
 }

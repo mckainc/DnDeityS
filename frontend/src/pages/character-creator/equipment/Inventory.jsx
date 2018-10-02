@@ -38,7 +38,12 @@ class Inventory extends Component {
               {inventory.valueSeq().map(item => (
                 <ListGroupItem>
                   {item.name}
-                  <i className="fas fa-times" onClick={() => this.props.removeItem(item)}></i>
+                  <div className="actions">
+                    <a onClick={() => this.props.changeQuantity(item, -1)} href="#!"><i className="fas fa-minus-square"></i></a>
+                    <b className="quantity">x{typeof item.quantity === 'undefined' ? 1 : item.quantity}</b>
+                    <a onClick={() => this.props.changeQuantity(item, 1)} href="#!"><i className="fas fa-plus-square"></i></a>
+                    <a onClick={() => this.props.removeItem(item)} href="#!"><i className="fas fa-times"></i></a>
+                  </div>
                 </ListGroupItem>
                 ))}
             </ListGroup>
