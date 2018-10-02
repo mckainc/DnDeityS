@@ -10,6 +10,8 @@ import Inventory from './Inventory';
 
 import { Grid, Row, Col } from 'react-bootstrap';
 
+import './EquipmentSection.css';
+
 class EquipmentSection extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,20 @@ class EquipmentSection extends Component {
     const { inventory } = this.state;
     if (inventory.has(item.name)) return;
     const newInventory = inventory.set(item.name, item);
+    this.setState({ inventory: newInventory });
+  }
+
+  changeQuantity = (item, amount) => {
+    const { inventory } = this.state;
+    if (typeof item.quantity === 'undefined') {
+      if (amount === -1) return;
+      item.quantity = 2;
+    } else {
+      item.quantity += amount;
+      if (item.quantity < 1) item.quantity = 1;
+    }
+    let newInventory = inventory.delete(item.name);
+    newInventory = newInventory.set(item.name, item);
     this.setState({ inventory: newInventory });
   }
 
@@ -42,7 +58,12 @@ class EquipmentSection extends Component {
                 <EquipmentList/>
               </Col>
               <Col xs={8} md={5}>
-                <Inventory addItemToInventory={this.addItemToInventory} inventory={this.state.inventory} removeItem={this.removeItem}/>
+                <Inventory
+                  addItemToInventory={this.addItemToInventory}
+                  changeQuantity={this.changeQuantity}
+                  inventory={this.state.inventory}
+                  removeItem={this.removeItem}
+                />
               </Col>
             </Row>
         </CollapsableSection>

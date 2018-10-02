@@ -4,6 +4,8 @@ import { DropTarget } from 'react-dnd';
 // components
 import { Well, ListGroup, ListGroupItem } from 'react-bootstrap';
 
+import './Inventory.css';
+
 // Type for drag and drop
 const EquipmentType = {
   EQUIPMENT: 'equipment',
@@ -31,14 +33,21 @@ class Inventory extends Component {
       <div>
         <Well>
           <b>Character's Inventory:</b>
-          <ListGroup>
-            {inventory.valueSeq().map(item => (
-              <ListGroupItem>
-                {item.name}
-                <i className="fas fa-times" onClick={() => this.props.removeItem(item)}></i>
-              </ListGroupItem>
-              ))}
-          </ListGroup>
+          <div className="scrollable-list">
+            <ListGroup>
+              {inventory.valueSeq().map(item => (
+                <ListGroupItem>
+                  {item.name}
+                  <div className="actions">
+                    <a onClick={() => this.props.changeQuantity(item, -1)} href="#!"><i className="fas fa-minus-square"></i></a>
+                    <b className="quantity">x{typeof item.quantity === 'undefined' ? 1 : item.quantity}</b>
+                    <a onClick={() => this.props.changeQuantity(item, 1)} href="#!"><i className="fas fa-plus-square"></i></a>
+                    <a onClick={() => this.props.removeItem(item)} href="#!"><i className="fas fa-times"></i></a>
+                  </div>
+                </ListGroupItem>
+                ))}
+            </ListGroup>
+          </div>
         </Well>
       </div>
     );

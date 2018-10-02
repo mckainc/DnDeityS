@@ -122,11 +122,13 @@ class EquipmentList extends Component {
       <div className="EquipmentList">
         <Well>
           <b>List of Equipment:</b>
-          <ListGroup>
-            {items.map(item => (
-              <EquipmentListItem item={item}/>
-            ))}
-          </ListGroup>
+          <div className="scrollable-list">
+            <ListGroup>
+              {items.map(item => (
+                <EquipmentListItem item={item}/>
+              ))}
+            </ListGroup>
+            </div>
           </Well>
       </div>
     );
