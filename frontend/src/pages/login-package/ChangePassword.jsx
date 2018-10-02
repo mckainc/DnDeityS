@@ -2,33 +2,36 @@ import React, { Component } from 'react';
 
 import { Panel, FormGroup, Form, FormControl, ControlLabel, Col, Button } from 'react-bootstrap';
 
-class ForgottenPassword extends Component {
+class ChangePassword extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: "",
-      email: "",
-      displayError: false,
+      password: "",
+      confirmPassword: "",
+      displayError: "",
     }
   }
 
   handleChange = e => {
-    console.log(e.target.name, e.target.value)
     this.setState({
         [e.target.name]: e.target.value
     });
   }
 
-  sendEmail = () => {
-    const { username, email } = this.state;
-    if(username === "" || email === "") {
-      console.log('error')
-      this.setState({ displayError: true });
+  changePassword = () => {
+    const { password, confirmPassword } = this.state;
+    if (password === "" || confirmPassword === "") {
+      this.setState({ displayError: "empty" });
       return;
     }
 
-    // TODO Send email
+    if (password !== confirmPassword) {
+      this.setState({ displayError: "match" });
+      return;
+    }
+
+    // TODO Change password
   }
 
   render() {
@@ -37,40 +40,42 @@ class ForgottenPassword extends Component {
         <Panel>
           <Panel.Body>
             <h1>DnDeity</h1>
-            <h3>Forgotten Password</h3>
-            <p>Enter your username and email to receive an email about changing your password.</p>
+            <h3>Change Password</h3>
             <Form horizontal>
               <FormGroup>
                 <Col sm={2}>
-                  <ControlLabel>Username</ControlLabel>
+                  <ControlLabel>New Password</ControlLabel>
                 </Col>
                 <Col sm={10}>
                   <FormControl
-                    name="username"
-                    type="text"
-                    placeholder="Enter Username"
+                    name="password"
+                    type="password"
+                    placeholder="Enter New Password"
                     onChange={e => this.handleChange(e)}
                   />
                 </Col>
               </FormGroup>
               <FormGroup>
                 <Col sm={2}>
-                  <ControlLabel>Email</ControlLabel>
+                  <ControlLabel>Confirm Password</ControlLabel>
                 </Col>
                 <Col sm={10}>
                   <FormControl
-                    name="email"
-                    type="email"
-                    placeholder="Enter Email"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Confirm New Password"
                     onChange={e => this.handleChange(e)}
                   />
                 </Col>
               </FormGroup>
-              {this.state.displayError && 
-                <p>Please specify a username and email</p>
+              {this.state.displayError === "empty" && 
+                <p>Please fill out all fields.</p>
+              }
+              {this.state.displayError === "match" && 
+                <p>Passwords do not match.</p>
               }
               <FormGroup>
-                <Button onClick={this.sendEmail}>Send Email</Button>
+                <Button onClick={this.changePassword}>Change Password</Button>
               </FormGroup>
             </Form>
           </Panel.Body>
@@ -80,4 +85,4 @@ class ForgottenPassword extends Component {
   }
 }
 
-export default ForgottenPassword;
+export default ChangePassword;
