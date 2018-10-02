@@ -31,14 +31,16 @@ class Inventory extends Component {
       <div>
         <Well>
           <b>Character's Inventory:</b>
-          <ListGroup>
-            {inventory.valueSeq().map(item => (
-              <ListGroupItem>
-                {item.name}
-                <i className="fas fa-times" onClick={() => this.props.removeItem(item)}></i>
-              </ListGroupItem>
-              ))}
-          </ListGroup>
+          <div className="scrollable-list">
+            <ListGroup>
+              {inventory.valueSeq().map(item => (
+                <ListGroupItem>
+                  {item.name}
+                  <i className="fas fa-times" onClick={() => this.props.removeItem(item)}></i>
+                </ListGroupItem>
+                ))}
+            </ListGroup>
+          </div>
         </Well>
       </div>
     );

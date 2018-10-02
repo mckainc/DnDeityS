@@ -10,6 +10,8 @@ import Inventory from './Inventory';
 
 import { Grid, Row, Col } from 'react-bootstrap';
 
+import './EquipmentSection.css';
+
 class EquipmentSection extends Component {
   constructor(props) {
     super(props);
