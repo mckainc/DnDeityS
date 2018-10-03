@@ -27,6 +27,14 @@
 #####    Return types
      "200": json containing the "UserId", "UserName", "UserPassword", and "Email" that matches the username in the uri
      "500": there is not user with the given username
+### "/user/[user_id]/resetpassword"
+#####    Method: POST
+#####    Request-Type: application/json
+#####    Parameters
+     None
+#####    Return types
+     "200": confirming the sent email
+     "500": there was an error sending the email
 
 ## Character Endpoints
 ### "/character" !!!Not Finished!!!

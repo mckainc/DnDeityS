@@ -85,7 +85,7 @@ def get_user(username):
 	db.close()
 	return make_response(jsonify({'error': 'No User'}), 500)
 
-@app.route('/user/<int:user_id>/resetpassword', methods=['GET'])
+@app.route('/user/<int:user_id>/resetpassword', methods=['POST'])
 def reset_password(user_id):
 	try:
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
