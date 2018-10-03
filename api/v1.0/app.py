@@ -88,6 +88,7 @@ def get_user(username):
 @app.route('/user/<int:user_id>/resetpassword', methods=['GET'])
 def reset_password(user_id):
 	try:
+		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 		server.login(email_username, email_password)
 		message = '\nClick this link in order to reset your password: http://localhost:3000/ChangePassword/' + str(user_id)
@@ -105,7 +106,7 @@ def reset_password(user_id):
 		server.send_message(msg)
 		return make_response(jsonify({'email_sent': 'true'}))
 	except Exception as e:
-		return make_response(jsonify({'error_sending_email': e}))
+		return make_response(jsonify({'error_sending_email': str(e)}))
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
@@ -174,22 +175,22 @@ def get_equipment():
 
 @app.route('/classes', methods=['GET'])
 def get_classes():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from classes')
 	returned = []
 	for row in cursor:
-	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
-	cur = db.cursor()
-	cur.execute('select * from Classes')
-	returned = []
-	for row in cur:
-		returned.append(row)
-	cur.close()
-	db.close()
-	if len(returned) == 0:
-		return make_response(jsonify({'error': 'No Classes'}), 500)
-	else:
-		return make_response(jsonify(returned))
+		cur = db.cursor()
+		cur.execute('select * from Classes')
+		returned = []
+		for row in cur:
+			returned.append(row)
+		cur.close()
+		db.close()
+		if len(returned) == 0:
+			return make_response(jsonify({'error': 'No Classes'}), 500)
+		else:
+			return make_response(jsonify(returned))
 
 @app.route('/races', methods=['GET'])
 def get_races():
