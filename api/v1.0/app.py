@@ -3,7 +3,11 @@ from flask import request
 from flask import make_response
 from flask import jsonify
 import mysql.connector
-import smptlib
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import json
+import sys
 
 app = Flask(__name__)
 
@@ -74,18 +78,27 @@ def get_user(username):
 	cur.close()
 	return make_response(jsonify({'error': 'No User'}), 500)
 
-@app.route('/user/<int:user_id>/resetpassword', methods=['POST'])
+@app.route('/user/<int:user_id>/resetpassword', methods=['GET'])
 def reset_password(user_id):
-	server = smtplib.SMTP('smtp.gmail.com', 587)
-	server.login(email_username, email_password)
-	message = '''
-	This is the link for you to reset your password: &&
-	
-	If you did not request a password reset, please ignore this message
-	'''
-	cur = db.cursor()
-	cur.execute('select UserEmail from users where UserId = %s', (user_id,))
-	server.send_message(message)
+	try:
+		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		server.login(email_username, email_password)
+		message = '\nClick this link in order to reset your password: http://localhost:3000/ChangePassword/' + str(user_id)
+		message += '\n\nIf you did not request a password reset, please ignore this message\n'
+
+		cur = db.cursor()
+		cur.execute('select UserEmail from users where UserId = %s', (user_id,))
+		# print(cur.fetchall(), file=sys.stderr)
+		msg = MIMEMultipart()
+		msg['To'] = cur.fetchall()[0][0]
+		msg['From'] = 'dnddeityteam@gmail.com'
+		msg['Subject'] = 'DnDeity Password Reset'
+		msg.attach(MIMEText(message, 'plain'))
+
+		server.send_message(msg)
+		return make_response(jsonify({'email_sent': 'true'}))
+	except Exception as e:
+		return make_response(jsonify({'error_sending_email': e}))
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
@@ -132,7 +145,7 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/equipment', methods=['GET'])
-def get_spells():
+def get_equipment():
 	cur = db.cursor()
 	cur.execute('select * from equipment')
 	returned = []
@@ -144,19 +157,7 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/classes', methods=['GET'])
-def get_spells():
-	cur = db.cursor()
-	cur.execute('select * from classes')
-	returned = []
-	for row in cursor:
-		returned.append(row)
-	if len(returned) == 0:
-		return make_response(jsonify({'error': 'No Classes'}), 500)
-	else:
-		return make_response(jsonify(returned))
-
-@app.route('/classes', methods=['GET'])
-def get_spells():
+def get_classes():
 	cur = db.cursor()
 	cur.execute('select * from classes')
 	returned = []
@@ -168,7 +169,7 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/races', methods=['GET'])
-def get_spells():
+def get_races():
 	cur = db.cursor()
 	cur.execute('select * from races')
 	returned = []
@@ -180,7 +181,7 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/monsters', methods=['GET'])
-def get_spells():
+def get_monsters():
 	cur = db.cursor()
 	cur.execute('select * from monsters')
 	returned = []

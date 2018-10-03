@@ -1,5 +1,5 @@
 # File containing the ips for the DEVELOPMENT databases
-email_username	= 'dndeityteam'
+email_username	= 'dndeityteam@gmail.com'
 email_password	= 'Password789!'
 
 db_dnd_host 	= '127.0.0.1'
