@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
+// types
+import { Map } from 'immutable';
+import RaceType from '../../objects/RaceType';
+import serverURL from '../../objects/url.js';
 
 // components
 import RaceSection from './RaceSection';
@@ -26,7 +32,38 @@ class CharacterCreator extends Component {
 
     this.state = {
       refs: refs.slice(),
+      races: new Map(),
+      classes: new Map(),
     }
+  }
+
+  componentWillMount() {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    // Make server request for list of races
+    server.get('/races')
+      .then((response) => {
+        let races = new Map();
+        response.data.forEach(payload => {
+          const race = new RaceType(payload[1], payload[2]);
+          races = races.set(race.name, race);
+        });
+        this.setState({ races });
+      });
+    
+    // Make server request for list of classes
+    server.get('/classes')
+      .then((response) => {
+        let classes = new Map();
+        console.log(response)
+        response.data.forEach(payload => {
+          const c = new RaceType(payload[1], payload[2]);
+          classes = classes.set(c.name, c);
+        });
+        this.setState({ classes });
+      });
   }
 
   render() {
@@ -42,8 +79,8 @@ class CharacterCreator extends Component {
               <h1>Character Creator</h1>
               <b>Name: </b>
               <FormControl id="name" placeholder="Enter Character Name" type="text" />
-              <RaceSection ref={this.state.refs[0]}/>
-              <ClassSection ref={this.state.refs[1]}/>
+              <RaceSection ref={this.state.refs[0]} races={this.state.races}/>
+              <ClassSection ref={this.state.refs[1]} classes={this.state.classes}/>
               <ScoreSection ref={this.state.refs[2]}/>
               <EquipmentSection ref={this.state.refs[3]}/>
             </Col>
