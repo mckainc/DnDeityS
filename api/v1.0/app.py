@@ -15,8 +15,6 @@ if app.config['ENV'] == 'development':
 else:
 	from db_prod import *
 
-db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
-
 @app.route('/')
 def index():
     return "Hello, World!"
@@ -28,6 +26,7 @@ def not_found(error):
 @app.route('/user', methods=['POST'])
 def create_user():
 	try:
+		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		username = request.get_json(force=True)['username']
 		password = request.get_json(force=True)['password']
 		email = request.get_json(force=True)['email']
@@ -36,11 +35,13 @@ def create_user():
 		cur.execute('select * from Users where UserName = %s', (username,))
 		for row in cur:
 			cur.close()
+			db.close()
 			return make_response(jsonify({'error': 'username is already taken'}), 500)
 
 		cur.execute('select * from Users where Email = %s', (email,))
 		for row in cur:
 			cur.close()
+			db.close()
 			return make_response(jsonify({'error': 'email is already taken'}), 500)
 
 		# if neither are there..
@@ -50,6 +51,7 @@ def create_user():
 		cur.execute('select * from Users where UserName = %s', (username,))
 		for row in cur:
 			cur.close()
+			db.close()
 			return make_response(jsonify(row), 200)
 	except KeyError as e:
 		abort(500)
@@ -68,16 +70,20 @@ def update_user(user_id):
 
 @app.route('/user/<string:username>', methods=['GET'])
 def get_user(username):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from Users where UserName = %s', (username,))
 	for row in cur:
 		cur.close()
+		db.close()
 		return make_response(jsonify(row), 200)
 	cur.close()
+	db.close()
 	return make_response(jsonify({'error': 'No User'}), 500)
 
 @app.route('/user/<int:user_id>/resetpassword', methods=['POST'])
 def reset_password(user_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	server = smtplib.SMTP('smtp.gmail.com', 587)
 	server.login(email_username, email_password)
 	message = '''
@@ -91,12 +97,14 @@ def reset_password(user_id):
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select (class, level, background, alignment, race, experience) from Characters where UserId = %s', (user_id,))
 	returned = []
 	for row in cur:
 		returned.append(row)
 	cur.close()
+	db.close()
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Characters'}), 500)
 	else:
@@ -118,16 +126,20 @@ def create_character():
 
 @app.route('/character/<int:character_id>', methods=['GET'])
 def get_character_by_id(character_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from characters where CharacterId = %s', (character_id,))
 
 @app.route('/spells', methods=['GET'])
 def get_spells():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from Spells')
 	returned = []
 	for row in cur:
 		returned.append(row)
+	cur.close()
+	db.close()
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Spells'}), 500)
 	else:
@@ -135,11 +147,14 @@ def get_spells():
 
 @app.route('/equipment', methods=['GET'])
 def get_equipment():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from Equipments')
 	returned = []
 	for row in cur:
 		returned.append(row)
+	cur.close()
+	db.close()
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Equipment'}), 500)
 	else:
@@ -147,11 +162,14 @@ def get_equipment():
 
 @app.route('/classes', methods=['GET'])
 def get_classes():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from Classes')
 	returned = []
 	for row in cur:
 		returned.append(row)
+	cur.close()
+	db.close()
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Classes'}), 500)
 	else:
@@ -159,11 +177,14 @@ def get_classes():
 
 @app.route('/races', methods=['GET'])
 def get_races():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from Races')
 	returned = []
 	for row in cur:
 		returned.append(row)
+	cur.close()
+	db.close()
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Races'}), 500)
 	else:
@@ -171,11 +192,14 @@ def get_races():
 
 @app.route('/monsters', methods=['GET'])
 def get_monsters():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from Monsters')
 	returned = []
 	for row in cur:
 		returned.append(row)
+	cur.close()
+	db.close()
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Monsters'}), 500)
 	else:
