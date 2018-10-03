@@ -17,7 +17,6 @@ class RaceSection extends Component {
 	
 	handleRaceChange = (e) => {
 		let race = this.props.races.get(e);
-		// find race by name
 		this.setState({ race });
 	}
 
