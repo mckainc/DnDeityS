@@ -5,13 +5,10 @@ from flask import jsonify
 from flask_cors import CORS
 import mysql.connector
 import smtplib
-<<<<<<< HEAD
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import json
 import sys
-=======
->>>>>>> master
 
 app = Flask(__name__)
 CORS(app)
@@ -90,7 +87,6 @@ def get_user(username):
 
 @app.route('/user/<int:user_id>/resetpassword', methods=['GET'])
 def reset_password(user_id):
-<<<<<<< HEAD
 	try:
 		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 		server.login(email_username, email_password)
@@ -110,19 +106,6 @@ def reset_password(user_id):
 		return make_response(jsonify({'email_sent': 'true'}))
 	except Exception as e:
 		return make_response(jsonify({'error_sending_email': e}))
-=======
-	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
-	server = smtplib.SMTP('smtp.gmail.com', 587)
-	server.login(email_username, email_password)
-	message = '''
-	This is the link for you to reset your password: &&
-	
-	If you did not request a password reset, please ignore this message
-	'''
-	cur = db.cursor()
-	cur.execute('select UserEmail from Users where UserId = %s', (user_id,))
-	server.send_message(message)
->>>>>>> master
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
@@ -176,10 +159,7 @@ def get_spells():
 
 @app.route('/equipment', methods=['GET'])
 def get_equipment():
-<<<<<<< HEAD
-=======
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
->>>>>>> master
 	cur = db.cursor()
 	cur.execute('select * from Equipments')
 	returned = []
@@ -194,18 +174,15 @@ def get_equipment():
 
 @app.route('/classes', methods=['GET'])
 def get_classes():
-<<<<<<< HEAD
 	cur = db.cursor()
 	cur.execute('select * from classes')
 	returned = []
 	for row in cursor:
-=======
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
 	cur.execute('select * from Classes')
 	returned = []
 	for row in cur:
->>>>>>> master
 		returned.append(row)
 	cur.close()
 	db.close()
@@ -216,10 +193,7 @@ def get_classes():
 
 @app.route('/races', methods=['GET'])
 def get_races():
-<<<<<<< HEAD
-=======
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
->>>>>>> master
 	cur = db.cursor()
 	cur.execute('select * from Races')
 	returned = []
@@ -234,10 +208,7 @@ def get_races():
 
 @app.route('/monsters', methods=['GET'])
 def get_monsters():
-<<<<<<< HEAD
-=======
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
->>>>>>> master
 	cur = db.cursor()
 	cur.execute('select * from Monsters')
 	returned = []
