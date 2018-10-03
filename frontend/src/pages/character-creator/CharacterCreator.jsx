@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
+// types
+import { Map } from 'immutable';
+import RaceType from '../../objects/RaceType';
+import serverURL from '../../objects/url.js';
 
 // components
 import RaceSection from './RaceSection';
@@ -26,7 +32,24 @@ class CharacterCreator extends Component {
 
     this.state = {
       refs: refs.slice(),
+      races: new Map(),
     }
+  }
+
+  componentWillMount() {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+    server.get('/races')
+      .then((response) => {
+        let races = new Map();
+        response.data.forEach(payload => {
+          const race = new RaceType(payload[1], payload[2]);
+          races = races.set(race.name, race);
+        });
+        console.log(races);
+        this.setState({ races });
+      });
   }
 
   render() {
@@ -42,7 +65,7 @@ class CharacterCreator extends Component {
               <h1>Character Creator</h1>
               <b>Name: </b>
               <FormControl id="name" placeholder="Enter Character Name" type="text" />
-              <RaceSection ref={this.state.refs[0]}/>
+              <RaceSection ref={this.state.refs[0]} races={this.state.races}/>
               <ClassSection ref={this.state.refs[1]}/>
               <ScoreSection ref={this.state.refs[2]}/>
               <EquipmentSection ref={this.state.refs[3]}/>
