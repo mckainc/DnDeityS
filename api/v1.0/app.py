@@ -3,7 +3,7 @@ from flask import request
 from flask import make_response
 from flask import jsonify
 import mysql.connector
-import smptlib
+import smtplib
 
 app = Flask(__name__)
 
@@ -31,21 +31,21 @@ def create_user():
 		email = request.get_json(force=True)['email']
 		# check if email/username are taken
 		cur = db.cursor()
-		cur.execute('select * from users where UserName = %s', (username,))
+		cur.execute('select * from Users where UserName = %s', (username,))
 		for row in cur:
 			cur.close()
 			return make_response(jsonify({'error': 'username is already taken'}), 500)
 
-		cur.execute('select * from users where Email = %s', (email,))
+		cur.execute('select * from Users where Email = %s', (email,))
 		for row in cur:
 			cur.close()
 			return make_response(jsonify({'error': 'email is already taken'}), 500)
 
 		# if neither are there..
-		cur.execute('insert into users (UserName, UserPassword, UserEmail) values (%s, %s, %s)', (username, password, email))
+		cur.execute('insert into Users (UserName, UserPassword, UserEmail) values (%s, %s, %s)', (username, password, email))
 		db.commit()
 		# get row and return
-		cur.execute('select * from users where UserName = %s', (username,))
+		cur.execute('select * from Users where UserName = %s', (username,))
 		for row in cur:
 			cur.close()
 			return make_response(jsonify(row), 200)
@@ -67,7 +67,7 @@ def update_user(user_id):
 @app.route('/user/<string:username>', methods=['GET'])
 def get_user(username):
 	cur = db.cursor()
-	cur.execute('select * from users where UserName = %s', (username,))
+	cur.execute('select * from Users where UserName = %s', (username,))
 	for row in cur:
 		cur.close()
 		return make_response(jsonify(row), 200)
@@ -84,13 +84,13 @@ def reset_password(user_id):
 	If you did not request a password reset, please ignore this message
 	'''
 	cur = db.cursor()
-	cur.execute('select UserEmail from users where UserId = %s', (user_id,))
+	cur.execute('select UserEmail from Users where UserId = %s', (user_id,))
 	server.send_message(message)
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
 	cur = db.cursor()
-	cur.execute('select (class, level, background, alignment, race, experience) from characters where UserId = %s', (user_id,))
+	cur.execute('select (class, level, background, alignment, race, experience) from Characters where UserId = %s', (user_id,))
 	returned = []
 	for row in cur:
 		returned.append(row)
@@ -122,9 +122,9 @@ def get_character_by_id(character_id):
 @app.route('/spells', methods=['GET'])
 def get_spells():
 	cur = db.cursor()
-	cur.execute('select * from spells')
+	cur.execute('select * from Spells')
 	returned = []
-	for row in cursor:
+	for row in cur:
 		returned.append(row)
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Spells'}), 500)
@@ -132,11 +132,11 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/equipment', methods=['GET'])
-def get_spells():
+def get_equipment():
 	cur = db.cursor()
-	cur.execute('select * from equipment')
+	cur.execute('select * from Equipments')
 	returned = []
-	for row in cursor:
+	for row in cur:
 		returned.append(row)
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Equipment'}), 500)
@@ -144,23 +144,11 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/classes', methods=['GET'])
-def get_spells():
+def get_classes():
 	cur = db.cursor()
-	cur.execute('select * from classes')
+	cur.execute('select * from Classes')
 	returned = []
-	for row in cursor:
-		returned.append(row)
-	if len(returned) == 0:
-		return make_response(jsonify({'error': 'No Classes'}), 500)
-	else:
-		return make_response(jsonify(returned))
-
-@app.route('/classes', methods=['GET'])
-def get_spells():
-	cur = db.cursor()
-	cur.execute('select * from classes')
-	returned = []
-	for row in cursor:
+	for row in cur:
 		returned.append(row)
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Classes'}), 500)
@@ -168,11 +156,11 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/races', methods=['GET'])
-def get_spells():
+def get_races():
 	cur = db.cursor()
-	cur.execute('select * from races')
+	cur.execute('select * from Races')
 	returned = []
-	for row in cursor:
+	for row in cur:
 		returned.append(row)
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Races'}), 500)
@@ -180,11 +168,11 @@ def get_spells():
 		return make_response(jsonify(returned))
 
 @app.route('/monsters', methods=['GET'])
-def get_spells():
+def get_monsters():
 	cur = db.cursor()
-	cur.execute('select * from monsters')
+	cur.execute('select * from Monsters')
 	returned = []
-	for row in cursor:
+	for row in cur:
 		returned.append(row)
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Monsters'}), 500)
