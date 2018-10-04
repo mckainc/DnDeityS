@@ -7,8 +7,8 @@ class HomePage extends Component {
         <h1>Home Page</h1>
         <br />
         <h1>DnDeity</h1>
-        <Link to="/CharacterCreater">
-          Character Creater
+        <Link to="/CharacterCreator">
+          Character Creator
         </Link>
       </div>
     );

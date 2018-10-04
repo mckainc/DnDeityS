@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // components
 import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
@@ -14,7 +15,7 @@ class SiteNaveBar extends Component {
             <Navbar.Brand>DnDeity</Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <NavItem>Characters</NavItem>
+            <NavItem><Link to="/CharacterList">Characters</Link></NavItem>
           </Nav>
           {this.props.enableSave &&
           <Nav pullRight>
