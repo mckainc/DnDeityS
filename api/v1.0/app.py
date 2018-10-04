@@ -194,8 +194,8 @@ def create_character():
 	except KeyError as e:
 		abort(500)
 
-@app.route('/character/<int:character_id>', methods=['GET', 'PATCH'])
-def get_or_update_character(character_id):
+@app.route('/character/<int:character_id>', methods=['GET', 'PATCH', 'DELETE'])
+def get_update_delete_character(character_id):
 	if request.method == 'GET':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
@@ -203,6 +203,15 @@ def get_or_update_character(character_id):
 		for row in cur.fetchall():
 			return make_response(jsonify(row), 200)
 		return make_response(jsonify({'error': 'no character with that id'}), 500)
+	if request.method == 'DELETE':
+		try:
+			db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+			cur = db.cursor()
+			cur.execute('delete from characters where CharacterId = %s', (character_id,))
+			db.commit()
+			return make_response(jsonify({'deleted_character': character_id}), 200)
+		except Exception as e:
+			return make_response(jsonify({'error': str(e)}), 500)
 	if request.method == 'PATCH':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
