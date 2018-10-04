@@ -5,6 +5,7 @@ import { DragDropContext } from 'react-dnd';
 
 // components
 import CharacterCreator from './pages/character-creator/CharacterCreator';
+import CharacterList from './pages/character-list/CharacterList';
 import Login from './pages/login-package/Login';
 import HomePage from './pages/home/HomePage'
 import NewUser from './pages/login-package/NewUser';
@@ -19,7 +20,8 @@ class App extends Component {
         <div>
           <Route exact path="/" component={Login} />
           <Route exact path="/Home" component={HomePage} />
-          <Route exact path="/CharacterCreater" component={CharacterCreator} />
+          <Route exact path="/CharacterCreator" component={CharacterCreator} />
+          <Route exact path="/CharacterList" component={CharacterList} />
           <Route exact path="/NewUser" component={NewUser} />
           <Route exact path="/ForgottenPassword" component={ForgottenPassword} />
           <Route path="/ChangePassword/:user" component={ChangePassword} />
