@@ -46,11 +46,23 @@
      "500": there was an error sending the email
 
 ## Character Endpoints
-### "/character" !!!UNTESTED!!!
+### "/character"
 #####    Method: POST
 #####    Request-Type: application/json
 #####    Parameters
-     Lots of them
+     FORMAT "[field_name]": [field_type]
+     ===================================
+     "name": STRING,
+     "race": STRING,
+     "race_language_choice": STRING,
+     "race_proficiency_choice": STRING,
+     "race_trait_choice": STRING,
+     "class": STRING,
+     "class_proficiency_choices": JSON_ARRAY,
+     "ability_scores": JSON_ARRAY
+     "inventory": JSON_ARRAY
+     "spells": JSON_ARRAY
+     "description": JSON_ARRAY/JSON_OBJECT
 #####    Return types
      "200": new created CharacterId
 ### "characters/[user_id]" !!!Untested!!!
@@ -67,6 +79,37 @@
      None
 #####    Return types
      "200": json containing the character specified by the character_id
+### "character/[character_id]"
+#####    Method: PATCH
+#####    Request-Type: application/json
+#####    Parameters
+     Any (doesn't have to be all) of the character fields
+     FORMAT "[field_name]": [field_type]
+     ===================================
+     "name": STRING,
+     "race": STRING,
+     "race_language_choice": STRING,
+     "race_proficiency_choice": STRING,
+     "race_trait_choice": STRING,
+     "class": STRING,
+     "class_proficiency_choices": JSON_ARRAY,
+     "ability_scores": JSON_ARRAY
+     "inventory": JSON_ARRAY
+     "spells": JSON_ARRAY
+     "description": JSON_ARRAY/JSON_OBJECT
+     "gold": JSON_ARRAY?,
+     "hp": INT?,
+     "max_hp": INT?
+
+#####    Return types
+     "200": json containing the character specified by the character_id
+### "character/[character_id]"
+#####    Method: DELETE
+#####    Request-Type: application/json
+#####    Parameters
+     None
+#####    Return types
+     "200": the id deleted
 
 ## DnD API data
 ### "/spells" !!!Untested!!!
