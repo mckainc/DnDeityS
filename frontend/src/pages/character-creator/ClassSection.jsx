@@ -18,6 +18,10 @@ class ClassSection extends Component {
 	handleClassChange = (e) => {
 		let currentClass = this.props.classes.get(e);
 		this.setState({ currentClass });
+		this.props.changeCharacter('class', currentClass.name);
+
+		// reset proficiency choices
+		this.props.changeCharacter('class_proficiency_choices', 'none');
 	}
 
   render() {
@@ -35,7 +39,7 @@ class ClassSection extends Component {
 							<ToggleButton value={currentClass.name}>{currentClass.name}</ToggleButton>
 						))}
           </ToggleButtonGroup>
-					{this.state.currentClass !== 'none' && <ClassDetails currentClass={this.state.currentClass}/>}
+					{this.state.currentClass !== 'none' && <ClassDetails currentClass={this.state.currentClass} changeCharacter={this.props.changeCharacter}/>}
         </CollapsableSection>
       </div>
     );

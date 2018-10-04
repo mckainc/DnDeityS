@@ -27,7 +27,7 @@ class AbilityScore extends Component {
     this.setState({ modifier, score });
  
     // recalculate how many points are left
-    if(!this.props.manual) this.props.updatePoints(score, this.props.type);
+    this.props.updatePoints(score, this.props.type);
   }
 
   render() {

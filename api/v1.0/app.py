@@ -177,20 +177,16 @@ def get_equipment():
 def get_classes():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select * from classes')
+	cur.execute('select * from Classes')
 	returned = []
-	for row in cursor:
-		cur = db.cursor()
-		cur.execute('select * from Classes')
-		returned = []
-		for row in cur:
-			returned.append(row)
-		cur.close()
-		db.close()
-		if len(returned) == 0:
-			return make_response(jsonify({'error': 'No Classes'}), 500)
-		else:
-			return make_response(jsonify(returned))
+	for row in cur:
+		returned.append(row)
+	cur.close()
+	db.close()
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Classes'}), 500)
+	else:
+		return make_response(jsonify(returned))
 
 @app.route('/races', methods=['GET'])
 def get_races():
