@@ -1,0 +1,9 @@
+.save,.save:focus {
+  background-color: #F16F66;
+  color: black;
+}
+
+.save:hover,.save:active {
+  background-color: #EF4034;
+  color: black;
+}

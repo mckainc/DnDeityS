@@ -23,14 +23,17 @@ class RaceDetails extends PureComponent {
 
   setPickedLanguage = (pickedLanguage) => {
     this.setState({ pickedLanguage });
+    this.props.changeCharacter('race_language_choice', pickedLanguage);
   }
 
   setPickedProficiency = (pickedProficiency) => {
     this.setState({ pickedProficiency });
+    this.props.changeCharacter('race_proficiency_choice', pickedProficiency);
   }
 
   setPickedTrait = (pickedTrait) => {
     this.setState({ pickedTrait });
+    this.props.changeCharacter('race_trait_choice', pickedTrait);
   }
 
   render() {

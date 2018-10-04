@@ -15,7 +15,7 @@ class ScoreSection extends Component {
     this.state = {
       manual: true,
       pointTotal: 27,
-      points: [8, 8, 8, 8, 8, 8],
+      points: ['8', '8', '8', '8', '8', '8'],
     }
   }
 
@@ -36,6 +36,7 @@ class ScoreSection extends Component {
 
     this.setState({ points, pointTotal});
     this.forceUpdate();
+    this.props.changeCharacter('ability_scores', points);
   }
 
   setManual(manual) {

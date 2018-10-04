@@ -53,6 +53,7 @@ class ClassDetails extends PureComponent {
     profChoices[i][j] = choice.name;
     this.setState({ profChoices });
     this.forceUpdate();
+    this.props.changeCharacter('class_proficiency_choices', profChoices);
   }
 
   render() {

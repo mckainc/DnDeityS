@@ -33,6 +33,7 @@ class CharacterCreator extends Component {
     }
 
     this.state = {
+      character: {},
       refs: refs.slice(),
       races: new Map(),
       classes: new Map(),
@@ -91,10 +92,15 @@ class CharacterCreator extends Component {
       });
   }
 
+  changeCharacter = (property, value) => {
+    const { character } = this.state;
+    character[property] = value;
+  }
+
   render() {
     return (
       <div className="CharacterCreator">
-        <SiteNavBar/>
+        <SiteNavBar enableSave/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
@@ -103,13 +109,13 @@ class CharacterCreator extends Component {
             <Col xs={17} md={11}>
               <h1>Character Creator</h1>
               <b>Name: </b>
-              <FormControl id="name" placeholder="Enter Character Name" type="text" />
-              <RaceSection ref={this.state.refs[0]} races={this.state.races}/>
-              <ClassSection ref={this.state.refs[1]} classes={this.state.classes}/>
-              <ScoreSection ref={this.state.refs[2]}/>
-              <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment}/>
-              <SpellSection ref={this.state.refs[4]} spells={this.state.spells}/>
-              <DescriptionSection ref={this.state.refs[5]}/>
+              <FormControl id="name" placeholder="Enter Character Name" type="text" onChange={(e) => this.changeCharacter('name', e.target.value)}/>
+              <RaceSection ref={this.state.refs[0]} races={this.state.races} changeCharacter={this.changeCharacter}/>
+              <ClassSection ref={this.state.refs[1]} classes={this.state.classes} changeCharacter={this.changeCharacter}/>
+              <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter}/>
+              <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter}/>
+              <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter}/>
+              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter}/>
             </Col>
           </Row>
         </Grid>
