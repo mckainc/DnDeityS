@@ -79,19 +79,35 @@ def create_user():
 
 @app.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	query = 'update users set '
+	values_list = []
 	try:
 		username = request.get_json(force=True)['username']
-		password = request.get_json(force=True)['password']
-		email = request.get_json(force=True)['email']
-		# update user using user_id
-		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
-		cur = db.cursor()
-		cur.execute("insert into users (UserId, UserName, UserPassword, UserEmail) values (%d, %s, %s, %s) on duplicate key update", (user_id, username, password, email))
-		db.commit()
-		return make_response(jsonify({'success': user_id}), 200)
-
+		query += "UserName = %s, "
+		values_list.append(username)
 	except KeyError as e:
-		abort(500)
+		username = ''
+	try:
+		password = request.get_json(force=True)['password']
+		query += "UserPassword = %s, "
+		values_list.append(password)
+	except KeyError as e:
+		password = ''
+	try:
+		email = request.get_json(force=True)['email']
+		query += "UserEmail = %s, "
+		values_list.append(email)
+	except KeyError as e:
+		email = ''
+	query = query[:-2] + " where UserId = %s"
+	values_list.append(user_id)
+
+	cur.execute(query, tuple(values_list))
+	db.commit()
+	return make_response(jsonify({'UserId': user_id}), 200)
+
 
 @app.route('/user/<string:username>', methods=['GET'])
 def get_user(username):
@@ -163,13 +179,13 @@ def create_character():
 
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
-		cur.execute("select RaceId from races where race = %s", (race,))
+		cur.execute("select RaceId from races where RaceName = %s", (race,))
 		race_id = cur.fetchall()[0][0]
-		cur.execute("select ClassId from classes where class = %s", (dnd_class,))
+		cur.execute("select ClassId from classes where ClassName = %s", (dnd_class,))
 		class_id = cur.fetchall()[0][0]
 		query = "insert into characters "
 		query += "(RaceId, ClassId, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterSpells, CharacterDescription) "
-		query += "values (%d, %d, %s, 0, 0, 0, %s, '0', %s, %s, %s, %s)"
+		query += "values (%s, %s, %s, 0, 0, 0, %s, '0', %s, %s, %s, %s)"
 		cur.execute(query, (race_id, class_id, name, json.dumps(ability_scores), json.dumps(equipment), json.dumps(choices), json.dumps(spells), json.dumps(description)))
 		db.commit()
 		cur.execute("select CharacterId from characters where CharacterName = %s", (name,))
@@ -178,14 +194,101 @@ def create_character():
 	except KeyError as e:
 		abort(500)
 
-@app.route('/character/<int:character_id>', methods=['GET'])
-def get_character_by_id(character_id):
-	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
-	cur = db.cursor()
-	cur.execute('select * from characters where CharacterId = %s', (character_id,))
-	for row in cur.fetchall():
-		return make_response(jsonify(row), 200)
-	return make_response(jsonify({'error': 'no character with that id'}), 500)
+@app.route('/character/<int:character_id>', methods=['GET', 'PATCH'])
+def get_or_update_character(character_id):
+	if request.method == 'GET':
+		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+		cur = db.cursor()
+		cur.execute('select * from characters where CharacterId = %s', (character_id,))
+		for row in cur.fetchall():
+			return make_response(jsonify(row), 200)
+		return make_response(jsonify({'error': 'no character with that id'}), 500)
+	if request.method == 'PATCH':
+		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+		cur = db.cursor()
+		query = 'update characters set '
+		values_list = []
+		try:
+			name = request.get_json(force=True)['name']
+			query += "CharacterName = %s, "
+			values_list.append(name)
+		except KeyError as e:
+			name = ''
+		try:
+			race = request.get_json(force=True)['race']
+			cur.execute("select RaceId from races where RaceName = %s", (race,))
+			race_id = cur.fetchall()[0][0]
+			query += "RaceId = %s, "
+			values_list.append(race_id)
+		except KeyError as e:
+			race = ''
+		try:
+			dnd_class = request.get_json(force=True)['class']
+			cur.execute("select ClassId from classes where ClassName = %s", (dnd_class,))
+			class_id = cur.fetchall()[0][0]
+			query += "ClassId = %s, "
+			values_list.append(class_id)
+		except KeyError as e:
+			dnd_class = ''
+		try:
+			ability_scores = request.get_json(force=True)['ability_scores']
+			query += "CharacterAbilityScores = %s, "
+			values_list.append(json.dumps(ability_scores))
+		except KeyError as e:
+			ability_scores = ''
+		try:
+			equipment = request.get_json(force=True)['inventory']
+			query += "CharacterEquipment = %s, "
+			values_list.append(json.dumps(equipment))
+		except KeyError as e:
+			equipment = ''
+		try:
+			spells = request.get_json(force=True)['spells']
+			query += "CharacterSpells = %s, "
+			values_list.append(json.dumps(spells))
+		except KeyError as e:
+			spells = ''
+		try:
+			choices = dict()
+			choices['race'] = dict()
+			choices['race']['language'] = request.get_json(force=True)['race_language_choice']
+			choices['race']['proficiency'] = request.get_json(force=True)['race_proficiency_choice']
+			choices['race']['trait'] = request.get_json(force=True)['race_trait_choice']
+			choices['class'] = request.get_json(force=True)['class_proficiency_choices']
+			query += "CharacterChoices = %s, "
+			values_list.append(json.dumps(choices))
+		except KeyError as e:
+			choices = ''
+		try:
+			description = request.get_json(force=True)['description']
+			query += "CharacterDescription = %s, "
+			values_list.append(json.dumps(description))
+		except KeyError as e:
+			description = ''
+		try:
+			gold = request.get_json(force=True)['gold']
+			query += "CharacterGold = %s, "
+			values_list.append(json.dumps(gold))
+		except KeyError as e:
+			gold = ''
+		try:
+			hp = request.get_json(force=True)['hp']
+			query += "CharacterHp = %s, "
+			values_list.append(json.dumps(hp))
+		except KeyError as e:
+			hp = ''
+		try:
+			maxhp = request.get_json(force=True)['max_hp']
+			query += "CharacterMaxHp = %s, "
+			values_list.append(json.dumps(maxhp))
+		except KeyError as e:
+			maxhp = ''
+		query = query[:-2] + " where CharacterId = %s"
+		values_list.append(character_id)
+
+		cur.execute(query, tuple(values_list))
+		db.commit()
+		return make_response(jsonify({'CharacterId': character_id}), 200)
 
 @app.route('/spells', methods=['GET'])
 def get_spells():
