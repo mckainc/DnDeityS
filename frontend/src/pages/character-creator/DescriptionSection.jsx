@@ -32,18 +32,6 @@ class DescriptionSection extends Component {
           <Row>
             <Col sm={2}>
               <FormGroup>
-              <ControlLabel>Alignment</ControlLabel>
-              <br></br>
-                <DropdownButton id="alignment" title={this.state.alignment}>
-                  {alignments.map(alignment => (
-                    <MenuItem id={alignment} onSelect={this.setAlignment} eventKey={alignment}>{alignment}</MenuItem>
-                  ))}
-                </DropdownButton>
-              </FormGroup>
-            </Col>
-
-            <Col sm={2}>
-              <FormGroup>
                 <ControlLabel>Age</ControlLabel>
                 <FormControl
                   name="age"
@@ -83,6 +71,18 @@ class DescriptionSection extends Component {
                   type="text"
                   placeholder="Enter character's faith..."
                 />
+              </FormGroup>
+            </Col>
+
+            <Col sm={2}>
+              <FormGroup>
+              <ControlLabel>Alignment</ControlLabel>
+              <br></br>
+                <DropdownButton id="alignment" title={this.state.alignment}>
+                  {alignments.map(alignment => (
+                    <MenuItem id={alignment} onSelect={this.setAlignment} eventKey={alignment}>{alignment}</MenuItem>
+                  ))}
+                </DropdownButton>
               </FormGroup>
             </Col>
           </Row>
