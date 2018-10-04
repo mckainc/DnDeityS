@@ -34,19 +34,24 @@ class NewLoginForm extends React.Component {
                     controlId="loginText"
                     validationState={this.getValidationState()}
                 >
-                    <ControlLabel>Working Example with validation</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.value}
                         placeholder="User Name"
                         onChange={this.handleChange}
                     />
+                    <FormControl
+                        type="text"
+                        value={this.state.value}
+                        placeholder="Password"
+                        onChange={this.handleChange}
+                    />
                     <FormControl.Feedback />
-                    <HelpBlock>Validation is based on string length</HelpBlock>
+                    
                 </FormGroup>
             </form>
         );
     }
 }
 
-render(<NewLoginForm />)
+export default NewLoginForm;
