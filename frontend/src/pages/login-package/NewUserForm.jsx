@@ -13,10 +13,14 @@ class NewLoginForm extends React.Component {
           email: ""
         };
       }
-        
+
     
       validationForm(){
-          return this.state.username.length > 0 && this.state.password.length > 0;
+          return this.state.username.length > 0 
+          && this.state.password.length > 0
+          && this.state.passwordAgain.length > 0
+          && this.state.email.length > 0
+          && !this.state.password.localeCompare(this.state.passwordAgain);
       }
 
       handleChange = event => {
