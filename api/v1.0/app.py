@@ -185,7 +185,7 @@ def get_character_by_id(character_id):
 	cur.execute('select * from characters where CharacterId = %s', (character_id,))
 	for row in cur.fetchall():
 		return make_response(jsonify(row), 200)
-	return make_response(jsonify('error': 'no character with that id'), 500)
+	return make_response(jsonify({'error': 'no character with that id'}), 500)
 
 @app.route('/spells', methods=['GET'])
 def get_spells():
