@@ -11,6 +11,8 @@ import RaceSection from './RaceSection';
 import ClassSection from './ClassSection';
 import ScoreSection from './ScoreSection';
 import EquipmentSection from './equipment/EquipmentSection';
+import SpellSection from './spells/SpellSection';
+import DescriptionSection from './DescriptionSection';
 import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
 
@@ -18,7 +20,7 @@ import { FormControl, Grid, Row, Col } from 'react-bootstrap';
 
 import './CharacterCreator.css';
 
-const sections = ['Race', 'Class', 'Ability Scores', 'Equipment'];
+const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Description'];
 
 class CharacterCreator extends Component {
   constructor(props) {
@@ -34,6 +36,8 @@ class CharacterCreator extends Component {
       refs: refs.slice(),
       races: new Map(),
       classes: new Map(),
+      equipment: new Map(),
+      spells: new Map(),
     }
   }
 
@@ -57,12 +61,33 @@ class CharacterCreator extends Component {
     server.get('/classes')
       .then((response) => {
         let classes = new Map();
-        console.log(response)
         response.data.forEach(payload => {
           const c = new RaceType(payload[1], payload[2]);
           classes = classes.set(c.name, c);
         });
         this.setState({ classes });
+      });
+    
+    // Make server request for list of equipment
+    server.get('/equipment')
+      .then((response) => {
+        let equipment = new Map();
+        response.data.forEach(payload => {
+          const item = new RaceType(payload[1], payload[2]);
+          equipment = equipment.set(item.name, item);
+        });
+        this.setState({ equipment });
+      });
+
+    // Make server request for list of spells
+    server.get('/spells')
+      .then((response) => {
+        let spells = new Map();
+        response.data.forEach(payload => {
+          const spell = new RaceType(payload[1], payload[2]);
+          spells = spells.set(spell.name, spell);
+        });
+        this.setState({ spells });
       });
   }
 
@@ -82,7 +107,9 @@ class CharacterCreator extends Component {
               <RaceSection ref={this.state.refs[0]} races={this.state.races}/>
               <ClassSection ref={this.state.refs[1]} classes={this.state.classes}/>
               <ScoreSection ref={this.state.refs[2]}/>
-              <EquipmentSection ref={this.state.refs[3]}/>
+              <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment}/>
+              <SpellSection ref={this.state.refs[4]} spells={this.state.spells}/>
+              <DescriptionSection ref={this.state.refs[5]}/>
             </Col>
           </Row>
         </Grid>

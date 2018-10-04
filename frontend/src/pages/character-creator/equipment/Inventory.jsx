@@ -33,6 +33,7 @@ class Inventory extends Component {
       <div>
         <Well>
           <b>Character's Inventory:</b>
+          <p>Drag items from the equipment list to put them in your inventory.</p>
           <div className="scrollable-list">
             <ListGroup>
               {inventory.valueSeq().map(item => (
