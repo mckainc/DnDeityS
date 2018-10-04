@@ -26,11 +26,13 @@ class CharacterList extends Component {
         <SiteNavBar/>
         <div className="container">
           <div className="character-list-content">
-            <h1>Characters</h1>
+            <h1>DnDeity</h1>
+            <br />
+            <h2>Characters</h2>
             <Link to="/CharacterCreator">
               Create a new character!
             </Link>
-            <h2>Character List</h2>
+            <h3>Character List</h3>
             <CharacterListItem character={character1} />
             <CharacterListItem character={character2} />
           </div>
