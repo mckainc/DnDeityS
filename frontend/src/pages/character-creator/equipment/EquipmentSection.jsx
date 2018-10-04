@@ -14,7 +14,6 @@ import './EquipmentSection.css';
 
 const getArrayFromMap = (map) => {
   const arr = [];
-  console.log(map)
   Array.from(map.toArray()).forEach(value => {
     const obj = {};
     obj.name = value.name;
