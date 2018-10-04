@@ -95,7 +95,6 @@ class CharacterCreator extends Component {
   changeCharacter = (property, value) => {
     const { character } = this.state;
     character[property] = value;
-    console.log(character);
   }
 
   render() {
