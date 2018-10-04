@@ -53,23 +53,23 @@ def create_user():
 		email = request.get_json(force=True)['email']
 		# check if email/username are taken
 		cur = db.cursor()
-		cur.execute('select * from Users where UserName = %s', (username,))
+		cur.execute('select * from users where UserName = %s', (username,))
 		for row in cur:
 			cur.close()
 			db.close()
 			return make_response(jsonify({'error': 'username is already taken'}), 500)
 
-		cur.execute('select * from Users where UserEmail = %s', (email,))
+		cur.execute('select * from users where UserEmail = %s', (email,))
 		for row in cur:
 			cur.close()
 			db.close()
 			return make_response(jsonify({'error': 'email is already taken'}), 500)
 
 		# if neither are there..
-		cur.execute('insert into Users (UserName, UserPassword, UserEmail) values (%s, %s, %s)', (username, password, email))
+		cur.execute('insert into users (UserName, UserPassword, UserEmail) values (%s, %s, %s)', (username, password, email))
 		db.commit()
 		# get row and return
-		cur.execute('select * from Users where UserName = %s', (username,))
+		cur.execute('select * from users where UserName = %s', (username,))
 		for row in cur:
 			cur.close()
 			db.close()
@@ -113,7 +113,7 @@ def update_user(user_id):
 def get_user(username):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select * from Users where UserName = %s', (username,))
+	cur.execute('select * from users where UserName = %s', (username,))
 	for row in cur:
 		cur.close()
 		db.close()
@@ -303,7 +303,7 @@ def get_update_delete_character(character_id):
 def get_spells():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select * from Spells')
+	cur.execute('select * from spells')
 	returned = []
 	for row in cur:
 		returned.append(row)
@@ -318,7 +318,7 @@ def get_spells():
 def get_equipment():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select * from Equipments')
+	cur.execute('select * from equipments')
 	returned = []
 	for row in cur:
 		returned.append(row)
@@ -333,7 +333,7 @@ def get_equipment():
 def get_classes():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select * from Classes')
+	cur.execute('select * from classes')
 	returned = []
 	for row in cur:
 		returned.append(row)
@@ -348,7 +348,7 @@ def get_classes():
 def get_races():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select * from Races')
+	cur.execute('select * from races')
 	returned = []
 	for row in cur:
 		returned.append(row)
@@ -363,7 +363,7 @@ def get_races():
 def get_monsters():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select * from Monsters')
+	cur.execute('select * from monsters')
 	returned = []
 	for row in cur:
 		returned.append(row)
