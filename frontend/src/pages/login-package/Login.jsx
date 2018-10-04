@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 
 import "./NewLoginForm.css"
 
+
 class Login extends Component {
     //fields are a JSON data type
     onSubmit = fields => {

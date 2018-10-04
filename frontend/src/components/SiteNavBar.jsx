@@ -12,7 +12,7 @@ class SiteNaveBar extends Component {
       <div className="SiteNavBar">
         <Navbar fixedTop fluid>
           <Navbar.Header>
-            <Navbar.Brand>DnDeity</Navbar.Brand>
+            <Navbar.Brand><Link to="/home">DnDeity</Link></Navbar.Brand>
           </Navbar.Header>
           <Nav>
             <NavItem><Link to="/CharacterList">Characters</Link></NavItem>

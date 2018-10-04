@@ -5,6 +5,8 @@ import { Button } from 'react-bootstrap';
 import NewUserForm from "./NewUserForm.jsx"
 import { Link } from 'react-router-dom'
 
+import "./NewUserForm.css"
+
 class NewUser extends Component {
 
     onSubmit = fields => {
