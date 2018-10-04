@@ -100,7 +100,7 @@ class CharacterCreator extends Component {
   render() {
     return (
       <div className="CharacterCreator">
-        <SiteNavBar/>
+        <SiteNavBar enableSave/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
