@@ -1,5 +1,14 @@
 # API Documentation
 ## User Endpoints
+### "/authenticate"
+#####    Method: POST
+#####    Request-Type: application/json
+#####    Parameters
+     "username": the username to be added
+     "password": the password of the user
+#####    Return types
+     "200": json containing the "UserId"
+     "400": json containing the error, either bad password or bad username
 ### "/user"
 #####    Method: POST
 #####    Request-Type: application/json
@@ -10,7 +19,7 @@
 #####    Return types
      "200": json containing the newly created "UserId", "UserName", "UserPassword", and "Email"
      "500": json describing that the email or username passed already exists
-### "user/[user_id] !!!NOT FINISHED!!!"
+### "user/[user_id] !!!UNTESTED!!!"
 #####    Method: PATCH
 #####    Request-Type: application/json
 #####    Parameters
@@ -18,7 +27,7 @@
      "password": the password of the user to be updated
      "email": the email of the user to be updated
 #####    Return types
-     "200": json containing the newly created "UserId", "UserName", "UserPassword", and "Email"
+     "200": the id of the user
 ### "user/[username]"
 #####    Method: GET
 #####    Request-Type: application/json
@@ -37,13 +46,13 @@
      "500": there was an error sending the email
 
 ## Character Endpoints
-### "/character" !!!Not Finished!!!
+### "/character" !!!UNTESTED!!!
 #####    Method: POST
 #####    Request-Type: application/json
 #####    Parameters
-     JSON TBD
+     Lots of them
 #####    Return types
-     "200": new created character
+     "200": new created CharacterId
 ### "characters/[user_id]" !!!Untested!!!
 #####    Method: GET
 #####    Request-Type: application/json
@@ -51,7 +60,7 @@
      None
 #####    Return types
      "200": json containing an array of characters for a particular user_id
-### "character/[character_id]" !!!Not Finished!!!
+### "character/[character_id]" !!!UNTESTED!!!
 #####    Method: GET
 #####    Request-Type: application/json
 #####    Parameters
