@@ -11,6 +11,12 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+
+-- Dumping database structure for dnd
+DROP DATABASE IF EXISTS `dnd`;
+CREATE DATABASE IF NOT EXISTS `dnd` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `dnd`;
+
 -- Dumping structure for table dnd.backgrounds
 DROP TABLE IF EXISTS `backgrounds`;
 CREATE TABLE IF NOT EXISTS `backgrounds` (
@@ -18,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `backgrounds` (
   `BackgroundName` varchar(128) NOT NULL,
   `BackgroundJSON` text,
   PRIMARY KEY (`BackgroundId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.backgrounds: ~0 rows (approximately)
 /*!40000 ALTER TABLE `backgrounds` DISABLE KEYS */;
@@ -45,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   KEY `ClassId` (`ClassId`),
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`RaceId`) REFERENCES `races` (`raceid`),
   CONSTRAINT `characters_ibfk_2` FOREIGN KEY (`ClassId`) REFERENCES `classes` (`classid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.characters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
@@ -58,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `ClassName` varchar(128) NOT NULL,
   `ClassData` text,
   PRIMARY KEY (`ClassId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.classes: ~12 rows (approximately)
 /*!40000 ALTER TABLE `classes` DISABLE KEYS */;
@@ -84,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `equipments` (
   `EquipmentName` varchar(128) NOT NULL,
   `EquipmentData` text,
   PRIMARY KEY (`EquipmentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.equipments: ~256 rows (approximately)
 /*!40000 ALTER TABLE `equipments` DISABLE KEYS */;
@@ -354,7 +360,7 @@ CREATE TABLE IF NOT EXISTS `feats` (
   `FeatName` varchar(128) NOT NULL,
   `FeatJSON` text,
   PRIMARY KEY (`FeatId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.feats: ~0 rows (approximately)
 /*!40000 ALTER TABLE `feats` DISABLE KEYS */;
@@ -371,7 +377,7 @@ CREATE TABLE IF NOT EXISTS `maps` (
   KEY `RoomId` (`RoomId`),
   CONSTRAINT `maps_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`userid`),
   CONSTRAINT `maps_ibfk_2` FOREIGN KEY (`RoomId`) REFERENCES `rooms` (`roomid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.maps: ~0 rows (approximately)
 /*!40000 ALTER TABLE `maps` DISABLE KEYS */;
@@ -387,9 +393,9 @@ CREATE TABLE IF NOT EXISTS `monsters` (
   PRIMARY KEY (`MonsterId`),
   KEY `MapId` (`MapId`),
   CONSTRAINT `monsters_ibfk_1` FOREIGN KEY (`MapId`) REFERENCES `maps` (`mapid`)
-) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8;
 
--- Dumping data for table dnd.monsters: ~279 rows (approximately)
+-- Dumping data for table dnd.monsters: ~325 rows (approximately)
 /*!40000 ALTER TABLE `monsters` DISABLE KEYS */;
 REPLACE INTO `monsters` (`MonsterId`, `MonsterName`, `MonsterData`, `MapId`) VALUES
 	(1, 'Aboleth', '{"_id": "5a52bc6f559f00418e5331b5", "index": 1, "name": "Aboleth", "size": "Large", "type": "aberration", "subtype": "", "alignment": "lawful evil", "armor_class": 17, "hit_points": 135, "hit_dice": "18d10", "speed": "10 ft., swim 40 ft.", "strength": 21, "dexterity": 9, "constitution": 15, "intelligence": 18, "wisdom": 15, "constitution_save": 6, "intelligence_save": 8, "wisdom_save": 6, "history": 12, "perception": 10, "damage_vulnerabilities": "", "damage_resistances": "", "damage_immunities": "", "condition_immunities": "", "senses": "darkvision 120 ft., passive Perception 20", "languages": "Deep Speech, telepathy 120 ft.", "challenge_rating": 10, "special_abilities": [{"attack_bonus": 0, "desc": "The aboleth can breathe air and water.", "name": "Amphibious"}, {"attack_bonus": 0, "desc": "While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 ft. of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.", "name": "Mucous Cloud"}, {"attack_bonus": 0, "desc": "If a creature communicates telepathically with the aboleth, the aboleth learns the creature\'s greatest desires if the aboleth can see the creature.", "name": "Probing Telepathy"}], "actions": [{"attack_bonus": 0, "desc": "The aboleth makes three tentacle attacks.", "name": "Multiattack"}, {"damage_bonus": 5, "damage_dice": "2d6", "attack_bonus": 9, "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 Constitution saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature\'s skin becomes translucent and slimy, the creature can\'t regain hit points unless it is underwater, and the disease can be removed only by heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.", "name": "Tentacle"}, {"damage_bonus": 5, "damage_dice": "3d6", "attack_bonus": 9, "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft. one target. Hit: 15 (3d6 + 5) bludgeoning damage.", "name": "Tail"}, {"attack_bonus": 0, "desc": "The aboleth targets one creature it can see within 30 ft. of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the aboleth until the aboleth dies or until it is on a different plane of existence from the target. The charmed target is under the aboleth\'s control and can\'t take reactions, and the aboleth and the target can communicate telepathically with each other over any distance.\\nWhenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the aboleth.", "name": "Enslave (3/day)"}], "legendary_actions": [{"attack_bonus": 0, "desc": "The aboleth makes a Wisdom (Perception) check.", "name": "Detect"}, {"attack_bonus": 0, "desc": "The aboleth makes one tail attack.", "name": "Tail Swipe"}, {"attack_bonus": 0, "desc": "One creature charmed by the aboleth takes 10 (3d6) psychic damage, and the aboleth regains hit points equal to the damage the creature takes.", "name": "Psychic Drain (Costs 2 Actions)"}], "url": "http://www.dnd5eapi.co/api/monsters/1"}', NULL),
@@ -726,7 +732,7 @@ CREATE TABLE IF NOT EXISTS `races` (
   `RaceName` varchar(128) NOT NULL,
   `RaceData` text,
   PRIMARY KEY (`RaceId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.races: ~9 rows (approximately)
 /*!40000 ALTER TABLE `races` DISABLE KEYS */;
@@ -750,7 +756,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   PRIMARY KEY (`RoomId`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `rooms_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table dnd.rooms: ~0 rows (approximately)
 /*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
@@ -763,9 +769,9 @@ CREATE TABLE IF NOT EXISTS `spells` (
   `SpellName` varchar(128) NOT NULL,
   `SpellData` text,
   PRIMARY KEY (`SpellId`)
-) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=utf8;
 
--- Dumping data for table dnd.spells: ~273 rows (approximately)
+-- Dumping data for table dnd.spells: ~305 rows (approximately)
 /*!40000 ALTER TABLE `spells` DISABLE KEYS */;
 REPLACE INTO `spells` (`SpellId`, `SpellName`, `SpellData`) VALUES
 	(1, 'Acid Arrow', '{"_id": "5a52bc3a559f00418e532f30", "index": 1, "name": "Acid Arrow", "desc": ["A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn."], "higher_level": ["When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd."], "page": "phb 259", "range": "90 feet", "components": ["V", "S", "M"], "material": "Powdered rhubarb leaf and an adder\\u00e2\\u20ac\\u2122s stomach.", "ritual": "no", "duration": "Instantaneous", "concentration": "no", "casting_time": "1 action", "level": 2, "school": {"url": "http://www.dnd5eapi.co/api/magic-schools/5", "name": "Evocation"}, "classes": [{"name": "Wizard", "url": "http://www.dnd5eapi.co/api/classes/12"}], "subclasses": [{"url": "http://www.dnd5eapi.co/api/subclasses/2", "name": "Lore"}, {"url": "http://www.dnd5eapi.co/api/subclasses/4", "name": "Land"}], "url": "http://www.dnd5eapi.co/api/spells/1"}'),
@@ -1083,9 +1089,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `UserPassword` varchar(128) NOT NULL,
   `UserEmail` varchar(128) NOT NULL,
   PRIMARY KEY (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Dumping data for table dnd.users: ~1 rows (approximately)
+-- Dumping data for table dnd.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 REPLACE INTO `users` (`UserId`, `UserName`, `UserPassword`, `UserEmail`) VALUES
 	(1, 'ribull', 'password2', 'ribull44@gmail.com'),
