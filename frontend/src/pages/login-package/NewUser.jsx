@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Button } from 'react-bootstrap';
 
-import NewUserForm from "./NewUserForm"
+import NewUserForm from "./NewUserForm.jsx"
 import { Link } from 'react-router-dom'
 
 class NewUser extends Component {
@@ -14,7 +14,7 @@ class NewUser extends Component {
     render(){
         return (
             <div className="NewUser">
-                <NewUserForm onSubmit={fields => this.onSubmit(fields)} />
+                <NewUserForm />
             </div>
         );
     }

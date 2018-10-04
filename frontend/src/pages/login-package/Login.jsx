@@ -21,13 +21,13 @@ class Login extends Component {
                 <NewLoginForm />
 
                 <div id="wrapper">
-                <Link to="/NewUser">
-                    <Button onClick>New User</Button>
-                </Link>
+                    <Link to="/NewUser">
+                        <Button onClick>New User</Button>
+                     </Link>
 
-                <Link to="/ForgottenPassword">
-                    <Button onClick>Forgot Password?</Button>
-                </Link>
+                    <Link to="/ForgottenPassword">
+                        <Button onClick>Forgot Password?</Button>
+                    </Link>
                 </div>
 
             </div>
