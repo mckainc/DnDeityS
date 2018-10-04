@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { Button } from 'react-bootstrap';
 
-import LoginForm from "./LoginForm"
 import NewLoginForm from "./NewLoginForm"
 import { Link } from 'react-router-dom'
 
