@@ -10,6 +10,16 @@ import KnownSpells from './KnownSpells';
 
 import { Row, Col } from 'react-bootstrap';
 
+const getArrayFromMap = (map) => {
+  const arr = [];
+  Array.from(map.toArray()).forEach(value => {
+    const obj = {};
+    obj.name = value.name;
+    arr.push(obj);
+  });
+  return arr;
+}
+
 class SpellSection extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +34,7 @@ class SpellSection extends Component {
     if (knownSpells.has(spell.name)) return;
     const newSpells = knownSpells.set(spell.name, spell);
     this.setState({ knownSpells: newSpells });
+    this.props.changeCharacter('spells', getArrayFromMap(newSpells));
   }
 
   removeSpell = (spell) => {
@@ -31,6 +42,7 @@ class SpellSection extends Component {
     if (!knownSpells.has(spell.name)) return;
     const newSpells = knownSpells.delete(spell.name);
     this.setState({ knownSpells: newSpells });
+    this.props.changeCharacter('spells', getArrayFromMap(newSpells));
   }
 
   render() {

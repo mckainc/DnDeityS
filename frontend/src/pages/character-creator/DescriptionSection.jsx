@@ -22,9 +22,11 @@ class DescriptionSection extends Component {
 
   setAlignment = (alignment) => {
     this.setState({ alignment });
+    this.props.changeCharacter('alignment', alignment);
   }
 
   render () {
+    const { changeCharacter } = this.props;
     return (
       <div className="DescriptionSection" ref={this.props.innerRef}>
         <CollapsableSection title="Description" open>
@@ -37,6 +39,7 @@ class DescriptionSection extends Component {
                   name="age"
                   type="number"
                   placeholder="Enter character's age"
+                  onChange={(e) => changeCharacter('age', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -48,6 +51,7 @@ class DescriptionSection extends Component {
                   name="gender"
                   type="text"
                   placeholder="Enter character's gender..."
+                  onChange={(e) => changeCharacter('gender', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -59,6 +63,7 @@ class DescriptionSection extends Component {
                   name="homeland"
                   type="text"
                   placeholder="Enter character's homeland..."
+                  onChange={(e) => changeCharacter('homeland', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -70,6 +75,7 @@ class DescriptionSection extends Component {
                   name="faith"
                   type="text"
                   placeholder="Enter character's faith..."
+                  onChange={(e) => changeCharacter('faith', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -97,6 +103,7 @@ class DescriptionSection extends Component {
                   name="personality"
                   componentClass="textarea"
                   placeholder="Enter personality description..."
+                  onChange={(e) => changeCharacter('personality', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -108,6 +115,7 @@ class DescriptionSection extends Component {
                   name="appearance"
                   componentClass="textarea"
                   placeholder="Enter appearance description..."
+                  onChange={(e) => changeCharacter('appearance', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -119,6 +127,7 @@ class DescriptionSection extends Component {
                   name="backstory"
                   componentClass="textarea"
                   placeholder="Enter character's backstory..."
+                  onChange={(e) => changeCharacter('backstory', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -132,6 +141,7 @@ class DescriptionSection extends Component {
                   name="bonds"
                   componentClass="textarea"
                   placeholder="Enter character's bonds..."
+                  onChange={(e) => changeCharacter('bonds', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -143,6 +153,7 @@ class DescriptionSection extends Component {
                   name="ideals"
                   componentClass="textarea"
                   placeholder="Enter character's ideals..."
+                  onChange={(e) => changeCharacter('ideals', e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -151,9 +162,10 @@ class DescriptionSection extends Component {
               <FormGroup>
                 <ControlLabel>Flaws</ControlLabel>
                 <FormControl
-                  name="backstory"
+                  name="flaws"
                   componentClass="textarea"
                   placeholder="Enter character's flaws..."
+                  onChange={(e) => changeCharacter('flaws', e.target.value)}
                 />
               </FormGroup>
             </Col>

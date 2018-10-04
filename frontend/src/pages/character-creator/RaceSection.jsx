@@ -18,6 +18,12 @@ class RaceSection extends Component {
 	handleRaceChange = (e) => {
 		let race = this.props.races.get(e);
 		this.setState({ race });
+		this.props.changeCharacter('race', race.name);
+
+		// reset choices
+		this.props.changeCharacter('race_language_choice', '');
+		this.props.changeCharacter('race_proficiency_choice', '');
+		this.props.changeCharacter('race_trait_choice', '');
 	}
 
   render() {
@@ -35,7 +41,7 @@ class RaceSection extends Component {
 							<ToggleButton value={race.name}>{race.name}</ToggleButton>
 						))}
           </ToggleButtonGroup>
-					{this.state.race !== 'none' && <RaceDetails race={this.state.race}/>}
+					{this.state.race !== 'none' && <RaceDetails race={this.state.race} changeCharacter={this.props.changeCharacter}/>}
         </CollapsableSection>
       </div>
     );
