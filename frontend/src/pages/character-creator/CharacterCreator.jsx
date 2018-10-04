@@ -93,10 +93,9 @@ class CharacterCreator extends Component {
   }
 
   changeCharacter = (property, value) => {
-    const character = Object.assign({}, this.state.character);
+    const { character } = this.state;
     character[property] = value;
     console.log(character);
-    this.setState({ character });
   }
 
   render() {
@@ -112,7 +111,7 @@ class CharacterCreator extends Component {
               <h1>Character Creator</h1>
               <b>Name: </b>
               <FormControl id="name" placeholder="Enter Character Name" type="text" onChange={(e) => this.changeCharacter('name', e.target.value)}/>
-              <RaceSection ref={this.state.refs[0]} races={this.state.races}/>
+              <RaceSection ref={this.state.refs[0]} races={this.state.races} changeCharacter={this.changeCharacter}/>
               <ClassSection ref={this.state.refs[1]} classes={this.state.classes}/>
               <ScoreSection ref={this.state.refs[2]}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment}/>
