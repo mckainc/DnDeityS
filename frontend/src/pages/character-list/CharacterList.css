@@ -1,7 +1,12 @@
 .CharacterList {
   background-color: #FAFAFA;
+  height: 100vh;
 }
 
 .character-list-content {
   padding-top: 6rem;
+}
+
+.CharacterList .panel {
+  text-align: center;
 }

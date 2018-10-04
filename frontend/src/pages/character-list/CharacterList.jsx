@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 
 // components
 import SiteNavBar from '../../components/SiteNavBar';
+import CharacterListItem from './CharacterListItem';
 
 import './CharacterList.css';
+
+const character = {
+  name: 'Nick',
+}
 
 class CharacterList extends Component {
   render() {
@@ -13,9 +18,10 @@ class CharacterList extends Component {
         <SiteNavBar/>
         <div className="character-list-content">
           <h1>Character List</h1>
-          <Link to="/CharacterCreater">
+          <Link to="/CharacterCreator">
             Character Creator
           </Link>
+          <CharacterListItem character={character} />
         </div>
       </div>
     );
