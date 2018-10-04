@@ -11,6 +11,7 @@ import RaceSection from './RaceSection';
 import ClassSection from './ClassSection';
 import ScoreSection from './ScoreSection';
 import EquipmentSection from './equipment/EquipmentSection';
+import DescriptionSection from './DescriptionSection';
 import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
 
@@ -18,7 +19,7 @@ import { FormControl, Grid, Row, Col } from 'react-bootstrap';
 
 import './CharacterCreator.css';
 
-const sections = ['Race', 'Class', 'Ability Scores', 'Equipment'];
+const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Description'];
 
 class CharacterCreator extends Component {
   constructor(props) {
@@ -94,6 +95,7 @@ class CharacterCreator extends Component {
               <ClassSection ref={this.state.refs[1]} classes={this.state.classes}/>
               <ScoreSection ref={this.state.refs[2]}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment}/>
+              <DescriptionSection ref={this.state.refs[4]}/>
             </Col>
           </Row>
         </Grid>
