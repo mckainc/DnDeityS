@@ -1,58 +1,65 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
 
 class NewLoginForm extends React.Component {
 
-    constructor(props, context) {
-        super(props, context);
-    
-        this.handleChange = this.handleChange.bind(this);
-        this.handleChangeP = this.handleChangeP.bind(this);
+    constructor(props) {
+        super(props);
     
         this.state = {
-          value: '',
-          password: ''
+          username: "",
+          password: ""
         };
       }
     
-      getValidationState() {
-        const length = this.state.value.length;
-        if (length > 10) return 'success';
-        else if (length > 5) return 'warning';
-        else if (length > 0) return 'error';
-        return null;
-      }
-    
-      handleChange(e) {
-        this.setState({ value: e.target.value });
+      validationForm(){
+          return this.state.username.length > 0 && this.state.password.length > 0;
       }
 
-      handleChangeP(e){
-          this.setState({ password: e.target.password });
+      handleChange = event => {
+        this.setState({
+          [event.target.id]: event.target.value
+        });
+      }
+
+      handleSubmit = event => {
+        event.preventDefault();
       }
     
       render() {
         return (
-          <form>
-            <FormGroup
-              controlId="formBasicText"
-              validationState={this.getValidationState()}
-            >
-              <FormControl
-                type="text"
-                value={this.state.value}
-                placeholder="Enter text"
-                onChange={this.handleChange}
-              />
+          <form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="username" bsSize="large">
+                <ControlLabel>User Name</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="username"
+                  value={this.state.username}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
 
-              <FormControl
-                  type="text"
+              
+              <FormGroup controlId="password" bsSize="large">
+                <ControlLabel>Password</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="password"
                   value={this.state.password}
-                  placeholder="Password"
-                  onChange={this.handleChangeP}
-              />
-              <FormControl.Feedback />
-            </FormGroup>
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+
+              <Button
+                block
+                bsSize="large"
+                disabled={!this.validationForm()}
+                type="submit"
+              >
+                Login
+              </Button>
+
+            
           </form>
         );
       }
