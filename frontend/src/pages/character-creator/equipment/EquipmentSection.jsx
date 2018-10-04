@@ -12,6 +12,18 @@ import { Row, Col } from 'react-bootstrap';
 
 import './EquipmentSection.css';
 
+const getArrayFromMap = (map) => {
+  const arr = [];
+  console.log(map)
+  Array.from(map.toArray()).forEach(value => {
+    const obj = {};
+    obj.name = value.name;
+    if (value.hasOwnProperty('quantity')) obj.quantity = value.quantity;
+    arr.push(obj);
+  });
+  return arr;
+}
+
 class EquipmentSection extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +38,7 @@ class EquipmentSection extends Component {
     if (inventory.has(item.name)) return;
     const newInventory = inventory.set(item.name, item);
     this.setState({ inventory: newInventory });
+    this.props.changeCharacter('inventory', getArrayFromMap(newInventory));
   }
 
   changeQuantity = (item, amount) => {
@@ -40,6 +53,7 @@ class EquipmentSection extends Component {
     }
     const newInventory = inventory.set(newItem.name, newItem);
     this.setState({ inventory: newInventory });
+    this.props.changeCharacter('inventory', getArrayFromMap(newInventory));
   }
 
   removeItem = (item) => {
@@ -47,6 +61,7 @@ class EquipmentSection extends Component {
     if (!inventory.has(item.name)) return;
     const newInventory = inventory.delete(item.name);
     this.setState({ inventory: newInventory });
+    this.props.changeCharacter('inventory', getArrayFromMap(newInventory));
   }
 
   render() {
