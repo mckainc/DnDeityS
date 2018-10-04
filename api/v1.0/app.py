@@ -59,7 +59,7 @@ def create_user():
 			db.close()
 			return make_response(jsonify({'error': 'username is already taken'}), 500)
 
-		cur.execute('select * from Users where Email = %s', (email,))
+		cur.execute('select * from Users where UserEmail = %s', (email,))
 		for row in cur:
 			cur.close()
 			db.close()
