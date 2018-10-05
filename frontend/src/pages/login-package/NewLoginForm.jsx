@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, HelpBlock, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 
@@ -33,31 +33,31 @@ class NewLoginForm extends React.Component {
       render() {
         return (
           
-          <form onSubmit={this.handleSubmit}>
-              <FormGroup controlId="username" bsSize="large">
+          <Form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="username">
                 <ControlLabel>User Name</ControlLabel>
                 <FormControl
                   autoFocus
                   type="username"
                   value={this.state.username}
                   onChange={this.handleChange}
+                  placeholder="Enter username"
                 />
               </FormGroup>
 
               
-              <FormGroup controlId="password" bsSize="large">
+              <FormGroup controlId="password">
                 <ControlLabel>Password</ControlLabel>
                 <FormControl
                   autoFocus
                   type="password"
                   value={this.state.password}
                   onChange={this.handleChange}
+                  placeholder="Enter password"
                 />
               </FormGroup>
 
               <Button
-                block
-                bsSize="large"
                 disabled={!this.validationForm()}
                 type="submit"
               >
@@ -65,7 +65,7 @@ class NewLoginForm extends React.Component {
               </Button>
 
             
-          </form>
+          </Form>
           
         );
       }

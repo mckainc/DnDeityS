@@ -50,8 +50,8 @@ class Login extends Component {
             <div className="Login">
                 <div className="bg"/>
                 <Panel>
-                <h1>Welcome to DnDeity</h1>
-                <h2>Please enter your login</h2>
+                <h1 className="logo">DnDeity</h1>
+                <h3>Please enter your login</h3>
                 <NewLoginForm onSubmit={this.onSubmit}/>
 
                 <div id="wrapper">
