@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
+import serverURL from '../../objects/url.js';
 
 // components
 import { Panel, FormGroup, Form, FormControl, ControlLabel, Col, Button } from 'react-bootstrap';
@@ -17,7 +20,6 @@ class ForgottenPassword extends Component {
   }
 
   handleChange = e => {
-    console.log(e.target.name, e.target.value)
     this.setState({
         [e.target.name]: e.target.value
     });
@@ -26,12 +28,29 @@ class ForgottenPassword extends Component {
   sendEmail = () => {
     const { username, email } = this.state;
     if(username === "" || email === "") {
-      console.log('error')
       this.setState({ displayError: true });
       return;
     }
 
-    // TODO Send email
+    // Send email
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    server.get('/user/' + username)
+      .then(response => {
+        const userId = response.data[0];
+        server.post('/user/' + userId +'/resetpassword')
+          .then(response => {
+
+          })
+          .catch(error => {
+            // error sending email
+          })
+      })
+      .catch(error => {
+        // user doesn't exist
+      });
   }
 
   render() {
