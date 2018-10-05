@@ -6,6 +6,8 @@ import ToggleButton from 'react-bootstrap/lib/ToggleButton';
 import CollapsableSection from '../../components/CollapsableSection';
 import ClassDetails from './ClassDetails';
 
+import './ClassSection.css';
+
 class ClassSection extends Component {
 	constructor(props) {
 		super(props);
