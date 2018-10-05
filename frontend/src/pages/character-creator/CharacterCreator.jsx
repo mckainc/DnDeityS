@@ -108,7 +108,6 @@ class CharacterCreator extends Component {
       baseURL: serverURL,
     });
 
-    localStorage.setItem('user_id', 3) // Delete this
     const userId = localStorage.getItem('user_id');
     character['user_id'] = userId;
 
