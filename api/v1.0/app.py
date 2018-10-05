@@ -149,7 +149,9 @@ def reset_password(user_id):
 def get_characters(user_id):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	cur.execute('select (CharacterId, CharacterName, CharacterRace, CharacterClass, CharacterExperience) from characters where UserId = %s', (user_id,))
+	query = 'select characters.CharacterId as CharacterId, characters.CharacterName as CharacterName, races.RaceName as RaceName, classes.ClassName as ClassName, characters.CharacterExperience as Experience '
+	query += 'from characters inner join classes on characters.ClassId=classes.ClassId inner join races on characters.RaceId=races.RaceId where characters.UserId = %s'
+	cur.execute(query, (user_id,))
 	returned = []
 	for row in cur.fetchall():
 		returned.append(row)
