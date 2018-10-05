@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+import serverURL from '../../objects/url.js';
 
 // components
 import { Panel, FormGroup, Form, FormControl, ControlLabel, Col, Button } from 'react-bootstrap';
@@ -13,6 +17,7 @@ class ChangePassword extends Component {
       password: "",
       confirmPassword: "",
       displayError: "",
+      displaySuccess: false,
     }
   }
 
@@ -34,7 +39,18 @@ class ChangePassword extends Component {
       return;
     }
 
-    // TODO Change password
+    // Change password
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const requestJSON = {};
+    requestJSON.password = password;
+    
+    server.patch('/user/' + this.props.match.params.user, JSON.stringify(requestJSON))
+      .then(response => {
+        this.setState({ displayError: "", displaySuccess: true });
+      });
   }
 
   render() {
@@ -78,8 +94,17 @@ class ChangePassword extends Component {
               {this.state.displayError === "match" && 
                 <p className="error">Passwords do not match.</p>
               }
+              {this.state.displaySuccess &&
+                <p className="success">Password successfully changed.</p>
+              }
               <FormGroup>
-                <Button onClick={this.changePassword}>Change Password</Button>
+                {this.state.displaySuccess ?
+                  <Link to="/">
+                    <Button>Go to Login Page</Button>
+                  </Link>
+                :
+                  <Button onClick={this.changePassword}>Change Password</Button>
+                }
               </FormGroup>
             </Form>
           </Panel.Body>
