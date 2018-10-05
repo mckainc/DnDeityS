@@ -15,7 +15,8 @@ class ForgottenPassword extends Component {
     this.state = {
       username: "",
       email: "",
-      displayError: false,
+      displayError: "",
+      displaySuccess: false,
     }
   }
 
@@ -28,7 +29,7 @@ class ForgottenPassword extends Component {
   sendEmail = () => {
     const { username, email } = this.state;
     if(username === "" || email === "") {
-      this.setState({ displayError: true });
+      this.setState({ displayError: "empty" });
       return;
     }
 
@@ -42,14 +43,16 @@ class ForgottenPassword extends Component {
         const userId = response.data[0];
         server.post('/user/' + userId +'/resetpassword')
           .then(response => {
-
+            this.setState({ displaySuccess: true, displayError: "" });
           })
           .catch(error => {
             // error sending email
+            this.setState({ displayError: "email"});
           })
       })
       .catch(error => {
         // user doesn't exist
+        this.setState({ displayError: "username"});
       });
   }
 
@@ -89,12 +92,23 @@ class ForgottenPassword extends Component {
                   />
                 </Col>
               </FormGroup>
-              {this.state.displayError && 
+              {this.state.displayError === "empty" && 
                 <p className="error">Please specify a username and email</p>
               }
-              <FormGroup>
-                <Button onClick={this.sendEmail}>Send Email</Button>
-              </FormGroup>
+              {this.state.displayError === "username" && 
+                <p className="error">User does not exist</p>
+              }
+              {this.state.displayError === "email" && 
+                <p className="error">Error sending email</p>
+              }
+              {this.state.displaySuccess && 
+                <p className="success">Email sent successfully.</p>
+              }
+              {!this.state.displaySuccess && 
+                <FormGroup>
+                  <Button onClick={this.sendEmail}>Send Email</Button>
+                </FormGroup>
+              }
             </Form>
           </Panel.Body>
         </Panel>
