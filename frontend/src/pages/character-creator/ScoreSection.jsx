@@ -12,10 +12,12 @@ class ScoreSection extends Component {
   constructor(props) {
     super(props);
 
+    const points = props.loaded ? props.character.ability_scores : ['8', '8', '8', '8', '8', '8'];
+
     this.state = {
       manual: true,
       pointTotal: 27,
-      points: ['8', '8', '8', '8', '8', '8'],
+      points,
     }
   }
 
@@ -59,8 +61,8 @@ class ScoreSection extends Component {
             </div>
           }
           <Row>
-            {abilityScores.map(score => (
-              <Col xs={2} md={1}><AbilityScore type={score} score={8} manual={manual} updatePoints={this.updatePoints}/></Col>
+            {abilityScores.map((score, index) => (
+              <Col xs={2} md={1}><AbilityScore type={score} score={this.state.points[index]} manual={manual} updatePoints={this.updatePoints}/></Col>
             ))}
           </Row>
         </CollapsableSection>

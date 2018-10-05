@@ -27,8 +27,13 @@ class EquipmentSection extends Component {
   constructor(props) {
     super(props);
 
+    let inventory = new Map();
+    if (props.loaded) {
+      props.character.inventory.forEach(item => inventory = inventory.set(item.name, item))
+    }
+
     this.state = {
-      inventory: new Map(),
+      inventory,
     }
   }
 

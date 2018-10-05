@@ -35,6 +35,7 @@ class CharacterCreator extends Component {
     this.state = {
       character: { description: {} },
       characterId: null,
+      loaded: false,
       refs: refs.slice(),
       races: new Map(),
       classes: new Map(),
@@ -112,7 +113,7 @@ class CharacterCreator extends Component {
           character.race_proficiency_choice = choices.race.proficiency;
           character.race_trait_choice = choices.race.trait;
           character.class_proficiency_choices = choices.class;
-          console.log(character);
+          this.setState({ character, loaded: true });
         })
     }
   }
@@ -150,6 +151,14 @@ class CharacterCreator extends Component {
   }
 
   render() {
+    const { character, loaded } = this.state;
+
+    // Allow the page to load if it is pulling in character data
+    const characterId = this.props.match.params.characterId;
+    if (typeof characterId !== 'undefined' && !loaded) {
+      return <div className="CharacterCreator"></div>
+    }
+
     return (
       <div className="CharacterCreator">
         <SiteNavBar enableSave saveCharacter={this.saveCharacter}/>
@@ -161,13 +170,19 @@ class CharacterCreator extends Component {
             <Col xs={17} md={11}>
               <h1>Character Creator</h1>
               <b>Name: </b>
-              <FormControl id="name" placeholder="Enter Character Name" type="text" onChange={(e) => this.changeCharacter('name', e.target.value)}/>
-              <RaceSection ref={this.state.refs[0]} races={this.state.races} changeCharacter={this.changeCharacter}/>
-              <ClassSection ref={this.state.refs[1]} classes={this.state.classes} changeCharacter={this.changeCharacter}/>
-              <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter}/>
-              <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter}/>
-              <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter}/>
-              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter}/>
+              <FormControl
+                id="name"
+                placeholder="Enter Character Name"
+                type="text"
+                onChange={(e) => this.changeCharacter('name', e.target.value)}
+                defaultValue={character.name}
+              />
+              <RaceSection ref={this.state.refs[0]} races={this.state.races} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <ClassSection ref={this.state.refs[1]} classes={this.state.classes} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter} character={character}/>
             </Col>
           </Row>
         </Grid>

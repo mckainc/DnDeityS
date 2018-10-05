@@ -19,6 +19,9 @@ class ClassDetails extends PureComponent {
         profChoices[i] = new Array(options[i].choose)
         for (let j = 0; j < options[i].choose; j++) {
           profChoices[i][j] = "Choose Another Proficiency"
+          if (props.loaded) {
+            profChoices[i][j] = props.character.class_proficiency_choices[i][j];
+          }
         }
       }
     }
@@ -40,11 +43,16 @@ class ClassDetails extends PureComponent {
         profChoices[i] = new Array(options[i].choose)
         for (let j = 0; j < options[i].choose; j++) {
           profChoices[i][j] = "Choose Another Proficiency"
+          if (nextProps.loaded) {
+            profChoices[i][j] = nextProps.character.class_proficiency_choices[i][j];
+            // TODO This breaks if you change your class
+          }
         }
       }
     }
 
     this.setState({ profChoices, options });
+    this.props.changeCharacter('class_proficiency_choices', profChoices);
   }
 
   // update profChoices when a choice is selected from a dropdown

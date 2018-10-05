@@ -7,8 +7,10 @@ class AbilityScore extends Component {
   constructor(props) {
     super(props);
 
+    const modifier = Math.ceil((props.score - 10) / 2)
+
     this.state = {
-      modifier: -1,
+      modifier,
       score: props.score,
     }
   }

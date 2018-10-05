@@ -26,7 +26,7 @@ class DescriptionSection extends Component {
   }
 
   render () {
-    const { changeCharacter } = this.props;
+    const { changeCharacter, character } = this.props;
     return (
       <div className="DescriptionSection" ref={this.props.innerRef}>
         <CollapsableSection title="Description" open>
@@ -40,6 +40,7 @@ class DescriptionSection extends Component {
                   type="number"
                   placeholder="Enter character's age"
                   onChange={(e) => changeCharacter('age', e.target.value, true)}
+                  defaultValue={character.description.age}
                 />
               </FormGroup>
             </Col>
@@ -52,6 +53,7 @@ class DescriptionSection extends Component {
                   type="text"
                   placeholder="Enter character's gender..."
                   onChange={(e) => changeCharacter('gender', e.target.value, true)}
+                  defaultValue={character.description.gender}
                 />
               </FormGroup>
             </Col>
@@ -64,6 +66,7 @@ class DescriptionSection extends Component {
                   type="text"
                   placeholder="Enter character's homeland..."
                   onChange={(e) => changeCharacter('homeland', e.target.value, true)}
+                  defaultValue={character.description.homeland}
                 />
               </FormGroup>
             </Col>
@@ -76,6 +79,7 @@ class DescriptionSection extends Component {
                   type="text"
                   placeholder="Enter character's faith..."
                   onChange={(e) => changeCharacter('faith', e.target.value, true)}
+                  defaultValue={character.description.faith}
                 />
               </FormGroup>
             </Col>
@@ -84,7 +88,7 @@ class DescriptionSection extends Component {
               <FormGroup>
               <ControlLabel>Alignment</ControlLabel>
               <br></br>
-                <DropdownButton id="alignment" title={this.state.alignment}>
+                <DropdownButton id="alignment" title={this.state.alignment} title={character.description.alignment}>
                   {alignments.map(alignment => (
                     <MenuItem id={alignment} onSelect={this.setAlignment} eventKey={alignment}>{alignment}</MenuItem>
                   ))}
@@ -104,6 +108,7 @@ class DescriptionSection extends Component {
                   componentClass="textarea"
                   placeholder="Enter personality description..."
                   onChange={(e) => changeCharacter('personality', e.target.value, true)}
+                  defaultValue={character.description.personality}
                 />
               </FormGroup>
             </Col>
@@ -116,6 +121,7 @@ class DescriptionSection extends Component {
                   componentClass="textarea"
                   placeholder="Enter appearance description..."
                   onChange={(e) => changeCharacter('appearance', e.target.value, true)}
+                  defaultValue={character.description.appearance}
                 />
               </FormGroup>
             </Col>
@@ -128,6 +134,7 @@ class DescriptionSection extends Component {
                   componentClass="textarea"
                   placeholder="Enter character's backstory..."
                   onChange={(e) => changeCharacter('backstory', e.target.value, true)}
+                  defaultValue={character.description.backstory}
                 />
               </FormGroup>
             </Col>
@@ -142,6 +149,7 @@ class DescriptionSection extends Component {
                   componentClass="textarea"
                   placeholder="Enter character's bonds..."
                   onChange={(e) => changeCharacter('bonds', e.target.value, true)}
+                  defaultValue={character.description.bonds}
                 />
               </FormGroup>
             </Col>
@@ -154,6 +162,7 @@ class DescriptionSection extends Component {
                   componentClass="textarea"
                   placeholder="Enter character's ideals..."
                   onChange={(e) => changeCharacter('ideals', e.target.value, true)}
+                  defaultValue={character.description.ideals}
                 />
               </FormGroup>
             </Col>
@@ -166,6 +175,7 @@ class DescriptionSection extends Component {
                   componentClass="textarea"
                   placeholder="Enter character's flaws..."
                   onChange={(e) => changeCharacter('flaws', e.target.value, true)}
+                  defaultValue={character.description.flaws}
                 />
               </FormGroup>
             </Col>
