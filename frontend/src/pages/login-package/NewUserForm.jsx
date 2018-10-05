@@ -34,6 +34,7 @@ class NewLoginForm extends React.Component {
 
       handleSubmit = event => {
         event.preventDefault();
+        this.props.onSubmit(this.state);
       }
 
       componentWillMount() {

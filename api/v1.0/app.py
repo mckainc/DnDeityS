@@ -188,6 +188,13 @@ def create_character():
 		fields = '('
 		values_list = []
 		try:
+			userId = request.get_json(force=True)['user_id']
+			fields += "UserId, "
+			values += "%s, "
+			values_list.append(userId)
+		except KeyError as e:
+			userId = ''
+		try:
 			name = request.get_json(force=True)['name']
 			fields += "CharacterName, "
 			values += "%s, "
