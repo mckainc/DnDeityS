@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // components
 import { Panel, Button, ButtonToolbar, Col } from 'react-bootstrap';
@@ -14,7 +15,7 @@ class CharacterListItem extends Component {
             <Panel.Body>
               <p><b>Race: </b>{character.race}</p>
               <p><b>Class: </b>{character.class}</p>
-              <Button>Edit</Button>
+              <Button><Link to={'/CharacterCreator/' + character.id}>Edit</Link></Button>
               <Button bsStyle="danger" onClick={() => this.props.deleteCharacter(character.id)}>Delete</Button>
             </Panel.Body>
           </Panel>
