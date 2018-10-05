@@ -14,10 +14,18 @@ class RaceDetails extends PureComponent {
   constructor(props) {
     super(props);
 
+    let pickedLanguage = props.loaded ? props.character.race_language_choice : 'Choose Another Language';
+    let pickedProficiency = props.loaded ? props.character.race_proficiency_choice : 'Choose Another Proficiency';
+    let pickedTrait = props.loaded ? props.character.race_trait_choice : 'Choose Another Trait';
+
+    if (pickedLanguage === '') pickedLanguage = 'Choose Another Language';
+    if (pickedProficiency === '') pickedProficiency = 'Choose Another Proficiency';
+    if (pickedTrait === '') pickedTrait = 'Choose Another Trait';
+
     this.state = {
-      pickedLanguage: 'Choose Another Language',
-      pickedProficiency: 'Choose Another Proficiency',
-      pickedTrait: 'Choose Another Trait',
+      pickedLanguage,
+      pickedProficiency,
+      pickedTrait,
     }
   }
 
