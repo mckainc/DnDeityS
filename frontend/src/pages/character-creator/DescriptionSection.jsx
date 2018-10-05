@@ -22,7 +22,7 @@ class DescriptionSection extends Component {
 
   setAlignment = (alignment) => {
     this.setState({ alignment });
-    this.props.changeCharacter('alignment', alignment);
+    this.props.changeCharacter('alignment', alignment, true);
   }
 
   render () {
@@ -39,7 +39,7 @@ class DescriptionSection extends Component {
                   name="age"
                   type="number"
                   placeholder="Enter character's age"
-                  onChange={(e) => changeCharacter('age', e.target.value)}
+                  onChange={(e) => changeCharacter('age', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -51,7 +51,7 @@ class DescriptionSection extends Component {
                   name="gender"
                   type="text"
                   placeholder="Enter character's gender..."
-                  onChange={(e) => changeCharacter('gender', e.target.value)}
+                  onChange={(e) => changeCharacter('gender', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -63,7 +63,7 @@ class DescriptionSection extends Component {
                   name="homeland"
                   type="text"
                   placeholder="Enter character's homeland..."
-                  onChange={(e) => changeCharacter('homeland', e.target.value)}
+                  onChange={(e) => changeCharacter('homeland', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -75,7 +75,7 @@ class DescriptionSection extends Component {
                   name="faith"
                   type="text"
                   placeholder="Enter character's faith..."
-                  onChange={(e) => changeCharacter('faith', e.target.value)}
+                  onChange={(e) => changeCharacter('faith', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -103,7 +103,7 @@ class DescriptionSection extends Component {
                   name="personality"
                   componentClass="textarea"
                   placeholder="Enter personality description..."
-                  onChange={(e) => changeCharacter('personality', e.target.value)}
+                  onChange={(e) => changeCharacter('personality', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -115,7 +115,7 @@ class DescriptionSection extends Component {
                   name="appearance"
                   componentClass="textarea"
                   placeholder="Enter appearance description..."
-                  onChange={(e) => changeCharacter('appearance', e.target.value)}
+                  onChange={(e) => changeCharacter('appearance', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -127,7 +127,7 @@ class DescriptionSection extends Component {
                   name="backstory"
                   componentClass="textarea"
                   placeholder="Enter character's backstory..."
-                  onChange={(e) => changeCharacter('backstory', e.target.value)}
+                  onChange={(e) => changeCharacter('backstory', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -141,7 +141,7 @@ class DescriptionSection extends Component {
                   name="bonds"
                   componentClass="textarea"
                   placeholder="Enter character's bonds..."
-                  onChange={(e) => changeCharacter('bonds', e.target.value)}
+                  onChange={(e) => changeCharacter('bonds', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -153,7 +153,7 @@ class DescriptionSection extends Component {
                   name="ideals"
                   componentClass="textarea"
                   placeholder="Enter character's ideals..."
-                  onChange={(e) => changeCharacter('ideals', e.target.value)}
+                  onChange={(e) => changeCharacter('ideals', e.target.value, true)}
                 />
               </FormGroup>
             </Col>
@@ -165,7 +165,7 @@ class DescriptionSection extends Component {
                   name="flaws"
                   componentClass="textarea"
                   placeholder="Enter character's flaws..."
-                  onChange={(e) => changeCharacter('flaws', e.target.value)}
+                  onChange={(e) => changeCharacter('flaws', e.target.value, true)}
                 />
               </FormGroup>
             </Col>

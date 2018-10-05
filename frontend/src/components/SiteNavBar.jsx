@@ -20,7 +20,7 @@ class SiteNaveBar extends Component {
           {this.props.enableSave &&
           <Nav pullRight>
             <NavItem>
-              <Button className="save" bsSize="xsmall">Save</Button>
+              <Button className="save" bsSize="xsmall" onClick={this.props.saveCharacter}>Save</Button>
             </NavItem>
           </Nav>
           }

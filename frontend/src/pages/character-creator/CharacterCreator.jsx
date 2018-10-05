@@ -33,7 +33,8 @@ class CharacterCreator extends Component {
     }
 
     this.state = {
-      character: {},
+      character: { description: {} },
+      characterId: null,
       refs: refs.slice(),
       races: new Map(),
       classes: new Map(),
@@ -92,15 +93,43 @@ class CharacterCreator extends Component {
       });
   }
 
-  changeCharacter = (property, value) => {
+  changeCharacter = (property, value, isDescription) => {
     const { character } = this.state;
-    character[property] = value;
+    if (isDescription === true) {
+      character['description'][property] = value;
+    } else {
+      character[property] = value;
+    }
+  }
+
+  saveCharacter = () => {
+    const { character } = this.state;
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    localStorage.setItem('user_id', 3) // Delete this
+    const userId = localStorage.getItem('user_id');
+    character['user_id'] = userId;
+
+    if (this.state.characterId !== null) {
+      // Update character
+      server.patch('/character/' + this.state.characterId, JSON.stringify(character));
+      return;
+    }
+
+    // Create character
+    server.post('/character', JSON.stringify(character))
+      .then(response => {
+        const characterId = response.data.CharacterId;
+        this.setState({ characterId });
+      })
   }
 
   render() {
     return (
       <div className="CharacterCreator">
-        <SiteNavBar enableSave/>
+        <SiteNavBar enableSave saveCharacter={this.saveCharacter}/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
