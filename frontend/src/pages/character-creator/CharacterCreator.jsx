@@ -182,7 +182,7 @@ class CharacterCreator extends Component {
               <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter}/>
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter}/>
-              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter}/>
+              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter} character={character}/>
             </Col>
           </Row>
         </Grid>
