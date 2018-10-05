@@ -163,6 +163,7 @@ def get_characters(user_id):
 @app.route('/character', methods=['POST'])
 def create_character():
 	try:
+		user_id = request.get_json(force=True)['user_id']
 		name = request.get_json(force=True)['name']
 		race = request.get_json(force=True)['race']
 		dnd_class = request.get_json(force=True)['class']
@@ -184,9 +185,9 @@ def create_character():
 		cur.execute("select ClassId from classes where ClassName = %s", (dnd_class,))
 		class_id = cur.fetchall()[0][0]
 		query = "insert into characters "
-		query += "(RaceId, ClassId, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterSpells, CharacterDescription) "
-		query += "values (%s, %s, %s, 0, 0, 0, %s, '0', %s, %s, %s, %s)"
-		cur.execute(query, (race_id, class_id, name, json.dumps(ability_scores), json.dumps(equipment), json.dumps(choices), json.dumps(spells), json.dumps(description)))
+		query += "(UserId, RaceId, ClassId, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterSpells, CharacterDescription) "
+		query += "values (%s, %s, %s, %s, 0, 0, 0, %s, '0', %s, %s, %s, %s)"
+		cur.execute(query, (user_id, race_id, class_id, name, json.dumps(ability_scores), json.dumps(equipment), json.dumps(choices), json.dumps(spells), json.dumps(description)))
 		db.commit()
 		cur.execute("select CharacterId from characters where CharacterName = %s", (name,))
 		return make_response(jsonify({'CharacterId': cur.fetchall()[0][0]}), 200)
