@@ -37,11 +37,19 @@ def authenticate_user():
 		cur.execute("select * from users where UserName = %s", (username,))
 		for row in cur.fetchall():
 			if row[2] == password:
+				cur.close()
+				db.close()
 				return make_response(jsonify({'UserId': row[0]}), 200)
+			cur.close()
+			db.close()
 			return make_response(jsonify({'error': 'bad password', 'user_id': row[0]}), 400)
+		cur.close()
+		db.close()
 		return make_response(jsonify({'error': 'bad username'}), 400)
 
 	except KeyError as e:
+		cur.close()
+		db.close()
 		abort(500)
 
 @app.route('/user', methods=['POST'])
@@ -75,6 +83,8 @@ def create_user():
 			db.close()
 			return make_response(jsonify(row), 200)
 	except KeyError as e:
+		cur.close()
+		db.close()
 		abort(500)
 
 @app.route('/user/<int:user_id>', methods=['PATCH'])
@@ -106,6 +116,8 @@ def update_user(user_id):
 
 	cur.execute(query, tuple(values_list))
 	db.commit()
+	cur.close()
+	db.close()
 	return make_response(jsonify({'UserId': user_id}), 200)
 
 
@@ -126,12 +138,12 @@ def get_user(username):
 def reset_password(user_id):
 	try:
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+		cur = db.cursor()
+
 		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 		server.login(email_username, email_password)
 		message = '\nClick this link in order to reset your password: http://localhost:3000/ChangePassword/' + str(user_id)
 		message += '\n\nIf you did not request a password reset, please ignore this message\n'
-
-		cur = db.cursor()
 		cur.execute('select UserEmail from users where UserId = %s', (user_id,))
 		# print(cur.fetchall(), file=sys.stderr)
 		msg = MIMEMultipart()
@@ -141,8 +153,12 @@ def reset_password(user_id):
 		msg.attach(MIMEText(message, 'plain'))
 
 		server.send_message(msg)
+		cur.close()
+		db.close()
 		return make_response(jsonify({'email_sent': 'true'}), 200)
 	except Exception as e:
+		cur.close()
+		db.close()
 		return make_response(jsonify({'error_sending_email': str(e)}), 500)
 
 @app.route('/characters/<int:user_id>', methods=['GET'])
@@ -260,9 +276,13 @@ def create_character():
 
 		cur.execute(query, tuple(values_list))
 		db.commit()
+		cur.close()
+		db.close()
 		return make_response(jsonify({'CharacterId': cur.lastrowid}), 200)
 
 	except Exception as e:
+		cur.close()
+		db.close()
 		return make_response(jsonify({'error': str(e)}), 500)
 
 @app.route('/character/<int:character_id>', methods=['GET', 'PATCH', 'DELETE'])
@@ -272,7 +292,11 @@ def get_update_delete_character(character_id):
 		cur = db.cursor()
 		cur.execute('select CharacterId, UserId, races.RaceName, classes.ClassName, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterId = %s', (character_id,))
 		for row in cur.fetchall():
+			cur.close()
+			db.close()
 			return make_response(jsonify(row), 200)
+		cur.close()
+		db.close()
 		return make_response(jsonify({'error': 'no character with that id'}), 500)
 	if request.method == 'DELETE':
 		try:
@@ -280,8 +304,12 @@ def get_update_delete_character(character_id):
 			cur = db.cursor()
 			cur.execute('delete from characters where CharacterId = %s', (character_id,))
 			db.commit()
+			cur.close()
+			db.close()
 			return make_response(jsonify({'deleted_character': character_id}), 200)
 		except Exception as e:
+			cur.close()
+			db.close()
 			return make_response(jsonify({'error': str(e)}), 500)
 	if request.method == 'PATCH':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
@@ -368,6 +396,8 @@ def get_update_delete_character(character_id):
 
 		cur.execute(query, tuple(values_list))
 		db.commit()
+		cur.close()
+		db.close()
 		return make_response(jsonify({'CharacterId': character_id}), 200)
 
 @app.route('/spells', methods=['GET'])
