@@ -24,8 +24,13 @@ class SpellSection extends Component {
   constructor(props) {
     super(props);
 
+    let knownSpells = new Map();
+    if (props.loaded) {
+      props.character.spells.forEach(spell => knownSpells = knownSpells.set(spell.name, spell))
+    }
+
     this.state = {
-      knownSpells: new Map(),
+      knownSpells,
     }
   }
 
