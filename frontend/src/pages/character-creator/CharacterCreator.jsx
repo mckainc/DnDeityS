@@ -91,6 +91,30 @@ class CharacterCreator extends Component {
         });
         this.setState({ spells });
       });
+    
+    // load character data, if any
+    const characterId = this.props.match.params.characterId;
+    if (typeof characterId !== 'undefined') {
+      this.setState({ characterId });
+      server.get('/character/' + characterId)
+        .then(response => {
+          const character = {};
+          character.race = response.data[2];
+          character.class = response.data[3];
+          character.name = response.data[4];
+          character.ability_scores = JSON.parse(response.data[8]);
+          character.inventory = JSON.parse(response.data[10]);
+          character.spells = JSON.parse(response.data[13]);
+          character.description = JSON.parse(response.data[14]);
+          
+          const choices = JSON.parse(response.data[11]);
+          character.race_language_choice = choices.race.language;
+          character.race_proficiency_choice = choices.race.proficiency;
+          character.race_trait_choice = choices.race.trait;
+          character.class_proficiency_choices = choices.class;
+          console.log(character);
+        })
+    }
   }
 
   changeCharacter = (property, value, isDescription) => {
