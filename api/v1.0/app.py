@@ -270,7 +270,7 @@ def get_update_delete_character(character_id):
 	if request.method == 'GET':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
-		cur.execute('select * from characters where CharacterId = %s', (character_id,))
+		cur.execute('select CharacterId, UserId, races.RaceName, classes.ClassName, CharacerName, CharacterExperience, CharacterHp, CharacterMax, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterId = %s', (character_id,))
 		for row in cur.fetchall():
 			return make_response(jsonify(row), 200)
 		return make_response(jsonify({'error': 'no character with that id'}), 500)
