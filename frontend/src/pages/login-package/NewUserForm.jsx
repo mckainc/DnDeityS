@@ -36,7 +36,12 @@ class NewLoginForm extends React.Component {
         event.preventDefault();
       }
 
-
+      componentWillMount() {
+        const server = axios.create({
+          baseURL: serverURL,
+        });
+        
+      }
     
     
       render() {

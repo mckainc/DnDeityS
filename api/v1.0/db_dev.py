@@ -4,5 +4,5 @@ email_password	= 'Password789!'
 
 db_dnd_host 	= '127.0.0.1'
 db_dnd_user 	= 'root'
-db_dnd_password = 'password'
+db_dnd_password = 'Wychesofspike8'
 db_dnd 			= 'dnd'

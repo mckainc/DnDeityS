@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button } from 'react-bootstrap';
+import { Panel, Button } from 'react-bootstrap';
 
 import NewLoginForm from "./NewLoginForm"
 import { Link } from 'react-router-dom'
@@ -17,20 +17,22 @@ class Login extends Component {
     render(){
         return (
             <div className="Login">
+                <div className="bg"/>
+                <Panel>
                 <h1>Welcome to DnDeity</h1>
                 <h2>Please enter your login</h2>
                 <NewLoginForm />
 
                 <div id="wrapper">
                     <Link to="/NewUser">
-                        <Button onClick>New User</Button>
+                        Register
                      </Link>
-
+<br />
                     <Link to="/ForgottenPassword">
-                        <Button onClick>Forgot Password?</Button>
+                         Forgot Password?
                     </Link>
                 </div>
-
+                </Panel>
             </div>
             
         );

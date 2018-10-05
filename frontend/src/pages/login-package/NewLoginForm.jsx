@@ -3,6 +3,7 @@ import { FormGroup, ControlLabel, FormControl, HelpBlock, Button } from 'react-b
 import axios from 'axios';
 
 
+
 class NewLoginForm extends React.Component {
 
     constructor(props) {
@@ -30,6 +31,7 @@ class NewLoginForm extends React.Component {
     
       render() {
         return (
+          
           <form onSubmit={this.handleSubmit}>
               <FormGroup controlId="username" bsSize="large">
                 <ControlLabel>User Name</ControlLabel>
@@ -63,6 +65,7 @@ class NewLoginForm extends React.Component {
 
             
           </form>
+          
         );
       }
 }
