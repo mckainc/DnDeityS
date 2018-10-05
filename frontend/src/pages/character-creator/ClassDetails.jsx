@@ -43,7 +43,7 @@ class ClassDetails extends PureComponent {
         profChoices[i] = new Array(options[i].choose)
         for (let j = 0; j < options[i].choose; j++) {
           profChoices[i][j] = "Choose Another Proficiency"
-          if (props.loaded) {
+          if (nextProps.loaded) {
             profChoices[i][j] = nextProps.character.class_proficiency_choices[i][j];
             // TODO This breaks if you change your class
           }

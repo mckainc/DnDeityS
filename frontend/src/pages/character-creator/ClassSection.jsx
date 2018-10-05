@@ -27,6 +27,9 @@ class ClassSection extends Component {
 
   render() {
 		const { classes } = this.props;
+		if (classes.size === 0) {
+			return <div></div>
+		}
     return (
       <div className="ClassSection" ref={this.props.innerRef}>
         <CollapsableSection title="Class" open={true}>

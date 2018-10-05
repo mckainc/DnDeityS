@@ -179,7 +179,7 @@ class CharacterCreator extends Component {
               />
               <RaceSection ref={this.state.refs[0]} races={this.state.races} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <ClassSection ref={this.state.refs[1]} classes={this.state.classes} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
-              <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter}/>
+              <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter}/>
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter}/>
               <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter}/>
