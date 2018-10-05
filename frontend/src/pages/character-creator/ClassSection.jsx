@@ -10,15 +10,16 @@ class ClassSection extends Component {
 	constructor(props) {
 		super(props);
 
+		const currentClass = props.loaded ? props.character.class : 'none';
+
 		this.state = {
-				currentClass: 'none',
+				currentClass,
 		}
 	}
 	
 	handleClassChange = (e) => {
-		let currentClass = this.props.classes.get(e);
-		this.setState({ currentClass });
-		this.props.changeCharacter('class', currentClass.name);
+		this.setState({ currentClass: e });
+		this.props.changeCharacter('class', e);
 
 		// reset proficiency choices
 		this.props.changeCharacter('class_proficiency_choices', 'none');
@@ -30,7 +31,7 @@ class ClassSection extends Component {
       <div className="ClassSection" ref={this.props.innerRef}>
         <CollapsableSection title="Class" open={true}>
           <ToggleButtonGroup
-						value={this.state.currentClass.name}
+						value={this.state.currentClass}
 						type="radio"
 						name="class-options"
 						onChange={this.handleClassChange}
@@ -39,7 +40,13 @@ class ClassSection extends Component {
 							<ToggleButton value={currentClass.name}>{currentClass.name}</ToggleButton>
 						))}
           </ToggleButtonGroup>
-					{this.state.currentClass !== 'none' && <ClassDetails currentClass={this.state.currentClass} changeCharacter={this.props.changeCharacter}/>}
+					{this.state.currentClass !== 'none' &&
+						<ClassDetails
+							currentClass={this.props.classes.get(this.state.currentClass)}
+							changeCharacter={this.props.changeCharacter}
+							loaded={this.props.loaded}
+							character={this.props.character}
+						/>}
         </CollapsableSection>
       </div>
     );
