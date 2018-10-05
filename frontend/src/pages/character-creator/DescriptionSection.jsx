@@ -15,8 +15,11 @@ class DescriptionSection extends Component {
   constructor(props) {
     super(props);
 
+    let alignment = props.character.description.alignment;
+    if (typeof alignment === 'undefined') alignment = 'Choose an Alignment';
+
     this.state = {
-      alignment: 'Choose an Alignment'
+      alignment,
     }
   }
 
@@ -88,7 +91,7 @@ class DescriptionSection extends Component {
               <FormGroup>
               <ControlLabel>Alignment</ControlLabel>
               <br></br>
-                <DropdownButton id="alignment" title={this.state.alignment} title={character.description.alignment}>
+                <DropdownButton id="alignment" title={this.state.alignment}>
                   {alignments.map(alignment => (
                     <MenuItem id={alignment} onSelect={this.setAlignment} eventKey={alignment}>{alignment}</MenuItem>
                   ))}

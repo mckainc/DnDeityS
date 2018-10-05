@@ -12,7 +12,8 @@ class ScoreSection extends Component {
   constructor(props) {
     super(props);
 
-    const points = props.loaded ? props.character.ability_scores : ['8', '8', '8', '8', '8', '8'];
+    let points = props.loaded ? props.character.ability_scores : ['8', '8', '8', '8', '8', '8'];
+    if (points === null) points = ['8', '8', '8', '8', '8', '8'];
 
     this.state = {
       manual: true,
