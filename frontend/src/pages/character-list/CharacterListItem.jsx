@@ -15,7 +15,7 @@ class CharacterListItem extends Component {
               <p><b>Race: </b>{character.race}</p>
               <p><b>Class: </b>{character.class}</p>
               <Button>Edit</Button>
-              <Button bsStyle="danger">Delete</Button>
+              <Button bsStyle="danger" onClick={() => this.props.deleteCharacter(character.id)}>Delete</Button>
             </Panel.Body>
           </Panel>
         </Col>
