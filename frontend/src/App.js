@@ -11,6 +11,7 @@ import HomePage from './pages/home/HomePage'
 import NewUser from './pages/login-package/NewUser';
 import ForgottenPassword from './pages/login-package/ForgottenPassword';
 import ChangePassword from './pages/login-package/ChangePassword';
+import MapMaker from './pages/map-maker/MapMaker';
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
           <Route exact path="/NewUser" component={NewUser} />
           <Route exact path="/ForgottenPassword" component={ForgottenPassword} />
           <Route path="/ChangePassword/:user" component={ChangePassword} />
+          <Route exact path="/MapMaker" component={MapMaker} />
         </div>
       </Router>
     );
