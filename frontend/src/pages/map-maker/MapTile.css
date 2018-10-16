@@ -1,0 +1,12 @@
+.MapTile {
+  display: inline-block;
+  border-right: solid black 1px;
+  border-bottom: solid black 1px;
+
+  width: 10rem;
+  height: 10rem;
+  min-width: 10rem;
+  min-height: 10rem;
+
+  background-color: #F1F1F1;
+}
