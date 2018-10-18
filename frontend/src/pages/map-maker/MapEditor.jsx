@@ -14,11 +14,16 @@ class MapEditor extends Component {
 
     this.state = {
       selectedTool: 'draw',
+      selectedLayer: 'tiles',
     }
   }
 
   changeTool = (selectedTool) => {
     this.setState({ selectedTool });
+  }
+
+  changeLayer = (selectedLayer) => {
+    this.setState({ selectedLayer });
   }
 
   render() {
@@ -28,7 +33,7 @@ class MapEditor extends Component {
           <IconToolbar changeTool={this.changeTool} selectedTool={this.state.selectedTool} />
         </Col>
         <Col md={9}>
-          <LayerToolbar />
+          <LayerToolbar changeLayer={this.changeLayer} selectedLayer={this.state.selectedLayer} />
           <MapGrid x={25} y={25} selectedTool={this.state.selectedTool} />
         </Col>
         <Col md={2}>
