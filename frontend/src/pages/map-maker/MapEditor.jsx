@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // components
 import IconToolbar from './IconToolbar';
+import LayerToolbar from './LayerToolbar';
 import MapGrid from './MapGrid';
 import TileSelector from './TileSelector';
 
@@ -27,6 +28,7 @@ class MapEditor extends Component {
           <IconToolbar changeTool={this.changeTool} selectedTool={this.state.selectedTool} />
         </Col>
         <Col md={9}>
+          <LayerToolbar />
           <MapGrid x={25} y={25} selectedTool={this.state.selectedTool} />
         </Col>
         <Col md={2}>
