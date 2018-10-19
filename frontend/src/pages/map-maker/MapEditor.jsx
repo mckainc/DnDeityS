@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 // components
+import SettingsModal from './SettingsModal';
 import IconToolbar from './IconToolbar';
 import LayerToolbar from './LayerToolbar';
 import MapGrid from './MapGrid';
@@ -15,7 +16,18 @@ class MapEditor extends Component {
     this.state = {
       selectedTool: 'draw',
       selectedLayer: 'tiles',
+      showSettings: false,
+      x: 25,
+      y: 25,
     }
+  }
+
+  handleSettingsClose = (width, height) => {
+    this.setState({ x: width, y: height, showSettings: false });
+  }
+
+  toggleModal = () => {
+    this.setState({ showSettings: true });
   }
 
   changeTool = (selectedTool) => {
@@ -29,12 +41,18 @@ class MapEditor extends Component {
   render() {
     return (
       <div className="MapEditor">
+        <SettingsModal
+          showSettings={this.state.showSettings}
+          handleSettingsClose={this.handleSettingsClose}
+          x={this.state.x}
+          y={this.state.y}
+        />
         <Col md={1}>
           <IconToolbar changeTool={this.changeTool} selectedTool={this.state.selectedTool} />
         </Col>
         <Col md={9}>
-          <LayerToolbar changeLayer={this.changeLayer} selectedLayer={this.state.selectedLayer} />
-          <MapGrid x={25} y={25} selectedTool={this.state.selectedTool} />
+          <LayerToolbar changeLayer={this.changeLayer} selectedLayer={this.state.selectedLayer} toggleModal={this.toggleModal} />
+          <MapGrid x={this.state.x} y={this.state.y} selectedTool={this.state.selectedTool} selectedLayer={this.state.selectedLayer} />
         </Col>
         <Col md={2}>
           <TileSelector />

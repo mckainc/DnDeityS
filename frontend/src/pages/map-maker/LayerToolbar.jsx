@@ -21,7 +21,7 @@ class LayerToolbar extends Component {
             <Button onClick={() => changeLayer('events')} active={selectedLayer === 'events'}>
               <i className="fas fa-exclamation" /> Events
             </Button>
-            <Button className="settings"><i className="fas fa-cog" /> Settings</Button>
+            <Button className="settings" onClick={this.props.toggleModal}><i className="fas fa-cog" /> Settings</Button>
           </Panel.Body>
         </Panel>
       </div>
