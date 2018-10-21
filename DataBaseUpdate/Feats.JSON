@@ -366,7 +366,7 @@
 
        {
         "id": 30,
-        "name": " Spell Sniper",
+        "name": "Spell Sniper",
         "PreReq": "The ability to cast at least one spell",
         "Ability Improvement": "None",
         "Description": {
