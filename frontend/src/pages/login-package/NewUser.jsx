@@ -7,6 +7,9 @@ import NewUserForm from "./NewUserForm.jsx"
 import { Redirect } from 'react-router-dom'
 
 import "./NewUserForm.css"
+import { Panel } from 'react-bootstrap';
+
+import "./NewUser.css"
 
 class NewUser extends Component {
     constructor(props) {
@@ -49,7 +52,10 @@ class NewUser extends Component {
     
         return (
             <div className="NewUser">
+                <div className="bg"/>
+                <Panel>
                 <NewUserForm onSubmit={this.onSubmit} />
+                </Panel>
             </div>
         );
     }

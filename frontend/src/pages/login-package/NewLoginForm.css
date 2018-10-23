@@ -26,6 +26,8 @@
         text-align: center;
         border-radius: 2rem;
         min-width: 35rem;
+        border-bottom-width: 2rem;
+        border-color: #FAFAFA;
     }
 
     .Login .panel button {

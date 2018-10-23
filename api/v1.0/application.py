@@ -10,24 +10,24 @@ from email.mime.text import MIMEText
 import json
 import sys
 
-app = Flask(__name__)
-CORS(app)
+application = Flask(__name__)
+CORS(application)
 
 # check if in production or development
-if app.config['ENV'] == 'development':
+if application.config['ENV'] == 'development':
 	from db_dev import *
 else:
 	from db_prod import *
 
-@app.route('/')
+@application.route('/')
 def index():
     return "Hello, World!"
 
-@app.errorhandler(404)
+@application.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
-@app.route('/authenticate', methods=['POST'])
+@application.route('/authenticate', methods=['POST'])
 def authenticate_user():
 	try:
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
@@ -52,7 +52,7 @@ def authenticate_user():
 		db.close()
 		abort(500)
 
-@app.route('/user', methods=['POST'])
+@application.route('/user', methods=['POST'])
 def create_user():
 	try:
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
@@ -87,7 +87,7 @@ def create_user():
 		db.close()
 		abort(500)
 
-@app.route('/user/<int:user_id>', methods=['PATCH'])
+@application.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -121,7 +121,7 @@ def update_user(user_id):
 	return make_response(jsonify({'UserId': user_id}), 200)
 
 
-@app.route('/user/<string:username>', methods=['GET'])
+@application.route('/user/<string:username>', methods=['GET'])
 def get_user(username):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -134,7 +134,7 @@ def get_user(username):
 	db.close()
 	return make_response(jsonify({'error': 'No User'}), 500)
 
-@app.route('/user/<int:user_id>/resetpassword', methods=['POST'])
+@application.route('/user/<int:user_id>/resetpassword', methods=['POST'])
 def reset_password(user_id):
 	try:
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
@@ -161,7 +161,7 @@ def reset_password(user_id):
 		db.close()
 		return make_response(jsonify({'error_sending_email': str(e)}), 500)
 
-@app.route('/characters/<int:user_id>', methods=['GET'])
+@application.route('/characters/<int:user_id>', methods=['GET'])
 def get_characters(user_id):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -178,7 +178,7 @@ def get_characters(user_id):
 	else:
 		return make_response(jsonify(returned), 200)
 
-@app.route('/character', methods=['POST'])
+@application.route('/character', methods=['POST'])
 def create_character():
 	try:
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
@@ -292,7 +292,7 @@ def create_character():
 		db.close()
 		return make_response(jsonify({'error': str(e)}), 500)
 
-@app.route('/character/<int:character_id>', methods=['GET', 'PATCH', 'DELETE'])
+@application.route('/character/<int:character_id>', methods=['GET', 'PATCH', 'DELETE'])
 def get_update_delete_character(character_id):
 	if request.method == 'GET':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
@@ -407,7 +407,7 @@ def get_update_delete_character(character_id):
 		db.close()
 		return make_response(jsonify({'CharacterId': character_id}), 200)
 
-@app.route('/spells', methods=['GET'])
+@application.route('/spells', methods=['GET'])
 def get_spells():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -422,7 +422,7 @@ def get_spells():
 	else:
 		return make_response(jsonify(returned))
 
-@app.route('/equipment', methods=['GET'])
+@application.route('/equipment', methods=['GET'])
 def get_equipment():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -437,7 +437,7 @@ def get_equipment():
 	else:
 		return make_response(jsonify(returned))
 
-@app.route('/classes', methods=['GET'])
+@application.route('/classes', methods=['GET'])
 def get_classes():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -452,7 +452,7 @@ def get_classes():
 	else:
 		return make_response(jsonify(returned))
 
-@app.route('/races', methods=['GET'])
+@application.route('/races', methods=['GET'])
 def get_races():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -467,7 +467,7 @@ def get_races():
 	else:
 		return make_response(jsonify(returned))
 
-@app.route('/monsters', methods=['GET'])
+@application.route('/monsters', methods=['GET'])
 def get_monsters():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
@@ -483,4 +483,4 @@ def get_monsters():
 		return make_response(jsonify(returned))
 	
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
