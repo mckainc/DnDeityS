@@ -6,6 +6,7 @@ import IconToolbar from './IconToolbar';
 import LayerToolbar from './LayerToolbar';
 import MapGrid from './MapGrid';
 import TileSelector from './TileSelector';
+import EventEditor from './EventEditor';
 
 import { Col } from 'react-bootstrap';
 
@@ -39,13 +40,14 @@ class MapEditor extends Component {
   }
 
   render() {
+    const { selectedLayer, showSettings, x, y } = this.state;
     return (
       <div className="MapEditor">
         <SettingsModal
-          showSettings={this.state.showSettings}
+          showSettings={showSettings}
           handleSettingsClose={this.handleSettingsClose}
-          x={this.state.x}
-          y={this.state.y}
+          x={x}
+          y={y}
         />
         <Col md={1}>
           <IconToolbar changeTool={this.changeTool} selectedTool={this.state.selectedTool} />
@@ -55,7 +57,8 @@ class MapEditor extends Component {
           <MapGrid x={this.state.x} y={this.state.y} selectedTool={this.state.selectedTool} selectedLayer={this.state.selectedLayer} />
         </Col>
         <Col md={2}>
-          <TileSelector />
+          {selectedLayer === 'tiles' && <TileSelector />}
+          {selectedLayer === 'events' && <EventEditor />}
         </Col>
       </div>
     )
