@@ -11,8 +11,8 @@ class MapGrid extends PureComponent {
   render() {
     const { x, y } = this.props;
 
-    const rows = new Array(y);
-    const cols = new Array(x);
+    const rows = new Array(parseInt(y));
+    const cols = new Array(parseInt(x));
 
     return (
       <div className="MapGrid">
