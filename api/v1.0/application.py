@@ -173,6 +173,7 @@ def get_characters(user_id):
 		returned.append(row)
 	cur.close()
 	db.close()
+	return make_response(jsonify(returned), 200)
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Characters'}), 500)
 	else:
@@ -414,9 +415,6 @@ def get_spells():
 	cur.execute('select * from spells')
 	returned = []
 	for row in cur:
-#		crowl = list(row)
-#		desc = json.loads(rowl[2])
-#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
@@ -432,9 +430,6 @@ def get_equipment():
 	cur.execute('select * from equipments')
 	returned = []
 	for row in cur:
-#		rowl = list(row)
-#		desc = json.loads(rowl[2])
-#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
@@ -450,9 +445,6 @@ def get_classes():
 	cur.execute('select * from classes')
 	returned = []
 	for row in cur:
-#		rowl = list(row)
-#		desc = json.loads(rowl[2])
-#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
@@ -468,9 +460,6 @@ def get_races():
 	cur.execute('select * from races')
 	returned = []
 	for row in cur:
-#		rowl = list(row)		
-#		desc = json.loads(rowl[2])
-#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
