@@ -414,6 +414,9 @@ def get_spells():
 	cur.execute('select * from spells')
 	returned = []
 	for row in cur:
+#		crowl = list(row)
+#		desc = json.loads(rowl[2])
+#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
@@ -429,6 +432,9 @@ def get_equipment():
 	cur.execute('select * from equipments')
 	returned = []
 	for row in cur:
+#		rowl = list(row)
+#		desc = json.loads(rowl[2])
+#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
@@ -444,6 +450,9 @@ def get_classes():
 	cur.execute('select * from classes')
 	returned = []
 	for row in cur:
+#		rowl = list(row)
+#		desc = json.loads(rowl[2])
+#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
@@ -459,6 +468,9 @@ def get_races():
 	cur.execute('select * from races')
 	returned = []
 	for row in cur:
+#		rowl = list(row)		
+#		desc = json.loads(rowl[2])
+#		rowl[2] = desc
 		returned.append(row)
 	cur.close()
 	db.close()
