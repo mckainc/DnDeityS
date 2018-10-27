@@ -37,7 +37,7 @@ except Exception, e:
 # Truncate (empty) table
 try:
     print('\nTruncating Equipments table...')
-    cursor.execute('TRUNCATE TABLE Equipments')
+    cursor.execute('TRUNCATE TABLE equipments')
     print('Done.')
 except Exception, e:
     print('Error truncating Equipments table: {0}'.format(e))
@@ -58,8 +58,8 @@ for equipment in data['results']:
 
     # Insert equipment data into table
     try:
-        query = 'INSERT INTO Equipments(EquipmentName, EquipmentData) values(%s, %s);'
-        rows = cursor.execute(query, (equipment['name'], e_data))
+        query = 'INSERT INTO equipments(EquipmentName, EquipmentData) values(%s, %s);'
+        rows = cursor.execute(query, (equipment['name'], json.dumps(e_data)))
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Equipments table: {0}'.format(e))
@@ -93,7 +93,7 @@ except Exception, e:
 # Truncate (empty) table
 try:
     print('\nTruncating Classes table...')
-    cursor.execute('TRUNCATE TABLE Classes')
+    cursor.execute('TRUNCATE TABLE classes')
     print('Done.')
 except Exception, e:
     print('Error truncating classes table: {0}'.format(e))
@@ -114,8 +114,8 @@ for _class in data['results']:
 
     # Insert monster data into table
     try:
-        query = 'INSERT INTO Classes(ClassName, ClassData) values(%s, %s);'
-        rows = cursor.execute(query, (_class['name'], c_data))
+        query = 'INSERT INTO classes(ClassName, ClassData) values(%s, %s);'
+        rows = cursor.execute(query, (_class['name'], json.dumps(c_data)))
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Classs table: {0}'.format(e))
@@ -144,7 +144,7 @@ except Exception, e:
 # Truncate (empty) table
 try:
     print('\nTruncating Races table...')
-    cursor.execute('TRUNCATE TABLE Races')
+    cursor.execute('TRUNCATE TABLE races')
     print('Done.')
 except Exception, e:
     print('Error truncating races table: {0}'.format(e))
@@ -165,8 +165,8 @@ for race in data['results']:
 
     # Insert race data into table
     try:
-        query = 'INSERT INTO Races(RaceName, RaceData) values(%s, %s);'
-        rows = cursor.execute(query, (race['name'], r_data))
+        query = 'INSERT INTO races(RaceName, RaceData) values(%s, %s);'
+        rows = cursor.execute(query, (race['name'], json.dumps(r_data)))
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Races table: {0}'.format(e))
@@ -198,7 +198,7 @@ except Exception, e:
 # Truncate (empty) table
 try:
     print('\nTruncating Spells table...')
-    cursor.execute('TRUNCATE TABLE Spells')
+    cursor.execute('TRUNCATE TABLE spells')
     print('Done.')
 except Exception, e:
     print('Error truncating spells table: {0}'.format(e))
@@ -219,8 +219,8 @@ for spell in data['results']:
 
     # Insert spell data into table
     try:
-        query = 'INSERT INTO Spells(SpellName, SpellData) values(%s, %s);'
-        rows = cursor.execute(query, (spell['name'], s_data))
+        query = 'INSERT INTO spells(SpellName, SpellData) values(%s, %s);'
+        rows = cursor.execute(query, (spell['name'], json.dumps(s_data)))
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Spells table: {0}'.format(e))
@@ -248,8 +248,8 @@ except Exception, e:
 
 # Truncate (empty) table
 try:
-    print('\nTruncating Monsters table...')
-    cursor.execute('TRUNCATE TABLE Monsters')
+    print('\nTruncating monsters table...')
+    cursor.execute('TRUNCATE TABLE monsters')
     print('Done.')
 except Exception, e:
     print('Error truncating monsters table: {0}'.format(e))
@@ -270,8 +270,8 @@ for monster in data['results']:
 
     # Insert monster data into table
     try:
-        query = 'INSERT INTO Monsters(MonsterName, MonsterData) values(%s, %s);'
-        rows = cursor.execute(query, (monster['name'], m_data))
+        query = 'INSERT INTO monsters(MonsterName, MonsterData) values(%s, %s);'
+        rows = cursor.execute(query, (monster['name'], json.dumps(m_data)))
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Monsters table: {0}'.format(e))
