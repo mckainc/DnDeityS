@@ -37,7 +37,7 @@ class LevelUpConfermation extends React.Component {
         return (
             <div className="LUC">
                 <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShow}>
-                    Level Up asd asdasd
+                    Level Up
                 </Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>

@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 
 import './SiteNavBar.css';
+import '../components/LevelUpConfermation'
+import LevelUpConfermation from '../components/LevelUpConfermation';
 
 class SiteNaveBar extends Component {
   render() {
@@ -19,6 +21,9 @@ class SiteNaveBar extends Component {
           </Nav>
           {this.props.enableSave &&
           <Nav pullRight>
+            <NavItem>
+                <LevelUpConfermation/>
+            </NavItem>
             <NavItem>
               <Button className="save" bsSize="xsmall" onClick={this.props.saveCharacter}>Save</Button>
             </NavItem>
