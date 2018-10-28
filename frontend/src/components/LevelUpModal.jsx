@@ -10,11 +10,12 @@ class LevelUpModal extends React.Component {
     constructor(props, context){
         super(props, context);
 
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleShowP1 = this.handleShowP1.bind(this);
+        this.handleCloseP1 = this.handleCloseP1.bind(this);
 
         this.state = {
-            show: false,
+            showP1: false,
+            showp2: false,
         }
     }
 
@@ -24,22 +25,22 @@ class LevelUpModal extends React.Component {
         });
     }
 
-    handleShow() {
-        this.setState({ show: true});
+    handleShowP1() {
+        this.setState({ showP1: true});
     }
 
-    handleClose() {
-        this.setState({show: false});
+    handleCloseP1() {
+        this.setState({showP1: false});
     }
 
     render(){
         return (
             <div>
-                 <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShow}>
+                 <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShowP1}>
                     Level Up
                 </Button>
 
-                <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal show={this.state.showP1} onHide={this.handleCloseP1}>
                     <Modal.Header closeButton>
                         <Modal.Title>Level Up</Modal.Title>
                     </Modal.Header>
@@ -49,11 +50,17 @@ class LevelUpModal extends React.Component {
                         <p1>were are on the levelup modal</p1>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
+                        <Button onClick={this.handleCloseP1}>Close</Button>
                     </Modal.Footer>
                 </Modal>
+        
+                <Modal show={this.state.showP2}>
+                    <Modal.Body>
+                        <p1>Hey there from P2</p1>
+                    </Modal.Body>
+                </Modal>
             </div>
-        )
+        );
     }
 }
 
