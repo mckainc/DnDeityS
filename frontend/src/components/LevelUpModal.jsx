@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { Modal } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 
-import serverURL from '../../objects/url.js';
+import serverURL from '../objects/url.js';
 
 
 class LevelUpModal extends React.Component {
     constructor(props, context){
         super(props, context);
 
-        this.handleOpen = this.handleOpen.bind(this);
+        this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
 
         this.state = {
@@ -24,7 +24,7 @@ class LevelUpModal extends React.Component {
         });
     }
 
-    handleOpen() {
+    handleShow() {
         this.setState({ show: true});
     }
 
@@ -35,12 +35,21 @@ class LevelUpModal extends React.Component {
     render(){
         return (
             <div>
+                 <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShow}>
+                    Level Up
+                </Button>
+
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.title>Level Up</Modal.title>
+                        <Modal.Title>Level Up</Modal.Title>
                     </Modal.Header>
+                    <Modal.Body>
+                        <p1>asd</p1>
+                    </Modal.Body>
                 </Modal>
             </div>
         )
     }
 }
+
+export default LevelUpModal;

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 
 import serverURL from '../objects/url.js';
+import LevelUpModal from '../components/LevelUpModal';
 
 import './LUC.css'
 
@@ -45,9 +46,10 @@ class LevelUpConfermation extends React.Component {
                         <Modal.Title>Level Up</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p1>Are You Sure About that</p1>
+                        <p1>Please know that you will be unable to revert the characters level</p1>
                     </Modal.Body>
                     <Modal.Footer>
+                        <LevelUpModal/>
                         <Button onClick={this.handleClose}>Close</Button>
                     </Modal.Footer>
                 </Modal>
