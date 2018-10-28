@@ -18,6 +18,8 @@ class LevelUpModal extends React.Component {
         this.state = {
             showP1: false,
             showp2: false,
+            level: "",
+            class: "",
         }
     }
 

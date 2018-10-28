@@ -7,7 +7,6 @@ import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 import './SiteNavBar.css';
 import '../components/LevelUpConfermation'
 import LevelUpModal from '../components/LevelUpModal';
-import LevelUpConfermation from '../components/LevelUpConfermation';
 
 class SiteNaveBar extends Component {
   render() {
