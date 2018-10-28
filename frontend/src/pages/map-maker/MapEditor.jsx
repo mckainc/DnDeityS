@@ -17,6 +17,7 @@ class MapEditor extends Component {
     this.state = {
       selectedTool: 'draw',
       selectedLayer: 'tiles',
+      selectedTile: 'dirt',
       showSettings: false,
       x: 25,
       y: 25,
@@ -39,8 +40,12 @@ class MapEditor extends Component {
     this.setState({ selectedLayer });
   }
 
+  changeTile = (selectedTile) => {
+    this.setState({ selectedTile });
+  }
+
   render() {
-    const { selectedLayer, showSettings, x, y } = this.state;
+    const { selectedTile, selectedLayer, showSettings, x, y } = this.state;
     return (
       <div className="MapEditor">
         <SettingsModal
@@ -54,10 +59,16 @@ class MapEditor extends Component {
         </Col>
         <Col md={9}>
           <LayerToolbar changeLayer={this.changeLayer} selectedLayer={this.state.selectedLayer} toggleModal={this.toggleModal} />
-          <MapGrid x={this.state.x} y={this.state.y} selectedTool={this.state.selectedTool} selectedLayer={this.state.selectedLayer} />
+          <MapGrid
+            x={x}
+            y={y}
+            selectedTool={this.state.selectedTool}
+            selectedLayer={selectedLayer}
+            selectedTile={selectedTile}
+          />
         </Col>
         <Col md={2}>
-          {selectedLayer === 'tiles' && <TileSelector />}
+          {selectedLayer === 'tiles' && <TileSelector changeTile={this.changeTile}/>}
           {selectedLayer === 'events' && <EventEditor />}
         </Col>
       </div>

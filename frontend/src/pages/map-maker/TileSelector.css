@@ -22,3 +22,7 @@
 
   background-color: #F1F1F1;
 }
+
+.tile img {
+  height: 100%;
+}

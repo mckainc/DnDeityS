@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import tiles from '../../objects/tiles.js';
+
 // components
 import { Panel } from 'react-bootstrap';
 
 import './TileSelector.css';
 
-const tiles = ['','','','','','','','',''];
+const tileList = ['dirt','grass','stone','wood','','','','',''];
 
 class TileSelector extends Component {
   render() {
@@ -14,8 +16,10 @@ class TileSelector extends Component {
         <Panel>
           <h4>Tile Selector</h4>
           <div className="tile-options">
-            {tiles.map(tile => (
-              <div className="tile"></div>
+            {tileList.map(tile => (
+              <div className="tile" onClick={() => this.props.changeTile(tile)}>
+                <img src={tiles.get(tile)} />
+              </div>
             ))}
           </div>
         </Panel>

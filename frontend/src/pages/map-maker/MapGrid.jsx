@@ -8,6 +8,18 @@ import { Row } from 'react-bootstrap';
 import './MapGrid.css';
 
 class MapGrid extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isMouseDown: false,
+    }
+  }
+
+  onMouseDown = () => { this.setState({ isMouseDown: true })}
+
+  onMouseUp = () => { this.setState({ isMouseDown: false })}
+
   render() {
     const { x, y } = this.props;
 
@@ -15,11 +27,11 @@ class MapGrid extends PureComponent {
     const cols = new Array(parseInt(x));
 
     return (
-      <div className="MapGrid">
+      <div className="MapGrid" onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>
         {
           Array.from(rows).map(() => 
             <div className="row">
-              { Array.from(cols).map(() => <MapTile />) }
+              { Array.from(cols).map(() => <MapTile selectedTile={this.props.selectedTile} isMouseDown={this.state.isMouseDown}/>) }
             </div>
           )
         }
