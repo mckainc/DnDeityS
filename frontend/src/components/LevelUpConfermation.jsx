@@ -34,6 +34,11 @@ class LevelUpConfermation extends React.Component {
         this.setState({ show: false });
     }
 
+    handleLevel() {
+        this.handleClose();
+        <LevelUpModal/>
+    }
+
     render() {
         return (
             <div className="LUC">

@@ -6,6 +6,7 @@ import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 
 import './SiteNavBar.css';
 import '../components/LevelUpConfermation'
+import LevelUpModal from '../components/LevelUpModal';
 import LevelUpConfermation from '../components/LevelUpConfermation';
 
 class SiteNaveBar extends Component {
@@ -22,7 +23,7 @@ class SiteNaveBar extends Component {
           {this.props.enableSave &&
           <Nav pullRight>
             <NavItem>
-                <LevelUpConfermation/>
+                <LevelUpModal/>
             </NavItem>
             <NavItem>
               <Button className="save" bsSize="xsmall" onClick={this.props.saveCharacter}>Save</Button>

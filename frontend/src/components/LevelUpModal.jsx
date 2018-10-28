@@ -44,8 +44,13 @@ class LevelUpModal extends React.Component {
                         <Modal.Title>Level Up</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p1>asd</p1>
+                        <p1>Please know that you will be unable to revert the characters level</p1>
+                        <br />
+                        <p1>were are on the levelup modal</p1>
                     </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.handleClose}>Close</Button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         )
