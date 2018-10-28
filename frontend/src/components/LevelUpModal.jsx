@@ -5,6 +5,8 @@ import { Modal, Button, ModalHeader } from 'react-bootstrap';
 
 import serverURL from '../objects/url.js';
 
+const parts = ['Proficency', 'HitPoints', 'AbilityScore', 'Feats', 'Description' ];
+
 
 class LevelUpModal extends React.Component {
     constructor(props, context){
@@ -20,6 +22,7 @@ class LevelUpModal extends React.Component {
             showp2: false,
             level: "",
             class: "",
+            character: { description: {} }
         }
     }
 
@@ -45,6 +48,38 @@ class LevelUpModal extends React.Component {
     handleCloseP2() {
         this.setState({ showP2: false});
     }
+
+    changeCharacter = (property, value, isDescription) => {
+        const { character } = this.state;
+        if (isDescription === true) {
+          character['description'][property] = value;
+        } else {
+          character[property] = value;
+        }
+      }
+
+    saveCharacter = () => {
+        const { character } = this.state;
+        const server = axios.create({
+          baseURL: serverURL,
+        });
+    
+        const userId = localStorage.getItem('user_id');
+        character['user_id'] = userId;
+    
+        if (this.state.characterId !== null) {
+          // Update character
+          server.patch('/character/' + this.state.characterId, JSON.stringify(character));
+          return;
+        }
+    
+        // Create character
+        server.post('/character', JSON.stringify(character))
+          .then(response => {
+            const characterId = response.data.CharacterId;
+            this.setState({ characterId });
+          })
+      }
 
     render(){
         return (

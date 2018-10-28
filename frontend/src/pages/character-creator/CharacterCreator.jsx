@@ -17,7 +17,7 @@ import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
 
 import { FormControl, Grid, Row, Col } from 'react-bootstrap';
-
+import LevelUpModal from '../../components/LevelUpModal'
 import './CharacterCreator.css';
 
 const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Description'];
@@ -161,6 +161,7 @@ class CharacterCreator extends Component {
 
     return (
       <div className="CharacterCreator">
+        <LevelUpModal/>
         <SiteNavBar enableSave saveCharacter={this.saveCharacter}/>
         <Grid fluid className="character-grid">
           <Row>
