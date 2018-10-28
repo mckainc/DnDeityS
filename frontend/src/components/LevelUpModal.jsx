@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, ModalHeader } from 'react-bootstrap';
 
 import serverURL from '../objects/url.js';
 
@@ -12,6 +12,8 @@ class LevelUpModal extends React.Component {
 
         this.handleShowP1 = this.handleShowP1.bind(this);
         this.handleCloseP1 = this.handleCloseP1.bind(this);
+        this.handleShowP2 = this.handleShowP2.bind(this);
+        this.handleCloseP2 = this.handleCloseP2.bind(this);
 
         this.state = {
             showP1: false,
@@ -30,7 +32,16 @@ class LevelUpModal extends React.Component {
     }
 
     handleCloseP1() {
-        this.setState({showP1: false});
+        this.setState({ showP1: false});
+    }
+
+    handleShowP2() {
+        this.setState({ showP2: true});
+        this.setState({ showP1: false})
+    }
+
+    handleCloseP2() {
+        this.setState({ showP2: false});
     }
 
     render(){
@@ -50,14 +61,21 @@ class LevelUpModal extends React.Component {
                         <p1>were are on the levelup modal</p1>
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button onClick={this.handleShowP2}>Continue</Button>
                         <Button onClick={this.handleCloseP1}>Close</Button>
                     </Modal.Footer>
                 </Modal>
         
-                <Modal show={this.state.showP2}>
+                <Modal show={this.state.showP2} onHide={this.handleCloseP2}>
+                    <Modal.Header>
+                        <Modal.Title>Level Up</Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         <p1>Hey there from P2</p1>
                     </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.handleCloseP2}>Close</Button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
