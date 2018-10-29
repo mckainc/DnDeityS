@@ -7,6 +7,7 @@ import LayerToolbar from './LayerToolbar';
 import MapGrid from './MapGrid';
 import TileSelector from './TileSelector';
 import EventEditor from './EventEditor';
+import MonsterEditor from './MonsterEditor';
 
 import { Col } from 'react-bootstrap';
 
@@ -70,6 +71,7 @@ class MapEditor extends Component {
         <Col md={2}>
           {selectedLayer === 'tiles' && <TileSelector changeTile={this.changeTile}/>}
           {selectedLayer === 'events' && <EventEditor />}
+          {selectedLayer === 'monsters' && <MonsterEditor />}
         </Col>
       </div>
     )

@@ -15,8 +15,8 @@ class LayerToolbar extends Component {
             <Button onClick={() => changeLayer('tiles')} active={selectedLayer === 'tiles'}>
               <i className="fas fa-gavel" /> Tiles
             </Button>
-            <Button onClick={() => changeLayer('enemies')} active={selectedLayer === 'enemies'}>
-              <i className="fas fa-skull" /> Enemies
+            <Button onClick={() => changeLayer('monsters')} active={selectedLayer === 'monsters'}>
+              <i className="fas fa-skull" /> Monsters
             </Button>
             <Button onClick={() => changeLayer('events')} active={selectedLayer === 'events'}>
               <i className="fas fa-exclamation" /> Events
