@@ -26,6 +26,7 @@ class LevelUpModal extends React.Component {
             class: "",
             character: { description: {} },
             test: "please show up",
+            levelUpStuff: new Map(),
         }
     }
 
@@ -33,6 +34,32 @@ class LevelUpModal extends React.Component {
         const sever = axios.create({
             baseURL: serverURL,
         });
+
+        // load character data, if any
+    const characterId = this.props.match.params.characterId;
+    if (typeof characterId !== 'undefined') {
+      this.setState({ characterId });
+      server.get('/character/' + characterId)
+        .then(response => {
+          const character = {};
+          character.class = response.data[3];
+          character.ability_scores = JSON.parse(response.data[8]);
+          character.spells = JSON.parse(response.data[13]);
+          character.description = JSON.parse(response.data[14]);
+          
+          this.setState({ character, loaded: true });
+        })
+
+        server.get(this.statue.class, this.state.level)
+            .then((response) =>{
+                let levelUpStuff = new Map();
+                response.data.forEach(payload => {
+                    const c = new RaceType(payload[1], payload[2]);
+                    levelUpStuff = levelUpStuff.set(c.name, c);
+                });
+                this.setState({ levelUpStuff });
+            });
+    }
     }
 
     handleShowP1() {

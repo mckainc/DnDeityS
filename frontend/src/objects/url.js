@@ -1,3 +1,3 @@
-const serverURL = 'http://127.0.0.1:5000';
+const serverURL = 'prod.vs23jhxnvj.us-east-2.elasticbeanstalk.com';
 
 export default serverURL;
