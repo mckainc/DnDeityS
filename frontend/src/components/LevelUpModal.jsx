@@ -17,12 +17,15 @@ class LevelUpModal extends React.Component {
         this.handleShowP2 = this.handleShowP2.bind(this);
         this.handleCloseP2 = this.handleCloseP2.bind(this);
 
+        const characterId = props.loaded ? props.characterId : 'none';
+
         this.state = {
             showP1: false,
             showp2: false,
             level: "",
             class: "",
-            character: { description: {} }
+            character: { description: {} },
+            test: "please show up",
         }
     }
 
@@ -109,6 +112,7 @@ class LevelUpModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <p1>Hey there from P2</p1>
+                        <p1><div> {this.state.characterId}!</div></p1>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>
