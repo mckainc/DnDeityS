@@ -15,8 +15,12 @@ class SettingsModal extends Component {
   }
 
   handleChange = e => {
+    let value = e.target.value;
+    if (e.target.name === 'x' || e.target.name === 'y') {
+      if (value <= 0) { value = 1; }
+    }
     this.setState({
-        [e.target.name]: e.target.value
+        [e.target.name]: value
     });
   }
 
