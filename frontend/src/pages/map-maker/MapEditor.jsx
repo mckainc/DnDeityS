@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
+// types
+import { Map } from 'immutable';
+import RaceType from '../../objects/RaceType';
+import serverURL from '../../objects/url.js';
 
 // components
 import SettingsModal from './SettingsModal';
@@ -16,6 +22,7 @@ class MapEditor extends Component {
     super(props);
 
     this.state = {
+      monsters: new Map(),
       selectedTool: 'draw',
       selectedLayer: 'tiles',
       selectedTile: 'dirt',
@@ -23,6 +30,24 @@ class MapEditor extends Component {
       x: 25,
       y: 25,
     }
+  }
+
+  componentWillMount() {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    // Make server request for list of monsters
+    server.get('/monsters')
+      .then((response) => {
+        let monsters = new Map();
+        response.data.forEach(payload => {
+          const monster = new RaceType(payload[1], payload[2]);
+          monsters = monsters.set(monster.name, monster);
+        });
+        console.log(monsters);
+        this.setState({ monsters });
+      });
   }
 
   handleSettingsClose = (width, height) => {
@@ -46,7 +71,7 @@ class MapEditor extends Component {
   }
 
   render() {
-    const { selectedTile, selectedLayer, showSettings, x, y } = this.state;
+    const { monsters, selectedTile, selectedLayer, showSettings, x, y } = this.state;
     return (
       <div className="MapEditor">
         <SettingsModal
@@ -71,7 +96,7 @@ class MapEditor extends Component {
         <Col md={2}>
           {selectedLayer === 'tiles' && <TileSelector changeTile={this.changeTile}/>}
           {selectedLayer === 'events' && <EventEditor />}
-          {selectedLayer === 'monsters' && <MonsterEditor />}
+          {selectedLayer === 'monsters' && <MonsterEditor monsters={monsters} />}
         </Col>
       </div>
     )
