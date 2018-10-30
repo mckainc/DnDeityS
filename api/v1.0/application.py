@@ -173,6 +173,7 @@ def get_characters(user_id):
 		returned.append(row)
 	cur.close()
 	db.close()
+	return make_response(jsonify(returned), 200)
 	if len(returned) == 0:
 		return make_response(jsonify({'error': 'No Characters'}), 500)
 	else:
