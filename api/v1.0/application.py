@@ -423,6 +423,22 @@ def get_spells():
 	else:
 		return make_response(jsonify(returned))
 
+@application.route('/feats', methods=['GET'])
+def get_feats():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	cur.execute('select * from feats')
+	returned = []
+	for row in cur:
+		returned.append(row)
+	cur.close()
+	db.close()
+	if len(returned) == 0:
+		return make_response(jsonify({'error': 'No Feats'}), 400)
+	else:
+		return make_response(jsonify(returned))
+
+
 @application.route('/equipment', methods=['GET'])
 def get_equipment():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
