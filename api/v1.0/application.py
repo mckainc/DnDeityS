@@ -280,7 +280,7 @@ def create_character():
 		except KeyError as e:
 			maxhp = ''
 		query += " " + fields[:-2] + ") values " + values[:-2] + ")"
-		print(query, file=sys.stderr)
+		#print(query, file=sys.stderr)
 
 		cur.execute(query, tuple(values_list))
 		db.commit()
@@ -482,6 +482,129 @@ def get_monsters():
 		return make_response(jsonify({'error': 'No Monsters'}), 500)
 	else:
 		return make_response(jsonify(returned))
-	
+
+@application.route('/map', methods=['POST'])
+def create_map():
+	try:
+		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+		cur = db.cursor()
+		query = 'insert into maps'
+		values = '('
+		fields = '('
+		values_list = []
+		try:
+			userId = request.get_json(force=True)['user_id']
+			fields += "UserId, "
+			values += "%s, "
+			values_list.append(userId)
+		except KeyError as e:
+			userId = ''
+		try:
+			name = request.get_json(force=True)['name']
+			fields += "MapName, "
+			values += "%s, "
+			values_list.append(name)
+		except KeyError as e:
+			name = ''
+		try: 
+			height = request.get_json(force=True)['height']
+			fields += "MapHeight, "
+			values += "%s, "
+			values_list.append(height)
+		except KeyError as e:
+			height = ''
+		try:
+			width = request.get_json(force=True)['width']
+			fields += "MapWidth, "
+			values += "%s, "
+			values_list.append(width)
+		except KeyError as e:
+			width = ''
+		try:
+			tiles = request.get_json(force=True)['tiles']
+			fields += "MapTiles, "
+			values += "%s, "
+			values_list.append(json.dumps(tiles))
+		except KeyError as e:
+			tiles=''
+		query += " " + fields[:-2] + ") values " + values[:-2] + ")"
+		#print(query, file-sys.stderr)
+
+		cur.execute(query, tuple(values_list))
+		db.commit()
+		cur.close()
+		db.close()
+		return make_response(jsonify({'CharacterId': cur.lastrowid}), 200)
+	except Exception as e:
+		cur.close()
+		db.close()
+		return make_response(jsonify({'error': str(e)}), 400)
+@application.route('/map/<int:map_id>', methods=['GET', 'PATCH', 'DELETE'])
+def get_update_delete_map(map_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	if request.method == 'GET':
+		cur.execute('select * from maps where MapId = %s', (map_id,))
+		for row in cur.fetchall():
+			cur.close()
+			db.close()
+		return make_response(jsonify(row), 200)
+		cur.close()
+		db.close()
+		return make_response(jsonify({'error': 'no character with that id'}), 400)
+	if request.method == 'DELETE':
+		try:
+			cur.execute('delete from maps where MapId = %s', (map_id,))
+			db.commit()
+			cur.close()
+			db.close()
+			return make_response(jsonify({'deleted_map' : map_id}), 200)
+		except Exception as e:
+			cur.close()
+			db.close()
+			return make_response(jsonify({'no_map': str(e)}), 400) 
+	if request.method == 'PATCH':
+		query = 'update maps set '
+		values = '('
+		fields = '('
+		values_list = []
+		try:
+			userId = request.get_json(force=True)['user_id']
+			query += "UserId = %s, "
+			values_list.append(userId)
+		except KeyError as e:
+			userId = ''
+		try:
+			name = request.get_json(force=True)['name']
+			query += "MapName = %s, "
+			values_list.append(name)
+		except KeyError as e:
+			name = ''
+		try:
+			height = request.get_json(force=True)['height']
+			query += "MapHeight = %s, "
+			values_list.append(height)
+		except KeyError as e:
+			height = ''		
+		try:
+			width = request.get_json(force=True)['width']
+			query += "MapWidth = %s, "
+			values_list.append(width)
+		except KeyError as e:
+			width = ''
+		try:
+			tiles = request.get_json(force=True)['tiles']
+			query += "MapTiles = %s, "
+			values_list.append(json.dumps(tiles))
+		except KeyError as e:
+			tiles=''
+		query = query[:-2] + " where MapId = %s"
+		values_list.append(map_id)
+		cur.execute(query, tuple(values_list))
+		db.commit()
+		cur.close()
+		db.close()
+		return make_response(jsonify({'MapId_updated': map_id}), 200)
+
 if __name__ == '__main__':
     application.run(debug=True)
