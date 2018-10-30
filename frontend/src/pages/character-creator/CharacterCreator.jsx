@@ -108,6 +108,7 @@ class CharacterCreator extends Component {
           character.spells = JSON.parse(response.data[13]);
           character.description = JSON.parse(response.data[14]);
           character.exp = response.data[5];
+          character.charId = this.state.characterId;
           
           const choices = JSON.parse(response.data[11]);
           character.race_language_choice = choices.race.language;

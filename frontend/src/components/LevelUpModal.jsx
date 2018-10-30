@@ -23,7 +23,7 @@ class LevelUpModal extends React.Component {
         this.handleCloseP2 = this.handleCloseP2.bind(this);
 
         //characters user id, used for saving changes
-        let characterId = props.character.characterId;
+        let charId = props.character.charId;
         let points = props.character.ability_scores;
         let charClass = props.character.class;
         let exp = props.character.exp;
@@ -34,7 +34,7 @@ class LevelUpModal extends React.Component {
             level: "",
             exp,
             charClass,
-            characterId,
+            charId,
             points,
             character: { description: {} },
             levelUpStuff: new Map(),
@@ -129,17 +129,17 @@ class LevelUpModal extends React.Component {
         const userId = localStorage.getItem('user_id');
         character['user_id'] = userId;
     
-        if (this.state.characterId !== null) {
+        if (this.state.charId !== null) {
           // Update character
-          server.patch('/character/' + this.state.characterId, JSON.stringify(character));
+          server.patch('/character/' + this.state.charId, JSON.stringify(character));
           return;
         }
     
         // Create character
         server.post('/character', JSON.stringify(character))
           .then(response => {
-            const characterId = response.data.CharacterId;
-            this.setState({ characterId });
+            const charId = response.data.CharId;
+            this.setState({ charId });
           })
       }
 
@@ -171,7 +171,7 @@ class LevelUpModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <p1>Hey there from P2</p1>
-                        <p1><div> {this.state.characterId}!</div></p1>
+                        <p1><div> {this.state.charId}!</div></p1>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>
