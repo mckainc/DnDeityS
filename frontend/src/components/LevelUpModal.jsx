@@ -22,15 +22,21 @@ class LevelUpModal extends React.Component {
         this.handleShowP2 = this.handleShowP2.bind(this);
         this.handleCloseP2 = this.handleCloseP2.bind(this);
 
-        const characterId = props.loaded ? props.characterId : 'none';
+        //characters user id, used for saving changes
+        let characterId = props.character.characterId;
+        let points = props.character.ability_scores;
+        let charClass = props.character.class;
+        let exp = props.character.exp;
 
         this.state = {
             showP1: false,
             showp2: false,
             level: "",
-            class: "",
+            exp,
+            charClass,
+            characterId,
+            points,
             character: { description: {} },
-            test: "please show up",
             levelUpStuff: new Map(),
         }
     }
@@ -41,7 +47,51 @@ class LevelUpModal extends React.Component {
         });
 
         // load character data, if any
-    
+        
+    }
+
+    currentLevel() {
+        if(this.state.exp >= 355000){
+            this.state.level = 20;
+        }else if(this.state.exp >= 305000) {
+            this.state.level = 19;
+        }else if(this.state.exp >= 265000) {
+            this.state.level = 18;
+        }else if(this.state.exp >= 225000) {
+            this.state.level = 17;
+        }else if(this.state.exp >= 195000) {
+            this.state.level = 16;
+        }else if(this.state.exp >= 165000) {
+            this.state.level = 15;
+        }else if(this.state.exp >= 140000) {
+            this.state.level = 14;
+        }else if(this.state.exp >= 120000) {
+            this.state.level = 13;
+        }else if(this.state.exp >= 100000) {
+            this.state.level = 12;
+        }else if(this.state.exp >= 85000) {
+            this.state.level = 11;
+        }else if(this.state.exp >= 64000) {
+            this.state.level = 10;
+        }else if(this.state.exp >= 48000) {
+            this.state.level = 9;
+        }else if(this.state.exp >= 34000) {
+            this.state.level = 8;
+        }else if(this.state.exp >= 23000) {
+            this.state.level = 7;
+        }else if(this.state.exp >= 14000) {
+            this.state.level = 6;
+        }else if(this.state.exp >= 6500) {
+            this.state.level = 5;
+        }else if(this.state.exp >= 2700) {
+            this.state.level = 4;
+        }else if(this.state.exp >= 900) {
+            this.state.level = 3;
+        }else if(this.state.exp >= 300) {
+            this.state.level = 2;
+        }else if(this.state.exp >= 0) {
+            this.state.level = 1;
+        }
     }
 
     handleShowP1() {
