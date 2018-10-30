@@ -23,10 +23,12 @@ class LevelUpModal extends React.Component {
         this.handleCloseP2 = this.handleCloseP2.bind(this);
 
         //characters user id, used for saving changes
-        let charId = props.character.charId;
-        let points = props.character.ability_scores;
-        let charClass = props.character.class;
-        let exp = props.character.exp;
+        //refering to character passed by props, not local variable
+
+        let points = props.ability_scores;
+        let charClass = props.class;
+        let exp = props.exp;
+        let charId = props.charId;
 
         this.state = {
             showP1: false,
