@@ -45,7 +45,6 @@ class MapEditor extends Component {
           const monster = new RaceType(payload[1], payload[2]);
           monsters = monsters.set(monster.name, monster);
         });
-        console.log(monsters);
         this.setState({ monsters });
       });
   }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 // components
+import MonsterSelector from './MonsterSelector';
+
 import { Panel, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 import './MonsterEditor.css';
@@ -17,15 +19,17 @@ class MonsterEditor extends Component {
               <FormControl
                 name="name"
                 type="text"
-                placeholder="Enter Event Name"
+                placeholder="Enter Monster Name"
               />
             </FormGroup>
+            <MonsterSelector monsters={this.props.monsters} />
+            <br />
             <FormGroup>
               <ControlLabel>Description</ControlLabel>
               <FormControl
                 name="name"
                 componentClass="textarea"
-                placeholder="Enter Event Description"
+                placeholder="Enter Monster Description"
               />
             </FormGroup>
           </Form>
