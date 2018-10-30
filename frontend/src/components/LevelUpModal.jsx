@@ -6,6 +6,7 @@ import { Map } from 'immutable';
 import RaceType from '../objects/RaceType'
 import serverURL from '../objects/url.js';
 
+
 import { Modal, Button,  } from 'react-bootstrap';
 
 
@@ -13,7 +14,7 @@ import { Modal, Button,  } from 'react-bootstrap';
 const parts = ['Proficency', 'HitPoints', 'AbilityScore', 'Feats', 'Description' ];
 
 
-class LevelUpModal extends React.Component {
+class LevelUpModal extends Component {
     constructor(props, context){
         super(props, context);
 
@@ -29,6 +30,7 @@ class LevelUpModal extends React.Component {
         let charClass = props.class;
         let exp = props.exp;
         let charId = props.charId;
+        let name = props.name;
 
         this.state = {
             showP1: false,
@@ -38,7 +40,8 @@ class LevelUpModal extends React.Component {
             charClass,
             charId,
             points,
-            character: { description: {} },
+            name,
+            //character: { description: {} },
             levelUpStuff: new Map(),
         }
     }
@@ -54,45 +57,45 @@ class LevelUpModal extends React.Component {
 
     currentLevel() {
         if(this.state.exp >= 355000){
-            this.state.level = 20;
+            this.setState({ level: 20});
         }else if(this.state.exp >= 305000) {
-            this.state.level = 19;
+            this.setState({ level: 19});
         }else if(this.state.exp >= 265000) {
-            this.state.level = 18;
+            this.setState({ level: 18});
         }else if(this.state.exp >= 225000) {
-            this.state.level = 17;
+            this.setState({ level: 17});
         }else if(this.state.exp >= 195000) {
-            this.state.level = 16;
+            this.setState({ level: 16});
         }else if(this.state.exp >= 165000) {
-            this.state.level = 15;
+            this.setState({ level: 15});
         }else if(this.state.exp >= 140000) {
-            this.state.level = 14;
+            this.setState({ level: 14});
         }else if(this.state.exp >= 120000) {
-            this.state.level = 13;
+            this.setState({ level: 13});
         }else if(this.state.exp >= 100000) {
-            this.state.level = 12;
+            this.setState({ level: 12});
         }else if(this.state.exp >= 85000) {
-            this.state.level = 11;
+            this.setState({ level: 11});
         }else if(this.state.exp >= 64000) {
-            this.state.level = 10;
+            this.setState({ level: 10});
         }else if(this.state.exp >= 48000) {
-            this.state.level = 9;
+            this.setState({ level: 9});
         }else if(this.state.exp >= 34000) {
-            this.state.level = 8;
+            this.setState({ level: 8});
         }else if(this.state.exp >= 23000) {
-            this.state.level = 7;
+            this.setState({ level: 7});
         }else if(this.state.exp >= 14000) {
-            this.state.level = 6;
+            this.setState({ level: 6});
         }else if(this.state.exp >= 6500) {
-            this.state.level = 5;
+            this.setState({ level: 5});
         }else if(this.state.exp >= 2700) {
-            this.state.level = 4;
+            this.setState({ level: 4});
         }else if(this.state.exp >= 900) {
-            this.state.level = 3;
+            this.setState({ level: 3});
         }else if(this.state.exp >= 300) {
-            this.state.level = 2;
+            this.setState({ level: 2});
         }else if(this.state.exp >= 0) {
-            this.state.level = 1;
+            this.setState({ level: 1});
         }
     }
 
@@ -106,7 +109,9 @@ class LevelUpModal extends React.Component {
 
     handleShowP2() {
         this.setState({ showP2: true});
-        this.setState({ showP1: false})
+        this.setState({ showP1: false});
+
+        this.currentLevel();
     }
 
     handleCloseP2() {
@@ -146,6 +151,8 @@ class LevelUpModal extends React.Component {
       }
 
     render(){
+        const { character } = this.props;
+        console.log(this.props);
         return (
             <div>
                  <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShowP1}>
@@ -172,8 +179,11 @@ class LevelUpModal extends React.Component {
                         <Modal.Title>Level Up</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p1>Hey there from P2</p1>
-                        <p1><div> {this.state.charId}!</div></p1>
+                        <p><b>Name: </b></p>
+                        <p><b>Class: </b></p>
+                        <br />
+                        <p>{this.state.level}</p>
+                        
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>
