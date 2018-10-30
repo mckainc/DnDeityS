@@ -524,7 +524,7 @@ def create_map():
 			tiles = request.get_json(force=True)['tiles']
 			fields += "MapTiles, "
 			values += "%s, "
-			values_list.append(json.dumps(tiles))
+			values_list.append(json.dumps(tiles, separators=(',',':')))
 		except KeyError as e:
 			tiles=''
 		query += " " + fields[:-2] + ") values " + values[:-2] + ")"
@@ -595,7 +595,7 @@ def get_update_delete_map(map_id):
 		try:
 			tiles = request.get_json(force=True)['tiles']
 			query += "MapTiles = %s, "
-			values_list.append(json.dumps(tiles))
+			values_list.append(json.dumps(tiles, separators=(',',':')))
 		except KeyError as e:
 			tiles=''
 		query = query[:-2] + " where MapId = %s"
@@ -605,6 +605,18 @@ def get_update_delete_map(map_id):
 		cur.close()
 		db.close()
 		return make_response(jsonify({'MapId_updated': map_id}), 200)
+@application.route('/maps/<int:user_id>', methods=['GET'])
+def get_maps(user_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	query = 'select * from maps where UserId = %s;'
+	cur.execute(query, (user_id,))
+	returned = []
+	for row in cur.fetchall():
+		returned.append(row)
+	cur.close()
+	db.close()
+	return make_response(jsonify(returned), 200)
 
 if __name__ == '__main__':
     application.run(debug=True)
