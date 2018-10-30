@@ -4,8 +4,8 @@ CREATE DATABASE dnd;
 \! echo 'Done.\n';
 USE dnd;
 
-\! echo 'Create User table... ';
-CREATE TABLE Users (
+\! echo 'Create user table... ';
+CREATE TABLE users (
 	UserId INT NOT NULL AUTO_INCREMENT, 
 	UserName VARCHAR(128) NOT NULL, 
 	UserPassword VARCHAR(128) NOT NULL, 
@@ -13,101 +13,96 @@ CREATE TABLE Users (
 	PRIMARY KEY (UserId));
 \! echo 'Done. \n';
 
-\! echo 'Create Rooms table... ';
-CREATE TABLE Rooms (
+\! echo 'Create rooms table... ';
+CREATE TABLE rooms (
 	RoomId INT NOT NULL AUTO_INCREMENT, 
-	#RoomUrl VARCHAR (255) NOT NULL,
 	PRIMARY KEY (RoomId),
-	UserId int,
-	FOREIGN KEY (UserId) REFERENCES Users(UserId));
+	UserId int);
 \! echo 'Done. \n';
 
 
-
-\! echo 'Create Classes table... ';
-CREATE TABLE Classes (
+\! echo 'Create classes table... ';
+CREATE TABLE classes (
     ClassId INT NOT NULL AUTO_INCREMENT,
     ClassName VARCHAR(128) NOT NULL,
     ClassData TEXT,
     PRIMARY KEY (ClassId));
 \! echo 'Done.\n';
 
-\! echo 'Create Equipments table... ';
-CREATE TABLE Equipments (
+\! echo 'Create equipments table... ';
+CREATE TABLE equipments (
 	EquipmentId INT NOT NULL AUTO_INCREMENT, 
 	EquipmentName VARCHAR(128) NOT NULL,
 	EquipmentData TEXT,
 	PRIMARY KEY (EquipmentId));
 \! echo 'Done.\n';
 
-\! echo 'Create Backgrounds table... ';
-CREATE TABLE Backgrounds (
+\! echo 'Create backgrounds table... ';
+CREATE TABLE backgrounds (
 	BackgroundId INT NOT NULL AUTO_INCREMENT,
 	BackgroundName VARCHAR(128) NOT NULL, 
 	BackgroundJSON TEXT,	
 	PRIMARY KEY (BackgroundId));
 \! echo 'Done.\n';
 
-\! echo 'Create Races table... ';
-CREATE TABLE Races (
+\! echo 'Create races table... ';
+CREATE TABLE races (
 	RaceId INT NOT NULL AUTO_INCREMENT, 
 	RaceName VARCHAR(128) NOT NULL, 
 	RaceData TEXT,
 	PRIMARY KEY (RaceId));
 \! echo 'Done.\n';
 ;;
-\! echo 'Create Spells table... ';
-CREATE TABLE Spells (
+\! echo 'Create spells table... ';
+CREATE TABLE spells (
 	SpellId INT NOT NULL AUTO_INCREMENT,
 	SpellName VARCHAR(128) NOT NULL,
 	SpellData TEXT,
 	PRIMARY KEY (SpellId));
 \! echo 'Done.\n';
 
-\! echo 'Create Feats table... ';
-CREATE TABLE Feats (
+\! echo 'Create feats table... ';
+CREATE TABLE feats (
 	FeatId INT NOT NULL AUTO_INCREMENT, 
 	FeatName VARCHAR(128) NOT NULL, 
 	FeatJSON TEXT,
 	PRIMARY KEY (FeatId));
 \! echo 'Done. \n';
 
-\! echo 'Create Characters table... ';
-CREATE TABLE Characters (
+\! echo 'Create characters table... ';
+CREATE TABLE characters (
 	CharacterId INT NOT NULL AUTO_INCREMENT,
+	UserId int,
+	CharacterName TINYTEXT,
 	RaceId int,
-	FOREIGN KEY (RaceId) REFERENCES Races(RaceId),
 	ClassId int,
-	FOREIGN KEY (ClassId) REFERENCES Classes(ClassId),
 	CharacterExperience int,
 	CharacterHp int,
 	CharacterMaxHp int,
 	CharacterAbilityScores TEXT,
 	CharacterGold TEXT,
-	CharaterEquipment TEXT,
-	CharacterChoices TEXT,
+	CharacterEquipment TEXT,
+	CharacterDescription TEXT,
 	CharacterSpells TEXT,
+	CharacterChoices TEXT,
 	PRIMARY KEY (CharacterId));
 \! echo 'Done.\n';
 
-\! echo 'Create Maps Table... ';
-CREATE TABLE Maps (
+\! echo 'Create maps Table... ';
+CREATE TABLE maps (
 	MapId INT NOT NULL AUTO_INCREMENT,
 	UserId int,
 	RoomId int, 
-	FOREIGN KEY (UserId) REFERENCES Users(UserId),
-	FOREIGN KEY (RoomId) REFERENCES Rooms(RoomId),
-	# Store matrix 
+	MapData TEXT,
 	PRIMARY KEY (MapId));
  \! echo 'Done.\n'
 
 
-\! echo 'Create Monsters table... ';
-CREATE TABLE Monsters (
+\! echo 'Create monsters table... ';
+CREATE TABLE monsters (
     MonsterId INT NOT NULL AUTO_INCREMENT,
     MonsterName VARCHAR(128) NOT NULL,
     MonsterData TEXT,
     MapId int,
-    FOREIGN KEY (MapId) REFERENCES Maps(MapId),
     PRIMARY KEY (MonsterId));
 \! echo 'Done.\n';
