@@ -1,24 +1,37 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
 
 import Well from 'react-bootstrap/lib/Well';
 
-class LevelUpClassdetails extends PureComponent {
+class LevelUpClassdetails extends Component {
     constructor(props) {
         super(props);
 
+        let rolledHp = 0;
+        let Hitdie = 12;
+        let raw = 0;
+
         this.state = {
-            rolledHp: 0,
-            Hitdie: 12,
+            rolledHp,
+            Hitdie,
+            raw,
         }
     }
 
-    DiceRoller() {
-        this.setState({rolledHp: Math.floor(Math.random() * (this.state.Hitdie)+1)});
-        if(this.state.rolledHp < this.state.Hitdie/2){
-            this.setState({rolledHp: this.state.Hitdie/2});
-        }
+    profCalc() {
+        const { raw } = this.state
+    }
+
+    diceRoller = (Hitdie) => {
+       let state = this.state;
+       
+      var temp = Math.floor(Math.random() * (this.state.Hitdie)) + 1;
+       console.log(temp);
+       if(temp < Hitdie/2){
+           temp = Hitdie/2;
+       }
+     this.setState({rolledHp: temp});
     }
 
     render() {
@@ -29,9 +42,10 @@ class LevelUpClassdetails extends PureComponent {
             <div>  
                 <Well>
                         <p>Roll For Health: </p>
-                        <Button onClick={this.DiceRoller()}>d{this.state.Hitdie}</Button>
+                        <Button onClick={this.diceRoller}>d{this.state.Hitdie}</Button>
                         <p>{this.state.rolledHp}</p>
                         <p>Profecincy Bonuse</p>
+                        <p></p>
 
                         <p>New Class Feacture</p>
 
