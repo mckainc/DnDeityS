@@ -22,6 +22,10 @@ yarn-error.log*
 yarn.lock
 
 .vscode
+<<<<<<< HEAD
+/api/v1.0/__pycache__/*
+=======
 package-lock.json
 
 *.pyc
+>>>>>>> master

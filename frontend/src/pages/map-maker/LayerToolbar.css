@@ -1,0 +1,7 @@
+.LayerToolbar .settings {
+  float: right;
+}
+
+.LayerToolbar .btn:not(:last-child) {
+  margin-right: 2rem;
+}

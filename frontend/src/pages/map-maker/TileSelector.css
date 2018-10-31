@@ -1,0 +1,28 @@
+.TileSelector .panel {
+  text-align: center;
+  height: 80vh;
+}
+
+.tile-options {
+  margin: 0 auto;
+  max-width: 16rem;
+}
+
+.tile-options .tile {
+  display: inline-block;
+  vertical-align: bottom;
+  border: solid black 1px;
+
+  width: 5rem;
+  height: 5rem;
+  min-width: 5rem;
+  min-height: 5rem;
+  max-width: 5rem;
+  max-height: 5rem;
+
+  background-color: #F1F1F1;
+}
+
+.tile img {
+  height: 100%;
+}
