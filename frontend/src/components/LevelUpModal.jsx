@@ -32,7 +32,8 @@ class LevelUpModal extends Component {
 
         let points = props.ability_scores;
         let charClass = props.class;
-        let exp = props.exp;
+        //HEY I CHANGED XP TO A FIXED VALUE
+        let exp = 6520;//enough for level 5
         let charId = props.charId;
         let name = props.name;
 
@@ -69,6 +70,7 @@ class LevelUpModal extends Component {
     }
 
     currentLevel() {
+        console.log("Inside current Level");
         if(this.state.exp >= 355000){
             this.setState({ level: 20});
         }else if(this.state.exp >= 305000) {
@@ -168,8 +170,11 @@ class LevelUpModal extends Component {
     render(){
         const { character } = this.props;
         const { levelUpStuff } = this.state.levelUpStuff;
+        const { level } = this.state.level;
         console.log(this.props);
         console.log(character);
+        console.log(this.state.exp);
+        console.log(level);
 
         if(!this.props.loaded){
             return <div></div>
@@ -204,7 +209,7 @@ class LevelUpModal extends Component {
 
                     <Modal.Body>
                         <p>{this.state.levelUpStuff}</p>
-                        <LevelUpClassDetails levelUpStuff={levelUpStuff}/>
+                        <LevelUpClassDetails levelUpStuff={levelUpStuff} level={level}/>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>

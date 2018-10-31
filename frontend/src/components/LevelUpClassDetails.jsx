@@ -10,17 +10,30 @@ class LevelUpClassdetails extends Component {
 
         let rolledHp = 0;
         let Hitdie = 12;
-        let raw = 0;
+        let level = 20;
+        var temp;
+        
+       if(level >= 17){
+            temp = 6;
+        } else if(level >= 13){
+            temp = 5;
+        } else if(level >= 9){
+            temp = 4;
+        } else if(level >= 5){
+            temp = 3;
+        } else {
+            temp = 2;
+        }
+
+       let profBonus = temp;
 
         this.state = {
             rolledHp,
             Hitdie,
-            raw,
+            level: 5,
+            profBonus,
         }
-    }
 
-    profCalc() {
-        const { raw } = this.state
     }
 
     diceRoller = (Hitdie) => {
@@ -28,24 +41,27 @@ class LevelUpClassdetails extends Component {
        
       var temp = Math.floor(Math.random() * (this.state.Hitdie)) + 1;
        console.log(temp);
-       if(temp < Hitdie/2){
-           temp = Hitdie/2;
+       if(temp < state.Hitdie/2){
+           temp = state.Hitdie/2;
        }
      this.setState({rolledHp: temp});
     }
 
+    //add button for raw die rolls
+
     render() {
         const { currentClass } = this.props;
         const { character } = this.props;
-        
+
         return ( 
             <div>  
                 <Well>
                         <p>Roll For Health: </p>
                         <Button onClick={this.diceRoller}>d{this.state.Hitdie}</Button>
                         <p>{this.state.rolledHp}</p>
+                        
                         <p>Profecincy Bonuse</p>
-                        <p></p>
+                        <p>!{this.state.profBonus}!</p>
 
                         <p>New Class Feacture</p>
 
