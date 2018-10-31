@@ -6,6 +6,10 @@ import { Map } from 'immutable';
 import RaceType from '../objects/RaceType'
 import serverURL from '../objects/url.js';
 
+import ToggleButtonGroup from 'react-bootstrap/lib/ToggleButtonGroup'
+import ToggleButton from 'react-bootstrap/lib/ToggleButton';
+import ClassDetails from '../pages/character-creator/ClassDetails'
+import LevelUpClassDetails from './LevelUpClassDetails';
 
 import { Modal, Button,  } from 'react-bootstrap';
 
@@ -35,7 +39,7 @@ class LevelUpModal extends Component {
         this.state = {
             showP1: false,
             showp2: false,
-            level: "",
+            level: 1,
             exp,
             charClass,
             charId,
@@ -51,7 +55,16 @@ class LevelUpModal extends Component {
             baseURL: serverURL,
         });
 
-        // load character data, if any
+        //Make Server request for all class imporvements
+        server.get(this.state.charClass, this.state.level)
+            .then((response) => {
+                let levelUpStuff = new Map();
+                response.data.forEach(payload => {
+                    const c = new RaceType(payload[1], payload[2]);
+                    levelUpStuff = levelUpStuff.set(c.name, c);
+                });
+                this.setState({ levelUpStuff });
+            });
         
     }
 
@@ -150,15 +163,25 @@ class LevelUpModal extends Component {
           })
       }
 
+      //show={this.state.showP1}
+
     render(){
         const { character } = this.props;
+        const { levelUpStuff } = this.state.levelUpStuff;
         console.log(this.props);
+        console.log(character);
+
+        if(!this.props.loaded){
+            return <div></div>
+        }
+        
+
         return (
             <div>
                  <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShowP1}>
                     Level Up
                 </Button>
-
+                
                 <Modal show={this.state.showP1} onHide={this.handleCloseP1}>
                     <Modal.Header closeButton>
                         <Modal.Title>Level Up</Modal.Title>
@@ -178,12 +201,10 @@ class LevelUpModal extends Component {
                     <Modal.Header>
                         <Modal.Title>Level Up</Modal.Title>
                     </Modal.Header>
+
                     <Modal.Body>
-                        <p><b>Name: </b></p>
-                        <p><b>Class: </b></p>
-                        <br />
-                        <p>{this.state.level}</p>
-                        
+                        <p>{this.state.levelUpStuff}</p>
+                        <LevelUpClassDetails levelUpStuff={levelUpStuff}/>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>
