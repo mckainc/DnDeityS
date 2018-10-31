@@ -10,7 +10,7 @@ class LevelUpClassdetails extends PureComponent {
 
         this.state = {
             rolledHp: 0,
-            Hitdie: 0,
+            Hitdie: 12,
         }
     }
 
@@ -30,6 +30,7 @@ class LevelUpClassdetails extends PureComponent {
                 <Well>
                         <p>Roll For Health: </p>
                         <Button onClick={this.DiceRoller()}>d{this.state.Hitdie}</Button>
+                        <p>{this.state.rolledHp}</p>
                         <p>Profecincy Bonuse</p>
 
                         <p>New Class Feacture</p>
