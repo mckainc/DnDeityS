@@ -17,9 +17,17 @@
   background-color: #F1F1F1;
 }
 
-.MapTile img.non-empty {
+.MapTile img.monster {
   position: relative;
   left: -5rem;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.MapTile img.event {
+  position: relative;
+  left: -1.9rem;
   height: 100%;
   width: 100%;
   z-index: 1;
@@ -45,10 +53,26 @@
   font-size: 5rem;
 }
 
+.MapTile .none .fa-exclamation {
+  position: relative;
+  top: 2.5rem;
+  left: 4rem;
+  z-index: 2;
+  font-size: 5rem;
+}
+
 .MapTile .tiled .fa-skull {
   position: relative;
   top: 1.75rem;
   left: 2.5rem;
+  z-index: 2;
+  font-size: 5rem;
+}
+
+.MapTile .tiled .fa-exclamation {
+  position: relative;
+  top: 1.75rem;
+  left: 4rem;
   z-index: 2;
   font-size: 5rem;
 }

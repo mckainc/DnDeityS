@@ -10,6 +10,7 @@ class MapTile extends Component {
 
     this.state = {
       monster: undefined,
+      event: undefined,
       tile: 'none',
     }
   }
@@ -27,12 +28,24 @@ class MapTile extends Component {
         }
         break;
       case 'monsters':
+        if (typeof this.state.event !== 'undefined') return;
         switch (this.props.selectedTool) {
           case 'draw':
             this.setState({ monster: {} });
             break;
           case 'erase':
             this.setState({ monster: undefined });
+            break;
+        }
+        break;
+      case 'events':
+      if (typeof this.state.monster !== 'undefined') return;
+        switch (this.props.selectedTool) {
+          case 'draw':
+            this.setState({ event: {} });
+            break;
+          case 'erase':
+            this.setState({ event: undefined });
             break;
         }
         break;
@@ -54,19 +67,29 @@ class MapTile extends Component {
   }
 
   render() {
-    const { tile, monster } = this.state;
-    const isEmpty = typeof monster === 'undefined' ? 'empty' : 'non-empty'
+    const { tile, monster, event } = this.state;
+    let isEmpty;
+    if (typeof monster !== 'undefined') {
+      isEmpty = 'monster';
+    } else if (typeof event !== 'undefined') {
+      isEmpty = 'event';
+    } else {
+      isEmpty = 'empty';
+    }
+
     return (
       <div onMouseEnter={this.handleDraw} className="MapTile" onMouseDown={this.handleClick}>
         {tile !== 'none' &&
           <div className="tiled">
-            {typeof monster !== 'undefined' && <i className="fas fa-skull" />}
+            {typeof monster !== 'undefined' && <i className="fas fa-skull" draggable={false}/>}
+            {typeof event !== 'undefined' && <i className="fas fa-exclamation" draggable={false}/>}
             <img className={isEmpty} src={tiles.get(tile)} draggable={false}/>
           </div>
         }
         {tile === 'none' &&
           <div className='none'>
-            {typeof monster !== 'undefined' && <i className="fas fa-skull" />}
+            {typeof monster !== 'undefined' && <i className="fas fa-skull" draggable={false}/>}
+            {typeof event !== 'undefined' && <i className="fas fa-exclamation" draggable={false}/>}
           </div>
         }
       </div>
