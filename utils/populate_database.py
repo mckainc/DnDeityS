@@ -22,7 +22,34 @@ except Exception, e:
     print('Error connecting to database: {0}'.format(e))
     sys.exit(-1)
 
-
+#Insert feats
+#Feats.JSON
+rows = 0
+try:
+	print('\nTruncating Feats table...')
+	cursor.execute('TRUNCATE TABLE feats')
+	print('Done.')
+except Exception, e:
+	print('Error truncating feats table: {0}'.format(e))
+	sys.exit(-1)
+with open('Feats.JSON') as f:
+	data = json.load(f)
+	for feat in data['feats']:
+		try:
+			jsonout = json.dumps(feat)
+			jsonout = jsonout.replace("'", "\\'")
+			query = 'INSERT INTO feats(FeatData) values(\'%s\');' % jsonout
+			rows =1
+			print(feat["id"]) 
+			cursor.execute(query)
+		except Exception, e:
+			print('Error insterting data into feats table: {0}'.format(e))
+	try:
+		db.commit()
+		print('Done. {0} rows inserted into feats table.\n'.format(rows))
+	except Exception, e:
+		print('Error committing data into feats table: {0}\n'.format(e))
+		db.rollback()
 #Call API for equipment
 
 api_url = 'http://www.dnd5eapi.co/api/equipment'
@@ -55,7 +82,6 @@ for equipment in data['results']:
     except Exception, e:
         print('Error retrieving equipment data: {0}'.format(e))
         sys.exit(-1)
-
     # Insert equipment data into table
     try:
         query = 'INSERT INTO equipments(EquipmentName, EquipmentData) values(%s, %s);'
