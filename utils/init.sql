@@ -61,13 +61,7 @@ CREATE TABLE spells (
 	PRIMARY KEY (SpellId));
 \! echo 'Done.\n';
 
-\! echo 'Create feats table... ';
-CREATE TABLE feats (
-	FeatId INT NOT NULL AUTO_INCREMENT, 
-	FeatName VARCHAR(128) NOT NULL, 
-	FeatJSON TEXT,
-	PRIMARY KEY (FeatId));
-\! echo 'Done. \n';
+
 
 \! echo 'Create characters table... ';
 CREATE TABLE characters (
@@ -93,7 +87,10 @@ CREATE TABLE maps (
 	MapId INT NOT NULL AUTO_INCREMENT,
 	UserId int,
 	RoomId int, 
-	MapData TEXT,
+	MapName TINYTEXT,
+	MapHeight int,
+	MapWidth int,
+	MapTiles TEXT,
 	PRIMARY KEY (MapId));
  \! echo 'Done.\n'
 
@@ -105,4 +102,11 @@ CREATE TABLE monsters (
     MonsterData TEXT,
     MapId int,
     PRIMARY KEY (MonsterId));
+\! echo 'Done.\n';
+
+\! echo 'Create feats table... ';
+CREATE TABLE feats (
+	FeatId INT NOT NULL AUTO_INCREMENT,
+	FeatData TEXT,
+	PRIMARY KEY (FeatId));
 \! echo 'Done.\n';

@@ -25,6 +25,13 @@ except Exception, e:
 #Insert feats
 #Feats.JSON
 rows = 0
+try:
+	print('\nTruncating Feats table...')
+	cursor.execute('TRUNCATE TABLE feats')
+	print('Done.')
+except Exception, e:
+	print('Error truncating feats table: {0}'.format(e))
+	sys.exit(-1)
 with open('Feats.JSON') as f:
 	data = json.load(f)
 	for feat in data['feats']:
