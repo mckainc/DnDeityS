@@ -21,7 +21,7 @@ class MapGrid extends PureComponent {
   onMouseUp = () => { this.setState({ isMouseDown: false })}
 
   render() {
-    const { selectedTile, selectedTool, x, y } = this.props;
+    const { selectedTile, selectedTool, selectedLayer, x, y } = this.props;
 
     const rows = new Array(parseInt(y));
     const cols = new Array(parseInt(x));
@@ -32,7 +32,7 @@ class MapGrid extends PureComponent {
           Array.from(rows).map(() => 
             <div className="row">
               {Array.from(cols).map(() => (
-                <MapTile selectedTile={selectedTile} isMouseDown={this.state.isMouseDown} selectedTool={selectedTool}/>
+                <MapTile selectedTile={selectedTile} isMouseDown={this.state.isMouseDown} selectedTool={selectedTool} selectedLayer={selectedLayer}/>
               ))}
             </div>
           )

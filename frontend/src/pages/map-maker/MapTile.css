@@ -17,7 +17,15 @@
   background-color: #F1F1F1;
 }
 
-.MapTile img {
+.MapTile img.non-empty {
+  position: relative;
+  left: -5rem;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.MapTile img.empty {
   height: 100%;
   width: 100%;
 }
@@ -27,4 +35,20 @@
   vertical-align: middle;
   height: 100%;
   width: 100%;
+}
+
+.MapTile .none .fa-skull {
+  position: relative;
+  top: 2.5rem;
+  left: 2.5rem;
+  z-index: 2;
+  font-size: 5rem;
+}
+
+.MapTile .tiled .fa-skull {
+  position: relative;
+  top: 1.75rem;
+  left: 2.5rem;
+  z-index: 2;
+  font-size: 5rem;
 }
