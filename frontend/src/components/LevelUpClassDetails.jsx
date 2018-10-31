@@ -61,9 +61,12 @@ class LevelUpClassdetails extends Component {
                         <p>{this.state.rolledHp}</p>
                         
                         <p>Profecincy Bonuse</p>
-                        <p>!{this.state.profBonus}!</p>
+                        <p>{this.state.profBonus}</p>
+
+                        <p>Ability Score Improvements</p>
 
                         <p>New Class Feacture</p>
+
 
                         <p>Spell slots</p>
 

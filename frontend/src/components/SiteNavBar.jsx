@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 
 import './SiteNavBar.css';
-import LevelUpModal from '../components/LevelUpModal';
 
 class SiteNaveBar extends Component {
   render() {

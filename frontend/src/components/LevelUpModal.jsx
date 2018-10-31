@@ -6,16 +6,13 @@ import { Map } from 'immutable';
 import RaceType from '../objects/RaceType'
 import serverURL from '../objects/url.js';
 
-import ToggleButtonGroup from 'react-bootstrap/lib/ToggleButtonGroup'
-import ToggleButton from 'react-bootstrap/lib/ToggleButton';
-import ClassDetails from '../pages/character-creator/ClassDetails'
 import LevelUpClassDetails from './LevelUpClassDetails';
 
 import { Modal, Button,  } from 'react-bootstrap';
 
 
 
-const parts = ['Proficency', 'HitPoints', 'AbilityScore', 'Feats', 'Description' ];
+//const parts = ['Proficency', 'HitPoints', 'AbilityScore', 'Feats', 'Description' ];
 
 
 class LevelUpModal extends Component {

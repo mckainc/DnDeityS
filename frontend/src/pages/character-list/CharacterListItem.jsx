@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 // components
-import { Panel, Button, ButtonToolbar, Col } from 'react-bootstrap';
+import { Panel, Button, Col } from 'react-bootstrap';
 
 class CharacterListItem extends Component {
   
