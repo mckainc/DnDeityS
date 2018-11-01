@@ -1,11 +1,31 @@
 import unittest
 import time
 import random
+import json
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import mysql.connector
+
+def generate_map(x, y):
+	test_map = [[dict() for i in range(y)] for j in range(x)]
+	for i in range((x * y) // 2): # fill <= half the map
+		x_temp = random.randint(0, x - 1)
+		y_temp = random.randint(0, y - 1)
+		tile_type = random.randint(0, 3) # random tile
+		monster = random.randint(0, 1)
+		event = random.randint(0, 1)
+		if monster == 1 and event == 1:
+			if random.randint(0, 1) == 1:
+				monster = 0
+			else:
+				event = 0
+		test_map[x_temp][y_temp]['tile'] = tile_type
+		test_map[x_temp][y_temp]['monster'] = monster
+		test_map[x_temp][y_temp]['event'] = event
+	return test_map
 
 def print_map(test_map, x, y):
 	tile_types = ('dirt', 'grass', 'stone', 'wood')
@@ -41,6 +61,22 @@ def print_map(test_map, x, y):
 		print("+-------", end='')
 	print("+")
 
+def convert_to_db_map(test_map, x, y):
+	returned = []
+	tile_types = ('dirt', 'grass', 'stone', 'wood')
+	for i in range(x):
+		for j in range(y):
+			if test_map[i][j]:
+				added = dict()
+				added['tile'] = tile_types[test_map[i][j]['tile']]
+				if test_map[i][j]['event'] == 1:
+					added['event'] = {'name':'', 'description':''}
+				if test_map[i][j]['monster'] == 1:
+					added['monster'] = {'name':'', 'description':'', 'type':''}
+				added['x'] = i
+				added['y'] = j
+				returned.append(added)
+	return returned
 
 class MapMakerTest(unittest.TestCase):
 	def setUp(self):
@@ -57,7 +93,7 @@ class MapMakerTest(unittest.TestCase):
 		elem.submit()
 
 		# test that the page properly loaded
-		time.sleep(3)
+		time.sleep(1)
 		try:
 			elem = driver.find_element(By.TAG_NAME, 'h2')
 		except Exception as e:
@@ -74,25 +110,11 @@ class MapMakerTest(unittest.TestCase):
 
 		# in map maker now
 		# generate random map to create
-		x = random.randint(10, 25)
-		y = random.randint(10, 25)
+		x = random.randint(1, 20)
+		y = random.randint(1, 20)
 		x = 5
-		y = 6
-		test_map = [[dict() for i in range(y)] for j in range(x)]
-		for i in range((x * y) // 2): # fill <= half the map
-			x_temp = random.randint(0, x - 1)
-			y_temp = random.randint(0, y - 1)
-			tile_type = random.randint(0, 3) # random tile
-			monster = random.randint(0, 1)
-			event = random.randint(0, 1)
-			if monster == 1 and event == 1:
-				if random.randint(0, 1) == 1:
-					monster = 0
-				else:
-					event = 0
-			test_map[x_temp][y_temp]['tile'] = tile_type
-			test_map[x_temp][y_temp]['monster'] = monster
-			test_map[x_temp][y_temp]['event'] = event
+		y = 8
+		test_map = generate_map(x, y)
 
 		# print the map
 		print_map(test_map, x, y)
@@ -132,7 +154,7 @@ class MapMakerTest(unittest.TestCase):
 				if test_map[i][j]:
 					# select the tile type
 					select_tiles[test_map[i][j]['tile']].click()
-					tiles[((x + 1) * i) + j].click()
+					tiles[(y * i) + j].click()
 
 		# write monsters
 		elem = driver.find_elements_by_xpath("//div[@class='MapEditor']//button")
@@ -143,9 +165,8 @@ class MapMakerTest(unittest.TestCase):
 		for i in range(x):
 			for j in range(y):
 				if test_map[i][j]:
-					# select the tile type
 					if test_map[i][j]['monster'] == 1:
-						tiles[((x + 1) * i) + j].click()
+						tiles[(y * i) + j].click()
 
 		# write events
 		elem = driver.find_elements_by_xpath("//div[@class='MapEditor']//button")
@@ -156,15 +177,32 @@ class MapMakerTest(unittest.TestCase):
 		for i in range(x):
 			for j in range(y):
 				if test_map[i][j]:
-					# select the tile type
 					if test_map[i][j]['event'] == 1:
-						tiles[((x + 1) * i) + j].click()
+						tiles[(y * i) + j].click()
 
 		# save
 		elem = driver.find_element_by_class_name("save")
 		elem.click()
 
 		# check for correct saving
+		# convert my map to db structure
+		my_map = convert_to_db_map(test_map, x, y)
+
+		# get the actual value from the database
+		db_dnd_host = '127.0.0.1'
+		db_dnd_user = 'root'
+		db_dnd_password = 'password'
+		db_dnd = 'dnd'
+		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+		cur = db.cursor()
+		cur.execute("select MapTiles from Maps where MapName = 'test_map_1'")
+		for row in cur.fetchall():
+			db_map = json.loads(row[0])
+		self.assertEqual(my_map, db_map)
+		cur.execute("delete from Maps where MapName = 'test_map_1'")
+		db.commit()
+		cur.close()
+		db.close()
 
 	def tearDown(self):
 		return
