@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // components
 import { FormControl, Panel } from 'react-bootstrap';
 
-//import './AbilityScore.css';
+import './AbilityScore.css';
 
 class LevelUpAbilityScore extends Component {
   constructor(props) {

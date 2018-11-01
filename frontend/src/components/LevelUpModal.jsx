@@ -65,7 +65,7 @@ class LevelUpModal extends Component {
             .then((response) => {
                 let levelUpStuff = new Map();
                 response.data.forEach(payload => {
-                    const c = new RaceType(payload[1], payload[2]);
+                    const c = new RaceType(payload[0], payload[1]);
                     levelUpStuff = levelUpStuff.set(c.name, c);
                 });
                 this.setState({ levelUpStuff });
@@ -75,11 +75,14 @@ class LevelUpModal extends Component {
             .then((response) => {
                 let feats = new Map();
                 response.data.forEach(payload => {
-                    const c = new RaceType(payload[1], payload[2]);
+                    const c = new RaceType(payload[0], payload[1]);
                     feats = feats.set(c.name, c);
                 });
                 this.setState({ feats });
+                console.log("FIND ME IM A FEAT" + feats);
             });
+
+           
     }
 
     currentLevel() {
