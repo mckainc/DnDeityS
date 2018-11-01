@@ -68,9 +68,7 @@ class MapMaker extends Component {
     // add user id
     const userId = localStorage.getItem('user_id');
     mapJSON['user_id'] = userId;
-    console.log(mapJSON);
 
-    console.log(JSON.stringify(mapJSON))
     if (this.state.mapId !== null) {
       // Update map
       server.patch('/map/' + this.state.mapId, JSON.stringify(mapJSON));
@@ -80,7 +78,6 @@ class MapMaker extends Component {
     // Create map
     server.post('/map', JSON.stringify(mapJSON))
       .then(response => {
-        console.log(response)
         const mapId = response.data.CharacterId;
         this.setState({ mapId });
       })
