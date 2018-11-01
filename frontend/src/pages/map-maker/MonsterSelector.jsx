@@ -17,11 +17,20 @@ class MonsterSelector extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.type !== nextProps.type) {
+      const monster = this.props.monsters.get(nextProps.type);
+      this.setState({ monster });
+    }
+  }
+
   deleteMonster = () => {
+    this.props.deleteMonster();
     this.setState({ monster: undefined });
   }
 
   selectMonster = monster => {
+    this.props.selectMonster(monster.name);
     this.setState({ monster });
   }
 
@@ -36,7 +45,6 @@ class MonsterSelector extends Component {
     }).sort((a, b) => a.name.localeCompare(b.name));
 
     if (typeof monster !== 'undefined') {
-      console.log(monster);
       return (
         <div className="MonsterSelector">
           <ControlLabel>Monster</ControlLabel>

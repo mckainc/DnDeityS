@@ -68,7 +68,7 @@ class MapEditor extends Component {
   }
 
   changeLayer = (selectedLayer) => {
-    this.setState({ selectedLayer });
+    this.setState({ selectedLayer, selectedX: 'none', selectedY: 'none' });
   }
 
   changeTile = (selectedTile) => {
