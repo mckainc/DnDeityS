@@ -4,12 +4,13 @@ import axios from 'axios';
 //types
 import { Map } from 'immutable';
 import RaceType from '../objects/RaceType'
-import FeatureType from '../objects/FeatureType'
 import serverURL from '../objects/url.js';
 
 import LevelUpClassDetails from './LevelUpClassDetails';
+import LevelUpFeatures from './LevelUpFeatures';
 
 import { Modal, Button,  } from 'react-bootstrap';
+
 
 
 
@@ -47,7 +48,6 @@ class LevelUpModal extends Component {
             charId,
             points,
             name,
-            //character: { description: {} },
             levelUpStuff: new Map(),
             feats: new Map(),
         }
@@ -76,7 +76,7 @@ class LevelUpModal extends Component {
             .then((response) => {
                 let feats = new Map();
                 response.data.forEach(payload => {
-                    const c = new RaceType(payload[0], payload[1]);
+                    const c = new RaceType(payload[2], payload[1]);
                     feats = feats.set(c.name, c);
                 });
                 this.setState({ feats });
@@ -185,19 +185,9 @@ class LevelUpModal extends Component {
 
     render(){
         const { character } = this.props;
-        const { levelUpStuff } = this.state.levelUpStuff;
+       // const { levelUpStuff } = this.state.levelUpStuff;
         const { level } = this.state.level;
         const { loaded } = this.props;
-        //console.log(this.props);
-        //console.log("Character stuff " + character);
-        //console.log(this.state.exp);
-        //console.log("LevelUpStuff");
-        //console.log(this.state.levelUpStuff);
-        //console.log("Level");
-        //console.log(this.state.level);
-        //console.log("feats");
-        //console.log(this.state.feats)
-        //console.log(this.state.charClass);
 
         if(!this.props.loaded){
             return <div></div>
@@ -231,8 +221,8 @@ class LevelUpModal extends Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        
-                        <LevelUpClassDetails levelUpStuff={levelUpStuff} level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+                        <LevelUpClassDetails level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+                        <LevelUpFeatures levelUpStuff={this.state.levelUpStuff} changeCharacter={this.changeCharacter} loaded={this.loaded}/>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>

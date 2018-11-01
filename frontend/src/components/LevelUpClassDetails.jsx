@@ -56,7 +56,7 @@ class LevelUpClassdetails extends Component {
 
         return ( 
             <div>  
-                <Well>
+                
                         <p>Roll For Health: </p>
                         <Button onClick={this.diceRoller}>d{this.state.Hitdie}</Button>
                         <p>{this.state.rolledHp}</p>
@@ -65,14 +65,7 @@ class LevelUpClassdetails extends Component {
                         <p>{this.state.profBonus}</p>
 
                         <p>Ability Score Improvements</p>
-                            <LevelUpScores changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
-                        <p>New Class Feacture</p>
-
-
-                        <p>Spell slots</p>
-
-
-                </Well>
+                            <LevelUpScores changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>                
             </div>
         );
     }
