@@ -83,6 +83,11 @@ class MapMakerTest(unittest.TestCase):
 			tile_type = random.randint(0, 3) # random tile
 			monster = random.randint(0, 1)
 			event = random.randint(0, 1)
+			if monster == 1 and event == 1:
+				if random.randint(0, 1) == 1:
+					monster = 0
+				else:
+					event = 0
 			test_map[x_temp][y_temp]['tile'] = tile_type
 			test_map[x_temp][y_temp]['monster'] = monster
 			test_map[x_temp][y_temp]['event'] = event
@@ -98,6 +103,28 @@ class MapMakerTest(unittest.TestCase):
 			self.assertTrue(False)
 			return
 		elem.click()
+		try:
+			inputs = driver.find_elements_by_tag_name('input')
+			inputs[0].send_keys('test_map_1') # name
+			inputs[1].clear()
+			inputs[1].send_keys(str(y)) # width
+			inputs[2].clear()
+			inputs[2].send_keys(str(x)) # height
+			elem = driver.find_element_by_class_name("close")
+			elem.click()
+		except Exception as e:
+			self.assertTrue(False)
+			return
+
+		# write tile types
+		# select writer
+		elem = driver.find_element_by_tag_name("button")
+		elem.click()
+		elem = driver.find_element_by_xpath("//div[@class='MapMaker']/div[@class='MapEditor']")
+		for i in range(x):
+			for j in range(y):
+				if test_map[i][j]:
+
 
 
 	def tearDown(self):
