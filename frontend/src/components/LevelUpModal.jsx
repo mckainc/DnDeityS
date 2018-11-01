@@ -63,7 +63,6 @@ class LevelUpModal extends Component {
                 });
                 this.setState({ levelUpStuff });
             });
-        
     }
 
     currentLevel() {
@@ -172,6 +171,7 @@ class LevelUpModal extends Component {
         console.log(this.props);
         console.log(character);
         console.log(this.state.exp);
+        console.log(levelUpStuff);
         console.log(level);
 
         if(!this.props.loaded){
