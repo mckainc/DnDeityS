@@ -16,13 +16,16 @@ class MapTile extends Component {
   }
 
   handleClick = () => {
+    const { x, y } = this.props;
     switch (this.props.selectedLayer) {
       case 'tiles':
         switch (this.props.selectedTool) {
           case 'draw':
+            this.props.editTile(x, y, 'tile', this.props.selectedTile);
             this.setState({ tile: this.props.selectedTile });
             break;
           case 'erase':
+            this.props.editTile(x, y, 'tile', 'none');
             this.setState({ tile: 'none' });
             break;
         }
@@ -31,10 +34,16 @@ class MapTile extends Component {
         if (typeof this.state.event !== 'undefined') return;
         switch (this.props.selectedTool) {
           case 'draw':
+            this.props.selectTile(x, y);
+            this.props.editTile(x, y, 'monster', {});
             this.setState({ monster: {} });
             break;
           case 'erase':
+            this.props.editTile(x, y, 'monster', undefined);
             this.setState({ monster: undefined });
+            break;
+          case 'edit':
+            this.props.selectTile(x, y);
             break;
         }
         break;
@@ -42,10 +51,16 @@ class MapTile extends Component {
       if (typeof this.state.monster !== 'undefined') return;
         switch (this.props.selectedTool) {
           case 'draw':
+            this.props.selectTile(x, y);
+            this.props.editTile(x, y, 'event', {});
             this.setState({ event: {} });
             break;
           case 'erase':
+            this.props.editTile(x, y, 'event', undefined);
             this.setState({ event: undefined });
+            break;
+          case 'edit':
+            this.props.selectTile(x, y);
             break;
         }
         break;
@@ -53,13 +68,16 @@ class MapTile extends Component {
   }
 
   handleDraw = () => {
+    const { x, y } = this.props
     if (this.props.isMouseDown) {
       if (this.props.selectedLayer !== 'tiles') { return; } 
       switch (this.props.selectedTool) {
         case 'draw':
+          this.props.editTile(x, y, 'tile', this.props.selectedTile);
           this.setState({ tile: this.props.selectedTile });
           break;
         case 'erase':
+          this.props.editTile(x, y, 'tile', 'none');
           this.setState({ tile: 'none' });
           break;
       }

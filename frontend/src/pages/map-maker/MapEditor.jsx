@@ -23,6 +23,8 @@ class MapEditor extends Component {
 
     this.state = {
       monsters: new Map(),
+      selectedX: 'none',
+      selectedY: 'none',
       selectedTool: 'draw',
       selectedLayer: 'tiles',
       selectedTile: 'dirt',
@@ -47,6 +49,10 @@ class MapEditor extends Component {
         });
         this.setState({ monsters });
       });
+  }
+
+  selectTile = (selectedX, selectedY) => {
+    this.setState({ selectedX, selectedY });
   }
 
   handleSettingsClose = (width, height) => {
@@ -85,17 +91,24 @@ class MapEditor extends Component {
         <Col md={9}>
           <LayerToolbar changeLayer={this.changeLayer} selectedLayer={this.state.selectedLayer} toggleModal={this.toggleModal} />
           <MapGrid
+            editTile={this.props.editTile}
+            map={this.props.map}
             x={x}
             y={y}
+            selectedX={this.state.selectedX}
+            selectedY={this.state.selectedY}
             selectedTool={this.state.selectedTool}
             selectedLayer={selectedLayer}
             selectedTile={selectedTile}
+            selectTile={this.selectTile}
           />
         </Col>
         <Col md={2}>
-          {selectedLayer === 'tiles' && <TileSelector changeTile={this.changeTile}/>}
-          {selectedLayer === 'events' && <EventEditor />}
-          {selectedLayer === 'monsters' && <MonsterEditor monsters={monsters} />}
+          {selectedLayer === 'tiles' && <TileSelector changeTile={this.changeTile} />}
+          {selectedLayer === 'events' &&
+            <EventEditor editTile={this.props.editTile} map={this.props.map} selectedX={this.state.selectedX} selectedY={this.state.selectedY}/>}
+          {selectedLayer === 'monsters' &&
+            <MonsterEditor monsters={monsters} editTile={this.props.editTile} map={this.props.map} selectedX={this.state.selectedX} selectedY={this.state.selectedY}/>}
         </Col>
       </div>
     )
