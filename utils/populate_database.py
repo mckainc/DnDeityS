@@ -37,8 +37,8 @@ with open('Backgrounds.json') as b:
 		try:
 			jsonout = json.dumps(background)
 			jsonout = jsonout.replace("'", "\\'")
-			query = 'INSERT INTO backgrounds(BackgroundData) values(%s)'
-			rows += cursor.execute(query, jsonout)
+			query = 'INSERT INTO backgrounds(BackgroundData) values(\'%s\');' % jsonout
+			rows += cursor.execute(query)
 		except Exception, e:
 			print('Error inserting data into backgrounds table: {0}'.format(e))
 	try:
