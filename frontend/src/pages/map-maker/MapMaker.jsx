@@ -17,8 +17,36 @@ class MapMaker extends Component {
 
     this.state = {
       map: new Map(),
+      loaded: false,
       mapId: null,
       mapInfo: { name: 'Untitled', height: 25, width: 25 }
+    }
+  }
+
+  componentWillMount() {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    // load map data, if any
+    const mapId = this.props.match.params.mapId;
+    if (typeof mapId !== 'undefined') {
+      this.setState({ mapId });
+      server.get('/map/' + mapId)
+        .then(response => {
+          const tiles = JSON.parse(response.data[6]);
+          let map = new Map();
+
+          // parse tile data
+          tiles.forEach(tile => {
+            if (!map.has(tile.x)) {
+              map = map.set(tile.x, new Map());
+            }
+            map = map.set(tile.x, map.get(tile.x).set(tile.y, tile));
+          });
+
+          this.setState({ map, loaded: true });
+        });
     }
   }
 
@@ -84,6 +112,13 @@ class MapMaker extends Component {
   }
 
   render() {
+    const { loaded } = this.state;
+    // Allow the page to load if it is pulling in map data
+    const mapId = this.props.match.params.mapId;
+    if (typeof mapId !== 'undefined' && !loaded) {
+      return <div className="MapMaker"></div>
+    }
+
     return (
       <div className="MapMaker">
         <SiteNavBar enableSave save={this.saveMap}/>

@@ -30,6 +30,7 @@ class App extends Component {
           <Route exact path="/ForgottenPassword" component={ForgottenPassword} />
           <Route path="/ChangePassword/:user" component={ChangePassword} />
           <Route exact path="/MapMaker" component={MapMaker} />
+          <Route path="/MapMaker/:mapId" component={MapMaker} />
         </div>
       </Router>
     );
