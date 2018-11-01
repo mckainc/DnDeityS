@@ -109,6 +109,7 @@ class CharacterCreator extends Component {
           character.description = JSON.parse(response.data[14]);
           character.exp = response.data[5];
           character.charId = this.state.characterId;
+          //character.level = JSON.parse(response.data[15]);
           
           const choices = JSON.parse(response.data[11]);
           character.race_language_choice = choices.race.language;
@@ -141,6 +142,7 @@ class CharacterCreator extends Component {
 
     if (this.state.characterId !== null) {
       // Update character
+      //this.changeCharacter('level', 1, true);
       server.patch('/character/' + this.state.characterId, JSON.stringify(character));
       return;
     }

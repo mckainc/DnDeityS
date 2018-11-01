@@ -34,10 +34,19 @@ class LevelUpModal extends Component {
         let character = props.loaded ? props.character : 'none';
         //HEY I CHANGED XP TO A FIXED VALUE
         let exp = 6520;//enough for level 5
-        let level = 3;
         let charId = props.charId;
         let name = props.name;
 
+
+        let Tlevel = props.loaded ? props.character.description.level : 'undefinded';
+        if (typeof Tlevel === 'undefined') {
+            //level = 2;
+            props.changeCharacter('level', 1, true)
+            console.log(character.description.level);
+        }
+        let level = props.loaded ? props.character.description.level : 'undefinded';
+        level++;
+        console.log(level);
         this.state = {
             showP1: false,
             showp2: false,
@@ -81,8 +90,6 @@ class LevelUpModal extends Component {
                 });
                 this.setState({ feats });
             });
-
-           
     }
 
     currentLevel() {
@@ -148,7 +155,7 @@ class LevelUpModal extends Component {
     handleCloseP2() {
         this.setState({ showP2: false});
     }
-
+    /*
     changeCharacter = (property, value, isDescription) => {
         const { character } = this.state;
         if (isDescription === true) {
@@ -157,7 +164,7 @@ class LevelUpModal extends Component {
           character[property] = value;
         }
       }
-
+    */
     saveCharacter = () => {
         const { character } = this.state;
         const server = axios.create({

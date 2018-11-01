@@ -10,7 +10,7 @@ class LevelUpClassdetails extends Component {
 
         let rolledHp = 0;
         let Hitdie = 12;
-        let level = 20;
+        let level = props.loaded ? props.character.description.level : 5;
         var temp;
         
        if(level >= 17){
