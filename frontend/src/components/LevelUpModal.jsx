@@ -28,23 +28,27 @@ class LevelUpModal extends Component {
         //refering to character passed by props, not local variable
 
         let points = props.ability_scores;
-        let charClass = props.class;
+        let charClass = props.loaded ? props.character.class : 'none';
+        let character = props.loaded ? props.character : 'none';
         //HEY I CHANGED XP TO A FIXED VALUE
         let exp = 6520;//enough for level 5
+        let level = 3;
         let charId = props.charId;
         let name = props.name;
 
         this.state = {
             showP1: false,
             showp2: false,
-            level: 1,
+            level,
             exp,
             charClass,
+            character,
             charId,
             points,
             name,
             //character: { description: {} },
             levelUpStuff: new Map(),
+            feats: new Map(),
         }
     }
 
@@ -52,9 +56,12 @@ class LevelUpModal extends Component {
         const server = axios.create({
             baseURL: serverURL,
         });
-
+        const charClass = this.state.charClass;
+        const level = this.state.level;
         //Make Server request for all class imporvements
-        server.get(this.state.charClass, this.state.level)
+        //JSON.stringify(this.state.level)
+        var obj = { charClass, level }
+        server.post('/features', JSON.stringify(obj))
             .then((response) => {
                 let levelUpStuff = new Map();
                 response.data.forEach(payload => {
@@ -62,6 +69,16 @@ class LevelUpModal extends Component {
                     levelUpStuff = levelUpStuff.set(c.name, c);
                 });
                 this.setState({ levelUpStuff });
+            });
+
+            server.get('/feats')
+            .then((response) => {
+                let feats = new Map();
+                response.data.forEach(payload => {
+                    const c = new RaceType(payload[1], payload[2]);
+                    feats = feats.set(c.name, c);
+                });
+                this.setState({ feats });
             });
     }
 
@@ -122,7 +139,7 @@ class LevelUpModal extends Component {
         this.setState({ showP2: true});
         this.setState({ showP1: false});
 
-        this.currentLevel();
+        //this.currentLevel();
     }
 
     handleCloseP2() {
@@ -169,10 +186,13 @@ class LevelUpModal extends Component {
         const { level } = this.state.level;
         const { loaded } = this.props;
         console.log(this.props);
-        console.log(character);
+        console.log("Character stuff " + character);
         console.log(this.state.exp);
-        console.log(levelUpStuff);
-        console.log(level);
+        console.log("LevelUpStuff");
+        console.log(this.state.levelUpStuff);
+        console.log("Level");
+        console.log(this.state.level);
+        console.log(this.state.charClass);
 
         if(!this.props.loaded){
             return <div></div>

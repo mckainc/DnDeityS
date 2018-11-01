@@ -116,6 +116,7 @@ class CharacterCreator extends Component {
           character.race_trait_choice = choices.race.trait;
           character.class_proficiency_choices = choices.class;
           this.setState({ character, loaded: true });
+          console.log("Hey Class number" + character.class);
         })
     }
   }
