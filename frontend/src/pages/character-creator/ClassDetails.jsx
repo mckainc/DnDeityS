@@ -34,6 +34,7 @@ class ClassDetails extends PureComponent {
 
   // update state if a new class is selected
   componentWillReceiveProps(nextProps) {
+    if (this.props.currentClass.name === nextProps.currentClass.name) return;
     let profChoices;
     let options = nextProps.currentClass.description.proficiency_choices;
     if (typeof options !== 'undefined') {
