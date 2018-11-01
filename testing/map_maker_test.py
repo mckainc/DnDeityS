@@ -7,6 +7,41 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+def print_map(test_map, x, y):
+	tile_types = ('dirt', 'grass', 'stone', 'wood')
+	for i in range(x):
+		for j in range(y):
+			print("+-------", end='')
+		print("+")
+		for j in range(y):
+			if test_map[i][j]:
+				print("|{:7}".format(tile_types[test_map[i][j]['tile']]), end='')
+			else:
+				print("|       ", end='')
+		print("|")
+		for j in range(y):
+			if test_map[i][j]:
+				if test_map[i][j]['monster'] == 1:
+					print("|monster", end='')
+				else:
+					print("|       ", end='')
+			else:
+				print("|       ", end='')
+		print("|")
+		for j in range(y):
+			if test_map[i][j]:
+				if test_map[i][j]['event'] == 1:
+					print("|event  ", end='')
+				else:
+					print("|       ", end='')
+			else:
+				print("|       ", end='')
+		print("|")
+	for j in range(y):
+		print("+-------", end='')
+	print("+")
+
+
 class MapMakerTest(unittest.TestCase):
 	def setUp(self):
 		self.driver = webdriver.Chrome(executable_path='drivers/chromedriver.exe')
@@ -28,7 +63,6 @@ class MapMakerTest(unittest.TestCase):
 		except Exception as e:
 			self.assertTrue(False)
 			return
-		self.assertTrue(True)
 
 		# does map maker exist?
 		try:
@@ -36,16 +70,12 @@ class MapMakerTest(unittest.TestCase):
 		except Exception as e:
 			self.assertTrue(False)
 			return
-		self.assertTrue(True)
 		elem.click()
 
 		# in map maker now
 		# generate random map to create
-		tile_types = ['dirt', 'grass', 'stone', 'wood']
-		x = random.randint(1, 25)
-		y = random.randint(1, 25)
-		x = 4
-		y = 5
+		x = random.randint(10, 25)
+		y = random.randint(10, 25)
 		test_map = [[dict() for i in range(y)] for j in range(x)]
 		for i in range((x * y) // 2): # fill <= half the map
 			x_temp = random.randint(0, x - 1)
@@ -58,38 +88,17 @@ class MapMakerTest(unittest.TestCase):
 			test_map[x_temp][y_temp]['event'] = event
 
 		# print the map
-		for i in range(x):
-			for j in range(y):
-				print("+-------", end='')
-			print("+")
-			for j in range(y):
-				if test_map[i][j]:
-					print(test_map[i][j]['tile'])
-					print("|{7:}".format(tile_types[test_map[i][j]['tile']]), end='')
-				else:
-					print("|       ", end='')
-			print("|")
-			for j in range(y):
-				if test_map[i][j]:
-					if test_map[i][j]['monster'] == 1:
-						print("|monster", end='')
-					else:
-						print("|       ", end='')
-				else:
-					print("|       ", end='')
-			print("|")
-			for j in range(y):
-				if test_map:
-					if test_map[i][j]['event'] == 1:
-						print("|  event", end='')
-					else:
-						print("|       ", end='')
-				else:
-					print("|       ", end='')
-			print("|")
-		for j in range(y):
-			print("+-------", end='')
-		print("+")
+		print_map(test_map, x, y)
+
+		# write the map to the map maker
+		# change settings
+		try:
+			elem = driver.find_element_by_class_name('settings')
+		except Exception as e:
+			self.assertTrue(False)
+			return
+		elem.click()
+
 
 	def tearDown(self):
 		self.driver.close()
