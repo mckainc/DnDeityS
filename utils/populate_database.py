@@ -99,8 +99,49 @@ except Exception, e:
     print('Rolling back.\n')
     db.rollback()
 
+#call API for subclasses
+api_url = 'http://www.dnd5eapi.co/api/subclasses'
+try:
+	resp = requests.get(url=api_url)
+	data = resp.json()
+except Exception, e:
+	print('Error retrieving data: {0}'.format(e))
+	sys.exit(-1)
+try:
+	print('\nTruncating subclasses table...')
+	cursor.execute('TRUNCATE TABLE subclasses')
+	print('Done.')
+except Exception, e:
+	print('Error truncating subclasses table: {0}'.format(e))
+	sys.exit(-1)
+print('\nInserting rows into subclasses from API data...')
+num_rows=0
+for subclass in data['results']:
+	print subclass['url']
+	try:
+		s_resp = requests.get(url=subclass['url'])
+		s_data = s_resp.json()
+	except Exception, e:
+		print('Error retrieving subclass data: {0}'.format(e))
+		sys.exit(-1)
+	try:
+		query = 'INSERT INTO subclasses(ClassName, SubclassData) values(%s, %s);'
+		rows = cursor.execute(query, (s_data['class']['name'], json.dumps(s_data)))
+		num_rows += rows
+	except Exception, e:
+		print('Error inserting data into subclasses table: {0}'.format(e))
+try:
+	db.commit()
+	print('Done. {0} rows inserted into subclasses table.\n'.format(num_rows))
+except Exception, e:
+	print('Error commiting inserts into subclasses table: {0}'.format(e))
+	print('Rolling back...\n')
+	db.rollback()
+
 #Call API for features
 api_url = 'http://www.dnd5eapi.co/api/features'
+
+
 
 try:
 	resp = requests.get(url=api_url)

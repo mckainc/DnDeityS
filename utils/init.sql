@@ -120,3 +120,10 @@ CREATE TABLE features(
 	FeatureData TEXT, 
 	PRIMARY KEY (FeatureId));
 \! echo 'Done.\n';
+
+\! echo 'Create subclasses table... ';
+CREATE TABLE subclasses(
+	SubclassId INT NOT NULL AUTO_INCREMENT,
+	ClassName VARCHAR(128) NOT NULL,
+	SubclassData TEXT,
+	PRIMARY KEY (SubclassId));
