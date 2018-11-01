@@ -17,10 +17,13 @@ class SiteNaveBar extends Component {
           <Nav>
             <NavItem><Link to="/CharacterList">Characters</Link></NavItem>
           </Nav>
+          <Nav>
+            <NavItem><Link to="/MapList">Maps</Link></NavItem>
+          </Nav>
           {this.props.enableSave &&
           <Nav pullRight>
             <NavItem>
-              <Button className="save" bsSize="xsmall" onClick={this.props.saveCharacter}>Save</Button>
+              <Button className="save" bsSize="xsmall" onClick={this.props.save}>Save</Button>
             </NavItem>
           </Nav>
           }

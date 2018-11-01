@@ -29,10 +29,20 @@ class MapGrid extends PureComponent {
     return (
       <div className="MapGrid" onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>
         {
-          Array.from(rows).map(() => 
+          Array.from(rows).map((_, x) => 
             <div className="row">
-              {Array.from(cols).map(() => (
-                <MapTile selectedTile={selectedTile} isMouseDown={this.state.isMouseDown} selectedTool={selectedTool} selectedLayer={selectedLayer}/>
+              {Array.from(cols).map((_, y) => (
+                <MapTile
+                  x={x}
+                  y={y}
+                  editTile={this.props.editTile}
+                  map={this.props.map}
+                  selectedTile={selectedTile}
+                  isMouseDown={this.state.isMouseDown}
+                  selectedTool={selectedTool}
+                  selectedLayer={selectedLayer}
+                  selectTile={this.props.selectTile}
+                />
               ))}
             </div>
           )

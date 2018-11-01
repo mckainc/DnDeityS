@@ -161,7 +161,7 @@ class CharacterCreator extends Component {
 
     return (
       <div className="CharacterCreator">
-        <SiteNavBar enableSave saveCharacter={this.saveCharacter}/>
+        <SiteNavBar enableSave save={this.saveCharacter}/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
