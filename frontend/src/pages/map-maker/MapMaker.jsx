@@ -36,6 +36,12 @@ class MapMaker extends Component {
         .then(response => {
           const tiles = JSON.parse(response.data[6]);
           let map = new Map();
+          let mapInfo = {};
+
+          // basic map info
+          mapInfo.name = response.data[3];
+          mapInfo.height = response.data[4];
+          mapInfo.width = response.data[5];
 
           // parse tile data
           tiles.forEach(tile => {
@@ -45,7 +51,7 @@ class MapMaker extends Component {
             map = map.set(tile.x, map.get(tile.x).set(tile.y, tile));
           });
 
-          this.setState({ map, loaded: true });
+          this.setState({ map, mapInfo, loaded: true });
         });
     }
   }
@@ -123,7 +129,7 @@ class MapMaker extends Component {
       <div className="MapMaker">
         <SiteNavBar enableSave save={this.saveMap}/>
         <h1 className="map-header">Map Maker</h1>
-        <MapEditor map={this.state.map} editTile={this.editTile} updateInfo={this.updateInfo}/>
+        <MapEditor map={this.state.map} mapInfo={this.state.mapInfo} editTile={this.editTile} updateInfo={this.updateInfo}/>
       </div>
     );
   }
