@@ -4,6 +4,7 @@ import axios from 'axios';
 //types
 import { Map } from 'immutable';
 import RaceType from '../objects/RaceType'
+import FeatureType from '../objects/FeatureType'
 import serverURL from '../objects/url.js';
 
 import LevelUpClassDetails from './LevelUpClassDetails';
@@ -65,7 +66,7 @@ class LevelUpModal extends Component {
             .then((response) => {
                 let levelUpStuff = new Map();
                 response.data.forEach(payload => {
-                    const c = new RaceType(payload[0], payload[1]);
+                    const c = new RaceType(payload[1], payload[4]);
                     levelUpStuff = levelUpStuff.set(c.name, c);
                 });
                 this.setState({ levelUpStuff });
@@ -79,7 +80,6 @@ class LevelUpModal extends Component {
                     feats = feats.set(c.name, c);
                 });
                 this.setState({ feats });
-                console.log("FIND ME IM A FEAT" + feats);
             });
 
            
@@ -188,14 +188,16 @@ class LevelUpModal extends Component {
         const { levelUpStuff } = this.state.levelUpStuff;
         const { level } = this.state.level;
         const { loaded } = this.props;
-        console.log(this.props);
-        console.log("Character stuff " + character);
-        console.log(this.state.exp);
-        console.log("LevelUpStuff");
-        console.log(this.state.levelUpStuff);
-        console.log("Level");
-        console.log(this.state.level);
-        console.log(this.state.charClass);
+        //console.log(this.props);
+        //console.log("Character stuff " + character);
+        //console.log(this.state.exp);
+        //console.log("LevelUpStuff");
+        //console.log(this.state.levelUpStuff);
+        //console.log("Level");
+        //console.log(this.state.level);
+        //console.log("feats");
+        //console.log(this.state.feats)
+        //console.log(this.state.charClass);
 
         if(!this.props.loaded){
             return <div></div>
@@ -229,7 +231,7 @@ class LevelUpModal extends Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <p>{this.state.levelUpStuff}</p>
+                        
                         <LevelUpClassDetails levelUpStuff={levelUpStuff} level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
                     </Modal.Body>
                     <Modal.Footer>
