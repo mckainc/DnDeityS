@@ -25,9 +25,9 @@ class SettingsModal extends Component {
   }
 
   render() {
-    const { x, y } = this.state;
+    const { x, y, name } = this.state;
     return (
-      <Modal show={this.props.showSettings} onHide={() => this.props.handleSettingsClose(x, y)}>
+      <Modal show={this.props.showSettings} onHide={() => this.props.handleSettingsClose(x, y, name)}>
         <Modal.Header closeButton>Settings</Modal.Header>
         <Modal.Body>
           <Form horizontal>

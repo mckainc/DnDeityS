@@ -55,7 +55,8 @@ class MapEditor extends Component {
     this.setState({ selectedX, selectedY });
   }
 
-  handleSettingsClose = (width, height) => {
+  handleSettingsClose = (width, height, name) => {
+    this.props.updateInfo(width, height, name);
     this.setState({ x: width, y: height, showSettings: false });
   }
 

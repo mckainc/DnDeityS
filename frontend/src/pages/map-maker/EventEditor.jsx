@@ -11,7 +11,8 @@ class EventEditor extends Component {
 
     let event = {};
     if (this.props.map.has(selectedX)) {
-      event = this.props.map.get(selectedX).get(selectedY);
+      event = this.props.map.get(selectedX).get(selectedY).event;
+      if (typeof event === 'undefined') event = {};
     }
 
     event[e.target.name] = e.target.value;
@@ -24,7 +25,8 @@ class EventEditor extends Component {
     let event = {};
 
     if (this.props.map.has(selectedX) && this.props.map.get(selectedX).has(selectedY)) {
-      event = this.props.map.get(selectedX).get(selectedY);
+      event = this.props.map.get(selectedX).get(selectedY).event;
+      if (typeof event === 'undefined') event = {};
       if (typeof event.name === 'undefined') event.name = '';
       if (typeof event.description === 'undefined') event.description = '';
     }
