@@ -46,7 +46,7 @@ class MapMakerTest(unittest.TestCase):
 	def setUp(self):
 		self.driver = webdriver.Chrome(executable_path='drivers/chromedriver.exe')
 
-	def test_random_map(self):
+	def test_random_map_write_and_save(self):
 		driver = self.driver
 		driver.get("localhost:3000/")
 		self.assertIn("React App", driver.title)
@@ -76,6 +76,8 @@ class MapMakerTest(unittest.TestCase):
 		# generate random map to create
 		x = random.randint(10, 25)
 		y = random.randint(10, 25)
+		x = 5
+		y = 6
 		test_map = [[dict() for i in range(y)] for j in range(x)]
 		for i in range((x * y) // 2): # fill <= half the map
 			x_temp = random.randint(0, x - 1)
@@ -105,6 +107,7 @@ class MapMakerTest(unittest.TestCase):
 		elem.click()
 		try:
 			inputs = driver.find_elements_by_tag_name('input')
+			inputs[0].clear()
 			inputs[0].send_keys('test_map_1') # name
 			inputs[1].clear()
 			inputs[1].send_keys(str(y)) # width
@@ -115,20 +118,57 @@ class MapMakerTest(unittest.TestCase):
 		except Exception as e:
 			self.assertTrue(False)
 			return
+		time.sleep(1)
 
 		# write tile types
-		# select writer
-		elem = driver.find_element_by_tag_name("button")
-		elem.click()
-		elem = driver.find_element_by_xpath("//div[@class='MapMaker']/div[@class='MapEditor']")
+		elem = driver.find_elements_by_xpath("//div[@class='MapEditor']//button")
+		elem[0].click() # select writer
+		tile_but = elem[3]
+		tile_but.click() # select tiles
+		tiles = driver.find_elements_by_class_name("MapTile")
+		select_tiles = driver.find_elements_by_xpath("//div[@class='TileSelector']//div[@class='tile']")
 		for i in range(x):
 			for j in range(y):
 				if test_map[i][j]:
+					# select the tile type
+					select_tiles[test_map[i][j]['tile']].click()
+					tiles[((x + 1) * i) + j].click()
 
+		# write monsters
+		elem = driver.find_elements_by_xpath("//div[@class='MapEditor']//button")
+		elem[0].click() # select writer
+		tile_but = elem[4]
+		tile_but.click() # select monsters
+		tiles = driver.find_elements_by_class_name("MapTile")
+		for i in range(x):
+			for j in range(y):
+				if test_map[i][j]:
+					# select the tile type
+					if test_map[i][j]['monster'] == 1:
+						tiles[((x + 1) * i) + j].click()
 
+		# write events
+		elem = driver.find_elements_by_xpath("//div[@class='MapEditor']//button")
+		elem[0].click() # select writer
+		tile_but = elem[5]
+		tile_but.click() # select events
+		tiles = driver.find_elements_by_class_name("MapTile")
+		for i in range(x):
+			for j in range(y):
+				if test_map[i][j]:
+					# select the tile type
+					if test_map[i][j]['event'] == 1:
+						tiles[((x + 1) * i) + j].click()
+
+		# save
+		elem = driver.find_element_by_class_name("save")
+		elem.click()
+
+		# check for correct saving
 
 	def tearDown(self):
-		self.driver.close()
+		return
+		# self.driver.close()
 
 if __name__ == "__main__":
 	unittest.main()
