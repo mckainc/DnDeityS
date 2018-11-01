@@ -483,6 +483,20 @@ def get_races():
 		return make_response(jsonify({'error': 'No Races'}), 500)
 	else:
 		return make_response(jsonify(returned))
+@application.route ('/backgrounds', methods=['GET'])
+def get_backgrounds():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	cur.execute('select * from backgrounds')
+	returned = []
+	for row in cur:
+		returned.append(row)
+	cur.close()
+	db.close()
+	if len(returned)==0:
+		return make_response(jsonify({'error' : 'No Backgrounds'}), 500)
+	else:
+		return make_response(jsonify(returned))
 
 @application.route('/monsters', methods=['GET'])
 def get_monsters():
