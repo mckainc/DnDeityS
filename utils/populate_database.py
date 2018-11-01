@@ -22,6 +22,32 @@ except Exception, e:
     print('Error connecting to database: {0}'.format(e))
     sys.exit(-1)
 
+#backgrounds
+rows=0
+try:
+	print('\nTruncating Backgrounds table... ')
+	cursor.execute('TRUNCATE TABLE backgrounds')
+	print('Done.')
+except Exception, e:
+	print('Error truncating backgrounds table: {0}'.format(e))
+	sys.exit(-1)
+with open('Backgrounds.json') as b:
+	data = json.load(b)
+	for background in data['backgrounds']:
+		try:
+			jsonout = json.dumps(background)
+			jsonout = jsonout.replace("'", "\\'")
+			query = 'INSERT INTO backgrounds(BackgroundData) values(%s)'
+			rows += cursor.execute(query, jsonout)
+		except Exception, e:
+			print('Error inserting data into backgrounds table: {0}'.format(e))
+	try:
+		db.commit()
+		print('Done. {0} rows inserted into backgrounds table.\n'.format(rows))
+	except Exception, e:
+		print('Error committing data into backgrounds table: {0}\n'.format(e))
+		db.rollback()
+
 #Insert feats
 #Feats.JSON
 rows = 0

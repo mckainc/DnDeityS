@@ -40,8 +40,7 @@ CREATE TABLE equipments (
 \! echo 'Create backgrounds table... ';
 CREATE TABLE backgrounds (
 	BackgroundId INT NOT NULL AUTO_INCREMENT,
-	BackgroundName VARCHAR(128) NOT NULL, 
-	BackgroundJSON TEXT,	
+	BackgroundData TEXT,	
 	PRIMARY KEY (BackgroundId));
 \! echo 'Done.\n';
 
