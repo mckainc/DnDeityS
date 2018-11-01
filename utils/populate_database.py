@@ -38,10 +38,10 @@ with open('Feats.JSON') as f:
 		try:
 			jsonout = json.dumps(feat)
 			jsonout = jsonout.replace("'", "\\'")
-			query = 'INSERT INTO feats(FeatData) values(\'%s\');' % jsonout
+			query = 'INSERT INTO feats(FeatData, FeatName) values(%s, %s)'
 			rows =1
 			print(feat["id"]) 
-			cursor.execute(query)
+			cursor.execute(query, (jsonout, feat['name']))
 		except Exception, e:
 			print('Error insterting data into feats table: {0}'.format(e))
 	try:

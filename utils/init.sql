@@ -108,6 +108,7 @@ CREATE TABLE monsters (
 CREATE TABLE feats (
 	FeatId INT NOT NULL AUTO_INCREMENT,
 	FeatData TEXT,
+	FeatName VARCHAR(128),
 	PRIMARY KEY (FeatId));
 \! echo 'Done.\n';
 
