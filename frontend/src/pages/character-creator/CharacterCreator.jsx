@@ -186,7 +186,7 @@ class CharacterCreator extends Component {
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter} character={character}/>
-              <LevelUpModal character={character} loaded={loaded}/>
+              <LevelUpModal changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
             </Col>
           </Row>
         </Grid>

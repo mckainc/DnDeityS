@@ -168,6 +168,7 @@ class LevelUpModal extends Component {
         const { character } = this.props;
         const { levelUpStuff } = this.state.levelUpStuff;
         const { level } = this.state.level;
+        const { loaded } = this.props;
         console.log(this.props);
         console.log(character);
         console.log(this.state.exp);
@@ -206,7 +207,7 @@ class LevelUpModal extends Component {
 
                     <Modal.Body>
                         <p>{this.state.levelUpStuff}</p>
-                        <LevelUpClassDetails levelUpStuff={levelUpStuff} level={level}/>
+                        <LevelUpClassDetails levelUpStuff={levelUpStuff} level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>
