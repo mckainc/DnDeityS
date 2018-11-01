@@ -55,7 +55,8 @@ class MapEditor extends Component {
     this.setState({ selectedX, selectedY });
   }
 
-  handleSettingsClose = (width, height) => {
+  handleSettingsClose = (width, height, name) => {
+    this.props.updateInfo(width, height, name);
     this.setState({ x: width, y: height, showSettings: false });
   }
 
@@ -84,6 +85,7 @@ class MapEditor extends Component {
           handleSettingsClose={this.handleSettingsClose}
           x={x}
           y={y}
+          mapInfo={this.props.mapInfo}
         />
         <Col md={1}>
           <IconToolbar changeTool={this.changeTool} selectedTool={this.state.selectedTool} />

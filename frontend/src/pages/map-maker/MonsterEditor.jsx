@@ -13,7 +13,8 @@ class MonsterEditor extends Component {
 
     let monster = {};
     if (this.props.map.has(selectedX)) {
-      monster = this.props.map.get(selectedX).get(selectedY);
+      monster = this.props.map.get(selectedX).get(selectedY).monster;
+      if (typeof monster === 'undefined') monster = {};
     }
 
     monster[e.target.name] = e.target.value;
@@ -42,7 +43,8 @@ class MonsterEditor extends Component {
     let monster = {};
 
     if (this.props.map.has(selectedX) && this.props.map.get(selectedX).has(selectedY)) {
-      monster = this.props.map.get(selectedX).get(selectedY);
+      monster = this.props.map.get(selectedX).get(selectedY).monster;
+      if (typeof monster === 'undefined') monster = {};
       if (typeof monster.name === 'undefined') monster.name = '';
       if (typeof monster.description === 'undefined') monster.description = '';
       if (typeof monster.type === 'undefined') monster.type = '';

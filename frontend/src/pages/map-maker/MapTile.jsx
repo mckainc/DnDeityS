@@ -8,10 +8,22 @@ class MapTile extends Component {
   constructor(props) {
     super(props);
 
+    let monster = undefined;
+    let event = undefined;
+    let tile = 'none';
+
+    if (props.map.has(props.x) && props.map.get(props.x).has(props.y)) {
+      const data = props.map.get(props.x).get(props.y);
+
+      tile = data.tile;
+      monster = data.monster;
+      event = data.event;
+    }
+
     this.state = {
-      monster: undefined,
-      event: undefined,
-      tile: 'none',
+      monster,
+      event,
+      tile,
     }
   }
 

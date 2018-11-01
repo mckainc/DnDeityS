@@ -7,10 +7,14 @@ class SettingsModal extends Component {
   constructor(props) {
     super(props);
 
+    let x = props.mapInfo.width;
+    let y = props.mapInfo.height;
+    let name = props.mapInfo.name;
+
     this.state = {
-      name: 'Untitled',
-      x: props.x,
-      y: props.y,
+      name,
+      x,
+      y,
     }
   }
 
@@ -25,9 +29,9 @@ class SettingsModal extends Component {
   }
 
   render() {
-    const { x, y } = this.state;
+    const { x, y, name } = this.state;
     return (
-      <Modal show={this.props.showSettings} onHide={() => this.props.handleSettingsClose(x, y)}>
+      <Modal show={this.props.showSettings} onHide={() => this.props.handleSettingsClose(x, y, name)}>
         <Modal.Header closeButton>Settings</Modal.Header>
         <Modal.Body>
           <Form horizontal>
@@ -40,6 +44,7 @@ class SettingsModal extends Component {
                   name="name"
                   type="text"
                   placeholder="Enter Map Name"
+                  value={name}
                   onChange={e => this.handleChange(e)}
                 />
               </Col>
