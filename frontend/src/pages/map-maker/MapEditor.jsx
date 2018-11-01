@@ -21,6 +21,9 @@ class MapEditor extends Component {
   constructor(props) {
     super(props);
 
+    let x = props.mapInfo.width;
+    let y = props.mapInfo.height;
+
     this.state = {
       monsters: new Map(),
       selectedX: 'none',
@@ -29,8 +32,8 @@ class MapEditor extends Component {
       selectedLayer: 'tiles',
       selectedTile: 'dirt',
       showSettings: false,
-      x: 25,
-      y: 25,
+      x,
+      y,
     }
   }
 
