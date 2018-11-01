@@ -89,7 +89,6 @@ for equipment in data['results']:
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Equipments table: {0}'.format(e))
-        sys.exit(-1)
 
 # Commit changes
 try:
@@ -100,10 +99,88 @@ except Exception, e:
     print('Rolling back.\n')
     db.rollback()
 
+#call API for subclasses
+api_url = 'http://www.dnd5eapi.co/api/subclasses'
+try:
+	resp = requests.get(url=api_url)
+	data = resp.json()
+except Exception, e:
+	print('Error retrieving data: {0}'.format(e))
+	sys.exit(-1)
+try:
+	print('\nTruncating subclasses table...')
+	cursor.execute('TRUNCATE TABLE subclasses')
+	print('Done.')
+except Exception, e:
+	print('Error truncating subclasses table: {0}'.format(e))
+	sys.exit(-1)
+print('\nInserting rows into subclasses from API data...')
+num_rows=0
+for subclass in data['results']:
+	print subclass['url']
+	try:
+		s_resp = requests.get(url=subclass['url'])
+		s_data = s_resp.json()
+	except Exception, e:
+		print('Error retrieving subclass data: {0}'.format(e))
+		sys.exit(-1)
+	try:
+		query = 'INSERT INTO subclasses(ClassName, SubclassData) values(%s, %s);'
+		rows = cursor.execute(query, (s_data['class']['name'], json.dumps(s_data)))
+		num_rows += rows
+	except Exception, e:
+		print('Error inserting data into subclasses table: {0}'.format(e))
+try:
+	db.commit()
+	print('Done. {0} rows inserted into subclasses table.\n'.format(num_rows))
+except Exception, e:
+	print('Error commiting inserts into subclasses table: {0}'.format(e))
+	print('Rolling back...\n')
+	db.rollback()
+
+#Call API for features
+api_url = 'http://www.dnd5eapi.co/api/features'
 
 
 
+try:
+	resp = requests.get(url=api_url)
+	data = resp.json()
+except Exception, e:
+	print('Error retrieving data: {0}'.format(e))
+	sys.exit(-1)
+#truncate table
+try:
+	print('\nTruncating classes table...')
+	cursor.execute('TRUNCATE TABLE features')
+	print('Done.')
+except Exception, e:
+	print('Error truncating features table: {0}'.format(e))
+	sys.exit(-1)
 
+print('\nInserting rows into features table from API data...')
+num_rows=0
+for feature in data['results']:
+	print feature['url']
+	try:
+		f_resp = requests.get(url=feature['url'])
+		f_data = f_resp.json()
+	except Exception, e:
+		print('Error retrieving feature data: {0}'.format(e))
+		sys.exit(-1)
+	try:
+		query = 'INSERT INTO features(FeatureName, ClassName, FeatureLevel, FeatureData) values(%s, %s, %s, %s);'
+		rows = cursor.execute(query, (feature['name'], f_data['class']['name'], f_data['level'], json.dumps(f_data)))
+		num_rows += rows
+	except Exception, e:
+		print('Error inserting data into features table: {0}'.format(e))
+try:
+	db.commit()
+	print('Done. {0} rows inserted into features table.\n'.format(num_rows))
+except Exception, e:
+	print('Error committing inserts to features table: {0}'.format(e))
+	print('Rolling back.\n')
+	db.rollback()
 
 # Call API for classes
 

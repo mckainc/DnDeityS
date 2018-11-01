@@ -110,3 +110,20 @@ CREATE TABLE feats (
 	FeatData TEXT,
 	PRIMARY KEY (FeatId));
 \! echo 'Done.\n';
+
+\! echo 'Create features table... ';
+CREATE TABLE features(
+	FeatureId INT NOT NULL AUTO_INCREMENT,
+	FeatureName VARCHAR(128) NOT NULL,
+	ClassName VARCHAR(128) NOT NULL,
+	FeatureLevel INT, 
+	FeatureData TEXT, 
+	PRIMARY KEY (FeatureId));
+\! echo 'Done.\n';
+
+\! echo 'Create subclasses table... ';
+CREATE TABLE subclasses(
+	SubclassId INT NOT NULL AUTO_INCREMENT,
+	ClassName VARCHAR(128) NOT NULL,
+	SubclassData TEXT,
+	PRIMARY KEY (SubclassId));

@@ -498,6 +498,38 @@ def get_monsters():
 		return make_response(jsonify({'error': 'No Monsters'}), 500)
 	else:
 		return make_response(jsonify(returned))
+@application.route('/features', methods=['POST'])
+def get_feature():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	classname = request.get_json(force=True)['charClass']
+	level = request.get_json(force=True)['level']
+	query = 'select * from features where FeatureLevel='
+	query += str(level)
+	query += ' and ClassName=\''
+	query += classname
+	query += '\';'
+	cur.execute(query)
+	returned = []
+	for row in cur.fetchall():
+		returned.append(row)
+	cur.close()
+	db.close()
+	return make_response(jsonify(returned), 200)
+
+@application.route('/subclass/<int:class_id>', methods=['GET'])
+def get_subclass(class_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	cur.execute('select classes.ClassName from classes where classes.ClassId=%s', (class_id,))
+	class_name = cur.fetchone()[0]
+	cur.execute('select subclasses.SubclassData from subclasses where subclasses.ClassName=%s', (class_name,))
+	returned= cur.fetchone()
+#	for row in cur.fetchall():
+#		returned.append(row)
+	cur.close()
+	db.close()
+	return make_response(jsonify(returned), 200)
 
 @application.route('/map', methods=['POST'])
 def create_map():
