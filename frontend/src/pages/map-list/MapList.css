@@ -1,0 +1,12 @@
+.MapList {
+  background-color: #FAFAFA;
+  height: 100vh;
+}
+
+.map-list-content {
+  padding-top: 6rem;
+}
+
+.MapList .panel {
+  text-align: center;
+}

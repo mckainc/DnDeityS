@@ -19,8 +19,9 @@ import CharacterNavBar from '../../components/CharacterNavBar';
 import { FormControl, Grid, Row, Col } from 'react-bootstrap';
 import LevelUpModal from '../../components/LevelUpModal'
 import './CharacterCreator.css';
+import BackgroundSection from './BackgroundSection';
 
-const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Description'];
+const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Background', 'Description'];
 
 class CharacterCreator extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class CharacterCreator extends Component {
       classes: new Map(),
       equipment: new Map(),
       spells: new Map(),
+      backgrounds: new Map(),
     }
   }
 
@@ -91,6 +93,21 @@ class CharacterCreator extends Component {
           spells = spells.set(spell.name, spell);
         });
         this.setState({ spells });
+      });
+    
+    // Make server request for backgrounds
+    server.get('/backgrounds')
+      .then((response) => {
+        let backgrounds = new Map();
+        response.data.forEach(payload => {
+          const responseJSON = JSON.parse(payload[1]);
+          const background = new RaceType(responseJSON.name, payload[1]);
+          background.description.description = background.description.description.replace(/u2019/g, '\'');
+          background.description.description = background.description.description.replace(/u2014/g, '-');
+          background.description.equipment = background.description.equipment.replace(/u2019/g, '\'');
+          backgrounds = backgrounds.set(background.name, background);
+        });
+        this.setState({ backgrounds });
       });
     
     // load character data, if any
@@ -168,8 +185,7 @@ class CharacterCreator extends Component {
    // console.log(character);
     return (
       <div className="CharacterCreator">
-        
-        <SiteNavBar enableSave saveCharacter={this.saveCharacter}/>
+        <SiteNavBar enableSave save={this.saveCharacter}/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
@@ -190,7 +206,8 @@ class CharacterCreator extends Component {
               <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
-              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter} character={character}/>
+              <BackgroundSection ref={this.state.refs[5]} backgrounds={this.state.backgrounds} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <DescriptionSection ref={this.state.refs[6]} changeCharacter={this.changeCharacter} character={character}/>
               <LevelUpModal changeCharacter={this.changeCharacter} character={character} loaded={loaded} classes={this.state.classes}/>
             </Col>
           </Row>
