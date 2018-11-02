@@ -29,7 +29,7 @@ class LevelUpModal extends Component {
         this.handleShowP2 = this.handleShowP2.bind(this);
         this.handleCloseP2 = this.handleCloseP2.bind(this);
         this.handleAbility = this.handleAbility.bind(this);
-        this.handleFeats = this.handleFeats.bind(this);
+        this.handleFeat = this.handleFeat.bind(this);
 
         //characters user id, used for saving changes
         //refering to character passed by props, not local variable
@@ -47,17 +47,17 @@ class LevelUpModal extends Component {
         if (typeof Tlevel === 'undefined') {
             //level = 2;
             props.changeCharacter('level', 1, true)
-            console.log(character.description.level);
+            //console.log(character.description.level);
         }
         let level = props.loaded ? props.character.description.level : 'undefinded';
         //level is now the level the character is about to be, has not been saved
-        //level++;
-        level = level + 3;
-        console.log(level);
+        level++;
+        //level = level + 3;
+        //console.log(level);
         this.state = {
             showP1: false,
             showp2: false,
-            feats: false,
+            feat: false,
             level,
             exp,
             charClass,
@@ -71,14 +71,14 @@ class LevelUpModal extends Component {
     }
 
     componentWillMount() {
-        console.log("WILLLLLLLLLLLLLLL MOUNTTTTTTTTTTTT");
+        //console.log("WILLLLLLLLLLLLLLL MOUNTTTTTTTTTTTT");
         const server = axios.create({
             baseURL: serverURL,
         });
         const charClass = this.state.charClass;
         const level = this.state.level;
-        console.log(charClass);
-        console.log(level);
+       // console.log(charClass);
+        //console.log(level);
         //Make Server request for all class imporvements
         //JSON.stringify(this.state.level)
         var obj = { charClass, level }
@@ -88,8 +88,8 @@ class LevelUpModal extends Component {
                 response.data.forEach(payload => {
                     const c = new RaceType(payload[1], payload[4]);
                     levelUpStuff = levelUpStuff.set(c.name, c);
-                    console.log("willmount");
-                    console.log(levelUpStuff);
+                   // console.log("willmount");
+                    //console.log(levelUpStuff);
                 });
                 this.setState({ levelUpStuff });
             });
@@ -101,12 +101,13 @@ class LevelUpModal extends Component {
                     const c = new RaceType(payload[2], payload[1]);
                     feats = feats.set(c.name, c);
                 });
+                console.log(feats);
                 this.setState({ feats });
             });
     }
 
     currentLevel() {
-        console.log("Inside current Level");
+       // console.log("Inside current Level");
         if(this.state.exp >= 355000){
             this.setState({ level: 20});
         }else if(this.state.exp >= 305000) {
@@ -169,17 +170,17 @@ class LevelUpModal extends Component {
         this.setState({ showP2: false});
     }
 
-    handleFeats() {
-        this.setState({feats: true});
+    handleFeat() {
+        this.setState({feat: true});
         //this.forceUpdate();
-        console.log(this.state.feats);
+        //console.log(this.state.feats);
        // this.featOrAbility();
     }
 
     handleAbility() {
-        this.setState({feats: false});
+        this.setState({feat: false});
         //this.forceUpdate();
-        console.log(this.state.feats);
+        //console.log(this.state.feats);
        // this.featOrAbility();
     }
     
@@ -231,9 +232,10 @@ class LevelUpModal extends Component {
         const { level } = this.state.level;
         const { loaded } = this.props;
         const { levelUpStuff } = this.state.levelUpStuff;
-        console.log(levelUpStuff);
-        console.log(this.state.charClass);
-        console.log(this.state.level);
+       // console.log(levelUpStuff);
+        //console.log(this.state.charClass);
+       // console.log(this.state.level);
+       console.log(this.state.feats);
         return (
             <div>
                  <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShowP1}>
@@ -264,18 +266,19 @@ class LevelUpModal extends Component {
                         <LevelUpClassDetails currentClass={this.props.classes.get(this.props.character.class)} level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded} classes={this.props}/>
                         {this.state.level % 4 === 0 ? (
                             <div>
-                                
-                            </div>  ) : (<p>Not level 4</p>) }
-
-                        <Button onClick={this.handleAbility}>Ability</Button>
-                        <Button onClick={this.handleFeats}>Feats</Button>
-                        {!this.state.feats ?  <LevelUpScores 
+                                <Button onClick={this.handleAbility}>Ability</Button>
+                                <Button onClick={this.handleFeat}>Feats</Button>
+                                {!this.state.feat ?  <LevelUpScores 
                                                     changeCharacter={this.props.changeCharacter} 
                                                     character={this.props.character} 
-                                                    loaded={this.props.loaded}/> : <LevelUpFeats/> }
- 
-                            
+                                                    loaded={this.props.loaded}/> :
 
+                                             <LevelUpFeats 
+                                                    changeCharacter={this.props.changeCharacter} 
+                                                    character={this.props.character} 
+                                                    loaded={this.props.loaded} 
+                                                    feats={this.state.feats}/> }
+                            </div>  ) : (<p>Not level 4</p>) }
 
                         <LevelUpFeatures levelUpStuff={this.state.levelUpStuff} changeCharacter={this.changeCharacter} loaded={this.loaded}/>
                     </Modal.Body>
