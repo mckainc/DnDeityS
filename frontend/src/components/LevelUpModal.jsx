@@ -101,7 +101,7 @@ class LevelUpModal extends Component {
             .then((response) => {
                 let feats = new Map();
                 response.data.forEach(payload => {
-                const c = new RaceType(payload[1], payload[2]);
+                const c = new RaceType(payload[0], payload[1]);
                 feats = feats.set(c.name, c);
                 });
             this.setState({ feats });
