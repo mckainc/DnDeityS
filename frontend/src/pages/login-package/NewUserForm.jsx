@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom'
-import axios from 'axios';
-import serverURL from '../../objects/url.js';
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
-class NewLoginForm extends React.Component {
+class NewLoginForm extends Component {
 
     constructor(props) {
         super(props);
@@ -36,14 +33,6 @@ class NewLoginForm extends React.Component {
         event.preventDefault();
         this.props.onSubmit(this.state);
       }
-
-      componentWillMount() {
-        const server = axios.create({
-          baseURL: serverURL,
-        });
-        
-      }
-    
     
       render() {
         return (

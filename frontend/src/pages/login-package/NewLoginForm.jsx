@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import { FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
 
 
 
-class NewLoginForm extends React.Component {
+
+class NewLoginForm extends Component {
 
     constructor(props) {
         super(props);

@@ -24,7 +24,7 @@ class CharacterList extends Component {
   componentWillMount() {
     const server = axios.create({
       baseURL: serverURL,
-    });
+    });//
 
     const userId = localStorage.getItem('user_id');
     
