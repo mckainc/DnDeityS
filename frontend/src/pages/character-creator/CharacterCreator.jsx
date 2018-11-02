@@ -102,6 +102,9 @@ class CharacterCreator extends Component {
         response.data.forEach(payload => {
           const responseJSON = JSON.parse(payload[1]);
           const background = new RaceType(responseJSON.name, payload[1]);
+          background.description.description = background.description.description.replace(/u2019/g, '\'');
+          background.description.description = background.description.description.replace(/u2014/g, '-');
+          background.description.equipment = background.description.equipment.replace(/u2019/g, '\'');
           backgrounds = backgrounds.set(background.name, background);
         });
         this.setState({ backgrounds });
