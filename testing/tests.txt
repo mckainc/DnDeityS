@@ -1,3 +1,23 @@
+test level up feature:
+	1. Click "Create a new character"
+	2. Name "Stephen"
+	3. Race "Half-Elf", language "Goblin"
+	4. Class "Druid", proficiencies "Arcana, Perception"
+	5. Skip Ability Scores
+	6. Skip Equipment
+	7. Skip Spells
+	8. Background "Sage", specialty "Astronomy", languages "Goblin, Abyssal"
+	9. Age "102", Gender "Male", skip rest
+	10. Click "Save"
+	11. Click "Characters"
+	12. Character "Stephen" is displayed correctly
+	13. Click "Edit"
+	14. All values loaded in correctly
+	15. Click "Level up button"
+	16. Click "Okay in warning box"
+	17. Rolled "4" for health
+	18. Correct data is displayed for my class
+
 test for a background save and load:
 	1. Click "Create a new character"
 	2. Name "Steve"
@@ -7,10 +27,13 @@ test for a background save and load:
 	6. Skip Equipment
 	7. Skip Spells
 	8. Background "Noble", language "Gnomish"
-	9. Age "44", Gender "Male"
+	9. Age "44", Gender "Male", Skip rest
 	10. Click "Save"
 	11. Click "Characters"
 	12. Character "Steve" is displayed correctly
 	13. Click "Edit"
 	14. All values loaded in correctly
 	15. Examination of Database values yields same observation
+test maps
+	1. run script to test random map writing and saving including monsters and events
+	2. run script to test random map loading from database including monsters and events
