@@ -287,10 +287,8 @@ class MapMakerTest(unittest.TestCase):
 		cur.close()
 		db.close()
 
-
 	def tearDown(self):
-		return
-		# self.driver.close()
+		self.driver.close()
 
 if __name__ == "__main__":
 	unittest.main()
