@@ -25,7 +25,7 @@ class LevelUpFeatures extends Component {
 		}
     return (
       <div>
-            <b>Abilitys</b>
+            <b>Abilities</b>
             {levelUpStuff.valueSeq().map(feature => (<p><b>{feature.name}</b><br/>{feature.description.desc}</p>))}
             
       </div>
