@@ -19,8 +19,9 @@ import CharacterNavBar from '../../components/CharacterNavBar';
 import { FormControl, Grid, Row, Col } from 'react-bootstrap';
 
 import './CharacterCreator.css';
+import BackgroundSection from './BackgroundSection';
 
-const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Description'];
+const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Background', 'Description'];
 
 class CharacterCreator extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class CharacterCreator extends Component {
       classes: new Map(),
       equipment: new Map(),
       spells: new Map(),
+      backgrounds: new Map(),
     }
   }
 
@@ -91,6 +93,18 @@ class CharacterCreator extends Component {
           spells = spells.set(spell.name, spell);
         });
         this.setState({ spells });
+      });
+    
+    // Make server request for backgrounds
+    server.get('/backgrounds')
+      .then((response) => {
+        let backgrounds = new Map();
+        response.data.forEach(payload => {
+          const responseJSON = JSON.parse(payload[1]);
+          const background = new RaceType(responseJSON.name, payload[1]);
+          backgrounds = backgrounds.set(background.name, background);
+        });
+        this.setState({ backgrounds });
       });
     
     // load character data, if any
@@ -182,7 +196,8 @@ class CharacterCreator extends Component {
               <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
-              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter} character={character}/>
+              <BackgroundSection ref={this.state.refs[5]} backgrounds={this.state.backgrounds} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <DescriptionSection ref={this.state.refs[6]} changeCharacter={this.changeCharacter} character={character}/>
             </Col>
           </Row>
         </Grid>
