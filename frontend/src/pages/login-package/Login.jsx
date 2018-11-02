@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import serverURL from '../../objects/url';
 
-import { Panel, Button } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
 import NewLoginForm from "./NewLoginForm"
 import { Link, Redirect } from 'react-router-dom'

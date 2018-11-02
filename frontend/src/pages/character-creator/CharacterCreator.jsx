@@ -17,7 +17,7 @@ import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
 
 import { FormControl, Grid, Row, Col } from 'react-bootstrap';
-
+import LevelUpModal from '../../components/LevelUpModal'
 import './CharacterCreator.css';
 import BackgroundSection from './BackgroundSection';
 
@@ -124,6 +124,9 @@ class CharacterCreator extends Component {
           character.inventory = JSON.parse(response.data[10]);
           character.spells = JSON.parse(response.data[13]);
           character.description = JSON.parse(response.data[14]);
+          character.exp = response.data[5];
+          character.charId = this.state.characterId;
+          //character.level = JSON.parse(response.data[15]);
           
           const choices = JSON.parse(response.data[11]);
           character.race_language_choice = choices.race.language;
@@ -131,6 +134,7 @@ class CharacterCreator extends Component {
           character.race_trait_choice = choices.race.trait;
           character.class_proficiency_choices = choices.class;
           this.setState({ character, loaded: true });
+          console.log("Hey Class number" + character.class);
         })
     }
   }
@@ -155,6 +159,7 @@ class CharacterCreator extends Component {
 
     if (this.state.characterId !== null) {
       // Update character
+      //this.changeCharacter('level', 1, true);
       server.patch('/character/' + this.state.characterId, JSON.stringify(character));
       return;
     }
@@ -175,7 +180,9 @@ class CharacterCreator extends Component {
     if (typeof characterId !== 'undefined' && !loaded) {
       return <div className="CharacterCreator"></div>
     }
-
+    //console.log(this.state.classes.toArray());
+   // console.log("characters");
+   // console.log(character);
     return (
       <div className="CharacterCreator">
         <SiteNavBar enableSave save={this.saveCharacter}/>
@@ -201,6 +208,7 @@ class CharacterCreator extends Component {
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <BackgroundSection ref={this.state.refs[5]} backgrounds={this.state.backgrounds} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <DescriptionSection ref={this.state.refs[6]} changeCharacter={this.changeCharacter} character={character}/>
+              <LevelUpModal changeCharacter={this.changeCharacter} character={character} loaded={loaded} classes={this.state.classes}/>
             </Col>
           </Row>
         </Grid>
