@@ -11,7 +11,9 @@ class BackgroundSection extends Component {
 	constructor(props) {
 		super(props);
 
-		const background = props.loaded ? props.character.description.background : 'none';
+		let background = props.loaded ? props.character.description.background : 'none';
+
+		if (typeof background === 'undefined') { background = 'none'; }
 
 		this.state = {
 				background,
