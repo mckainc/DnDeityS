@@ -8,6 +8,9 @@ import serverURL from '../objects/url.js';
 
 import LevelUpClassDetails from './LevelUpClassDetails';
 import LevelUpFeatures from './LevelUpFeatures';
+import LevelUpScores from '../components/LevelUpScores'
+import LevelUpFeats from '../components/LevelUpFeats'
+import './levelUpModal.css'
 
 import { Modal, Button,  } from 'react-bootstrap';
 
@@ -25,6 +28,8 @@ class LevelUpModal extends Component {
         this.handleCloseP1 = this.handleCloseP1.bind(this);
         this.handleShowP2 = this.handleShowP2.bind(this);
         this.handleCloseP2 = this.handleCloseP2.bind(this);
+        this.handleAbility = this.handleAbility.bind(this);
+        this.handleFeats = this.handleFeats.bind(this);
 
         //characters user id, used for saving changes
         //refering to character passed by props, not local variable
@@ -46,11 +51,13 @@ class LevelUpModal extends Component {
         }
         let level = props.loaded ? props.character.description.level : 'undefinded';
         //level is now the level the character is about to be, has not been saved
-        level++;
+        //level++;
+        level = level + 3;
         console.log(level);
         this.state = {
             showP1: false,
             showp2: false,
+            feats: false,
             level,
             exp,
             charClass,
@@ -64,11 +71,14 @@ class LevelUpModal extends Component {
     }
 
     componentWillMount() {
+        console.log("WILLLLLLLLLLLLLLL MOUNTTTTTTTTTTTT");
         const server = axios.create({
             baseURL: serverURL,
         });
         const charClass = this.state.charClass;
         const level = this.state.level;
+        console.log(charClass);
+        console.log(level);
         //Make Server request for all class imporvements
         //JSON.stringify(this.state.level)
         var obj = { charClass, level }
@@ -78,6 +88,8 @@ class LevelUpModal extends Component {
                 response.data.forEach(payload => {
                     const c = new RaceType(payload[1], payload[4]);
                     levelUpStuff = levelUpStuff.set(c.name, c);
+                    console.log("willmount");
+                    console.log(levelUpStuff);
                 });
                 this.setState({ levelUpStuff });
             });
@@ -156,7 +168,21 @@ class LevelUpModal extends Component {
     handleCloseP2() {
         this.setState({ showP2: false});
     }
-    /*
+
+    handleFeats() {
+        this.setState({feats: true});
+        //this.forceUpdate();
+        console.log(this.state.feats);
+       // this.featOrAbility();
+    }
+
+    handleAbility() {
+        this.setState({feats: false});
+        //this.forceUpdate();
+        console.log(this.state.feats);
+       // this.featOrAbility();
+    }
+    
     changeCharacter = (property, value, isDescription) => {
         const { character } = this.state;
         if (isDescription === true) {
@@ -165,7 +191,7 @@ class LevelUpModal extends Component {
           character[property] = value;
         }
       }
-    */
+    
     saveCharacter = () => {
         const { character } = this.state;
         const server = axios.create({
@@ -189,6 +215,7 @@ class LevelUpModal extends Component {
           })
       }
 
+      //
       //show={this.state.showP1}
 
     render(){
@@ -201,12 +228,12 @@ class LevelUpModal extends Component {
         }
 
         const { character } = this.props;
-       
-       // const { levelUpStuff } = this.state.levelUpStuff;
         const { level } = this.state.level;
         const { loaded } = this.props;
-        
-
+        const { levelUpStuff } = this.state.levelUpStuff;
+        console.log(levelUpStuff);
+        console.log(this.state.charClass);
+        console.log(this.state.level);
         return (
             <div>
                  <Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShowP1}>
@@ -235,6 +262,21 @@ class LevelUpModal extends Component {
 
                     <Modal.Body>
                         <LevelUpClassDetails currentClass={this.props.classes.get(this.props.character.class)} level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded} classes={this.props}/>
+                        {this.state.level % 4 === 0 ? (
+                            <div>
+                                
+                            </div>  ) : (<p>Not level 4</p>) }
+
+                        <Button onClick={this.handleAbility}>Ability</Button>
+                        <Button onClick={this.handleFeats}>Feats</Button>
+                        {!this.state.feats ?  <LevelUpScores 
+                                                    changeCharacter={this.props.changeCharacter} 
+                                                    character={this.props.character} 
+                                                    loaded={this.props.loaded}/> : <LevelUpFeats/> }
+ 
+                            
+
+
                         <LevelUpFeatures levelUpStuff={this.state.levelUpStuff} changeCharacter={this.changeCharacter} loaded={this.loaded}/>
                     </Modal.Body>
                     <Modal.Footer>

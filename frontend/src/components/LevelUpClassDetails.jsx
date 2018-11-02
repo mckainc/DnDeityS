@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
-import LevelUpScores from '../components/LevelUpScores'
-import Well from 'react-bootstrap/lib/Well';
 
 class LevelUpClassdetails extends Component {
     constructor(props) {
@@ -64,8 +62,7 @@ class LevelUpClassdetails extends Component {
                         <p>Profecincy Bonuse</p>
                         <p>{this.state.profBonus}</p>
 
-                        <p>Ability Score Improvements</p>
-                            <LevelUpScores changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>                
+                                     
             </div>
         );
     }
