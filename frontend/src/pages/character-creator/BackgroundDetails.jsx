@@ -55,7 +55,7 @@ class BackgroundDetails extends PureComponent {
         <div>
           <b>Proficiencies:</b>
           {background.description.proficiencies.map(proficiency => (
-            <p>- {proficiency.name}</p>
+            <p>- {proficiency.name.replace(/u2019/g, '\'')}</p>
           ))}
         </div>
 
