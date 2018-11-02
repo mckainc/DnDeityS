@@ -52,7 +52,7 @@ class LevelUpModal extends Component {
         let level = props.loaded ? props.character.description.level : 'undefinded';
         //level is now the level the character is about to be, has not been saved
         level++;
-        //level = level + 3;
+       // level = level + 3;
         //console.log(level);
         this.state = {
             showP1: false,
@@ -72,6 +72,9 @@ class LevelUpModal extends Component {
 
     componentWillMount() {
         //console.log("WILLLLLLLLLLLLLLL MOUNTTTTTTTTTTTT");
+        if(!this.props.loaded){
+            return;
+        }
         const server = axios.create({
             baseURL: serverURL,
         });
@@ -94,15 +97,14 @@ class LevelUpModal extends Component {
                 this.setState({ levelUpStuff });
             });
 
-            server.get('/feats')
+        server.get('/feats')
             .then((response) => {
                 let feats = new Map();
                 response.data.forEach(payload => {
-                    const c = new RaceType(payload[2], payload[1]);
-                    feats = feats.set(c.name, c);
+                const c = new RaceType(payload[1], payload[2]);
+                feats = feats.set(c.name, c);
                 });
-                console.log(feats);
-                this.setState({ feats });
+            this.setState({ feats });
             });
     }
 
@@ -284,6 +286,7 @@ class LevelUpModal extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleCloseP2}>Close</Button>
+                        <Button className="save" bsSize="xsmall" onClick={this.saveCharacter}>Save</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

@@ -163,12 +163,12 @@ class CharacterCreator extends Component {
     if (typeof characterId !== 'undefined' && !loaded) {
       return <div className="CharacterCreator"></div>
     }
-    console.log(this.state.classes.toArray());
-    console.log("characters");
-    console.log(character);
+    //console.log(this.state.classes.toArray());
+   // console.log("characters");
+   // console.log(character);
     return (
       <div className="CharacterCreator">
-        <LevelUpModal/>
+        
         <SiteNavBar enableSave saveCharacter={this.saveCharacter}/>
         <Grid fluid className="character-grid">
           <Row>
