@@ -237,7 +237,7 @@ class MapMakerTest(unittest.TestCase):
 		db_dnd = 'dnd'
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
-		cur.execute("insert into Maps (UserId, MapName, MapHeight, MapWidth, MapTiles) values (4, 'test_map_2', " + str(x) + ", " + str(y) + ", '" + str(json.dumps(my_map)) + "')")
+		cur.execute("insert into Maps (UserId, MapName, MapHeight, MapWidth, MapTiles) values (1, 'test_map_2', " + str(x) + ", " + str(y) + ", '" + str(json.dumps(my_map)) + "')")
 		db.commit()
 
 		# does map selector exist?
@@ -247,7 +247,7 @@ class MapMakerTest(unittest.TestCase):
 			self.assertTrue(False)
 			return
 		elem.click()
-		time.sleep(2)
+		time.sleep(3)
 
 		elem = driver.find_element_by_xpath("//div[contains(text(), 'test_map_2')]//parent::div//button")
 		elem.click()

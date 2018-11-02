@@ -1,0 +1,16 @@
+test for a background save and load:
+	1. Click "Create a new character"
+	2. Name "Steve"
+	3. Race "Human", language "Elvish"
+	4. Class "Paladin", Proficiencies "Athletics, Insight"
+	5. Skip Ability Scores
+	6. Skip Equipment
+	7. Skip Spells
+	8. Background "Noble", language "Gnomish"
+	9. Age "44", Gender "Male"
+	10. Click "Save"
+	11. Click "Characters"
+	12. Character "Steve" is displayed correctly
+	13. Click "Edit"
+	14. All values loaded in correctly
+	15. Examination of Database values yields same observation
