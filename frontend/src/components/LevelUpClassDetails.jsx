@@ -9,7 +9,7 @@ class LevelUpClassdetails extends Component {
         super(props);
 
         let rolledHp = 0;
-        let Hitdie = 12;
+        let Hitdie = props.loaded ? props.currentClass.description.hit_die : 2;
         let level = props.loaded ? props.character.description.level : 5;
         var temp;
         
@@ -47,13 +47,13 @@ class LevelUpClassdetails extends Component {
      this.setState({rolledHp: temp});
     }
 
-    //add button for raw die rolls
-
+    
     render() {
-        const { currentClass } = this.props;
         const { character } = this.props;
         const { loaded } = this.props;
-
+        const { currentClass } = this.props;
+        
+        console.log(character.class);
         return ( 
             <div>  
                 

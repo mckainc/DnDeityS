@@ -45,6 +45,7 @@ class LevelUpModal extends Component {
             console.log(character.description.level);
         }
         let level = props.loaded ? props.character.description.level : 'undefinded';
+        //level is now the level the character is about to be, has not been saved
         level++;
         console.log(level);
         this.state = {
@@ -191,14 +192,19 @@ class LevelUpModal extends Component {
       //show={this.state.showP1}
 
     render(){
-        const { character } = this.props;
-       // const { levelUpStuff } = this.state.levelUpStuff;
-        const { level } = this.state.level;
-        const { loaded } = this.props;
+        
+        //console.log("class from levelUpModal")
+       // console.log(this.props.classes.get(character.class));
 
         if(!this.props.loaded){
             return <div></div>
         }
+
+        const { character } = this.props;
+       
+       // const { levelUpStuff } = this.state.levelUpStuff;
+        const { level } = this.state.level;
+        const { loaded } = this.props;
         
 
         return (
@@ -228,7 +234,7 @@ class LevelUpModal extends Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <LevelUpClassDetails level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+                        <LevelUpClassDetails currentClass={this.props.classes.get(this.props.character.class)} level={level} changeCharacter={this.changeCharacter} character={character} loaded={loaded} classes={this.props}/>
                         <LevelUpFeatures levelUpStuff={this.state.levelUpStuff} changeCharacter={this.changeCharacter} loaded={this.loaded}/>
                     </Modal.Body>
                     <Modal.Footer>

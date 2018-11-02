@@ -22,12 +22,16 @@ class ClassSection extends Component {
 	handleClassChange = (e) => {
 		this.setState({ currentClass: e });
 		this.props.changeCharacter('class', e);
+		//this.props.changeCharacter('hitDie', this.state.currentClass.description.hit_die, true);
+		//console.log()
 
 		// reset proficiency choices
 		this.props.changeCharacter('class_proficiency_choices', 'none');
 	}
 
   render() {
+		console.log(this.props.classes);
+		//console.log(this.props.classes.get(this.state.currentclass))
 		const { classes } = this.props;
 		if (classes.size === 0) {
 			return <div></div>
