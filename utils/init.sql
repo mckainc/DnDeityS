@@ -40,8 +40,7 @@ CREATE TABLE equipments (
 \! echo 'Create backgrounds table... ';
 CREATE TABLE backgrounds (
 	BackgroundId INT NOT NULL AUTO_INCREMENT,
-	BackgroundName VARCHAR(128) NOT NULL, 
-	BackgroundJSON TEXT,	
+	BackgroundData TEXT,	
 	PRIMARY KEY (BackgroundId));
 \! echo 'Done.\n';
 
@@ -108,6 +107,7 @@ CREATE TABLE monsters (
 CREATE TABLE feats (
 	FeatId INT NOT NULL AUTO_INCREMENT,
 	FeatData TEXT,
+	FeatName VARCHAR(128),
 	PRIMARY KEY (FeatId));
 \! echo 'Done.\n';
 

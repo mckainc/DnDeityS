@@ -22,6 +22,32 @@ except Exception, e:
     print('Error connecting to database: {0}'.format(e))
     sys.exit(-1)
 
+#backgrounds
+rows=0
+try:
+	print('\nTruncating Backgrounds table... ')
+	cursor.execute('TRUNCATE TABLE backgrounds')
+	print('Done.')
+except Exception, e:
+	print('Error truncating backgrounds table: {0}'.format(e))
+	sys.exit(-1)
+with open('Backgrounds.json') as b:
+	data = json.load(b)
+	for background in data['backgrounds']:
+		try:
+			jsonout = json.dumps(background)
+			jsonout = jsonout.replace("'", "\\'")
+			query = 'INSERT INTO backgrounds(BackgroundData) values(\'%s\');' % jsonout
+			rows += cursor.execute(query)
+		except Exception, e:
+			print('Error inserting data into backgrounds table: {0}'.format(e))
+	try:
+		db.commit()
+		print('Done. {0} rows inserted into backgrounds table.\n'.format(rows))
+	except Exception, e:
+		print('Error committing data into backgrounds table: {0}\n'.format(e))
+		db.rollback()
+
 #Insert feats
 #Feats.JSON
 rows = 0
@@ -38,10 +64,10 @@ with open('Feats.JSON') as f:
 		try:
 			jsonout = json.dumps(feat)
 			jsonout = jsonout.replace("'", "\\'")
-			query = 'INSERT INTO feats(FeatData) values(\'%s\');' % jsonout
+			query = 'INSERT INTO feats(FeatData, FeatName) values(%s, %s)'
 			rows =1
 			print(feat["id"]) 
-			cursor.execute(query)
+			cursor.execute(query, (jsonout, feat['name']))
 		except Exception, e:
 			print('Error insterting data into feats table: {0}'.format(e))
 	try:
