@@ -36,7 +36,7 @@ with open('Backgrounds.json') as b:
 	for background in data['backgrounds']:
 		try:
 			jsonout = json.dumps(background)
-			jsonout = jsonout.replace("'", "\\'")
+			jsonout = jsonout.replace("'", "\'")
 			query = 'INSERT INTO backgrounds(BackgroundData) values(\'%s\');' % jsonout
 			rows += cursor.execute(query)
 		except Exception, e:
@@ -63,7 +63,7 @@ with open('Feats.JSON') as f:
 	for feat in data['feats']:
 		try:
 			jsonout = json.dumps(feat)
-			jsonout = jsonout.replace("'", "\\'")
+			jsonout = jsonout.replace("'", "\'")
 			query = 'INSERT INTO feats(FeatData, FeatName) values(%s, %s)'
 			rows =1
 			print(feat["id"]) 
