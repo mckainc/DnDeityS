@@ -2,7 +2,10 @@
 
 # dependencies
 node_modules/
-
+frontend/awsmobilejs
+frontend/src/aws-exports.js
+api/v1.0/.elasticbeanstalk/
+api/v1.0/list/
 # testing
 coverage
 
