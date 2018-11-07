@@ -59,7 +59,7 @@ class LevelUpClassdetails extends Component {
                         <Button onClick={this.diceRoller}>d{this.state.Hitdie}</Button>
                         <p>{this.state.rolledHp}</p>
                         
-                        <p>Profecincy Bonuse</p>
+                        <p>Proficiency Bonus</p>
                         <p>{this.state.profBonus}</p>
 
                                      

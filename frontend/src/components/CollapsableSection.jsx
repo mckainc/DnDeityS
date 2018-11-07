@@ -19,6 +19,16 @@ class CollapsableSection extends PureComponent {
     render() {
         return (
             <div>
+                {this.props.small && 
+                <p onClick={this.toggleCollapse}>
+                    {this.props.title + " "}
+                    {this.state.open ?
+                        <i className="fas fa-caret-down"></i> :
+                        <i className="fas fa-caret-right"></i>
+                    }
+                </p>
+                }
+                {!this.props.small && 
                 <h2 onClick={this.toggleCollapse}>
                     {this.props.title + " "}
                     {this.state.open ?
@@ -26,6 +36,7 @@ class CollapsableSection extends PureComponent {
                         <i className="fas fa-caret-right"></i>
                     }
                 </h2>
+                }
                 <Collapse in={this.state.open}>
                     <div>{this.props.children}</div>
                 </Collapse>
