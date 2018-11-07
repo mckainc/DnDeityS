@@ -8,6 +8,19 @@ import './HomePage.css';
 
 class HomePage extends Component {
   render() {
+
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+        redirect: false,
+      }
+    }
+  
+    handleClick(){
+      this.setState({ redirect: true });
+    }
+
     return (
       <div className="HomePage">
         <SiteNavBar/>
