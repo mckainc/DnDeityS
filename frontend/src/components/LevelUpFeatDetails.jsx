@@ -15,7 +15,13 @@ class LevelUpFeatDetails extends Component {
         
         return ( 
             <div>  
-                 <p>{feat.description.name}</p>
+                 <p>Name: {feat.description.name}</p>
+                 <p>Requierments: {feat.description.PreReq}</p>
+                 <p>{feat.description.Description.header}</p>
+                 <p>{feat.description.Description.bonus1}</p>
+                 <p>{feat.description.Description.bonus2}</p>
+                 <p>{feat.description.Description.bonus3}</p>
+
             </div>
         );
     }

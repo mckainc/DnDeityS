@@ -51,8 +51,8 @@ class LevelUpModal extends Component {
         }
         let level = props.loaded ? props.character.description.level : 'undefinded';
         //level is now the level the character is about to be, has not been saved
-        level++;
-       // level = level + 3;
+        //level++;
+        level = level + 8;
         //console.log(level);
         this.state = {
             showP1: false,
@@ -101,7 +101,7 @@ class LevelUpModal extends Component {
             .then((response) => {
                 let feats = new Map();
                 response.data.forEach(payload => {
-                const c = new RaceType(payload[0], payload[1]);
+                const c = new RaceType(payload[2], payload[1]);
                 feats = feats.set(c.name, c);
                 });
             this.setState({ feats });
