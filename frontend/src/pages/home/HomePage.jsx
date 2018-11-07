@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap';
+import { Redirect, Link } from 'react-router-dom';
 
 // components
 import SiteNavBar from '../../components/SiteNavBar';
@@ -7,20 +8,26 @@ import SiteNavBar from '../../components/SiteNavBar';
 import './HomePage.css';
 
 class HomePage extends Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      reCharacter: false,
+      reMap: false,
+      reMonster: false,
+      page: "none",
+    }
+  }
+
+  handleClick(e){
+    this.setState({page: e});
+  }
+
   render() {
-
-    constructor(props) {
-      super(props);
-  
-      this.state = {
-        redirect: false,
-      }
+    if(this.state.page !== "none"){
+      return <Redirect to = {this.state.page}/>
     }
-  
-    handleClick(){
-      this.setState({ redirect: true });
-    }
-
     return (
       <div className="HomePage">
         <SiteNavBar/>
@@ -28,13 +35,9 @@ class HomePage extends Component {
           <h1>DnDeity</h1>
           <br />
           <h2>Home Page</h2>
-          <Link to="/CharacterCreator">
-            Create a new character!
-          </Link>
+          <Button onClick = {() => this.handleClick("/CharacterCreator")}>Create a new character!</Button>
           <br />
-          <Link to="/MapMaker">
-            Create a new map!
-          </Link>
+          <Button onClick = {() => this.handleClick("/MapMaker")}>Create a new map!</Button>
         </div>
       </div>
     );
