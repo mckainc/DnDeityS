@@ -11,7 +11,12 @@ class AvatarSection extends Component {
     super(props);
 
     const fs = require('fs');
-    let avatar_list = fs.readdirSync('../../textures/avatars');
+    let avatar_list = [
+      'dragonborn_female.png', 'dragonborn_male.png', 'dwarf_female.png', 'dwarf_male.png',
+      'elf_female.png', 'elf_male.png','gnome_female.png', 'gnome_male.png', 'halfling_female.png',
+      'halfling_male.png', 'half_elf_female.png', 'half_elf_male.png', 'half_orc_female.png',
+      'half_orc_male.png', 'human_female.png', 'human_male.png', 'tiefling_female.png', 'tiefling_male.png'
+    ]
 
     this.state = {
       avatars: avatar_list,

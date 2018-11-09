@@ -18,11 +18,12 @@ class Avatar extends Component {
   render() {
     const { file, selected } = this.props;
     const { name } = this.state;
+    const path = require("../textures/avatars/" + file);
     return (
       <div className="Avatar">
         <b>{name}</b>
         <div class={selected ? ("panel panel-primary") : ("panel panel-default")}>
-          <image src={`../../${file}`} class="img-thumbnail" alt={name}/>
+          <image src={path} class="img-thumbnail" alt={name}/>
         </div>
       </div>
     );
