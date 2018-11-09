@@ -12,6 +12,7 @@ import ClassSection from './ClassSection';
 import ScoreSection from './ScoreSection';
 import EquipmentSection from './equipment/EquipmentSection';
 import SpellSection from './spells/SpellSection';
+import AvatarSection from './AvatarSection';
 import DescriptionSection from './DescriptionSection';
 import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
@@ -21,7 +22,7 @@ import LevelUpModal from '../../components/LevelUpModal'
 import './CharacterCreator.css';
 import BackgroundSection from './BackgroundSection';
 
-const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Background', 'Description'];
+const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Background', 'Avatar', 'Description'];
 
 class CharacterCreator extends Component {
   constructor(props) {
@@ -206,8 +207,9 @@ class CharacterCreator extends Component {
               <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
-              <BackgroundSection ref={this.state.refs[5]} backgrounds={this.state.backgrounds} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
-              <DescriptionSection ref={this.state.refs[6]} changeCharacter={this.changeCharacter} character={character}/>
+              <AvatarSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <BackgroundSection ref={this.state.refs[6]} backgrounds={this.state.backgrounds} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <DescriptionSection ref={this.state.refs[7]} changeCharacter={this.changeCharacter} character={character}/>
               <LevelUpModal changeCharacter={this.changeCharacter} character={character} loaded={loaded} classes={this.state.classes}/>
             </Col>
           </Row>
