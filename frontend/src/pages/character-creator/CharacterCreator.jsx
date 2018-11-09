@@ -17,10 +17,11 @@ import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
 
 import { FormControl, Grid, Row, Col } from 'react-bootstrap';
-
+import LevelUpModal from '../../components/LevelUpModal'
 import './CharacterCreator.css';
+import BackgroundSection from './BackgroundSection';
 
-const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Description'];
+const sections = ['Race', 'Class', 'Ability Scores', 'Equipment', 'Spells', 'Background', 'Description'];
 
 class CharacterCreator extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class CharacterCreator extends Component {
       classes: new Map(),
       equipment: new Map(),
       spells: new Map(),
+      backgrounds: new Map(),
     }
   }
 
@@ -93,6 +95,21 @@ class CharacterCreator extends Component {
         this.setState({ spells });
       });
     
+    // Make server request for backgrounds
+    server.get('/backgrounds')
+      .then((response) => {
+        let backgrounds = new Map();
+        response.data.forEach(payload => {
+          const responseJSON = JSON.parse(payload[1]);
+          const background = new RaceType(responseJSON.name, payload[1]);
+          background.description.description = background.description.description.replace(/u2019/g, '\'');
+          background.description.description = background.description.description.replace(/u2014/g, '-');
+          background.description.equipment = background.description.equipment.replace(/u2019/g, '\'');
+          backgrounds = backgrounds.set(background.name, background);
+        });
+        this.setState({ backgrounds });
+      });
+    
     // load character data, if any
     const characterId = this.props.match.params.characterId;
     if (typeof characterId !== 'undefined') {
@@ -107,6 +124,9 @@ class CharacterCreator extends Component {
           character.inventory = JSON.parse(response.data[10]);
           character.spells = JSON.parse(response.data[13]);
           character.description = JSON.parse(response.data[14]);
+          character.exp = response.data[5];
+          character.charId = this.state.characterId;
+          //character.level = JSON.parse(response.data[15]);
           
           const choices = JSON.parse(response.data[11]);
           character.race_language_choice = choices.race.language;
@@ -114,6 +134,7 @@ class CharacterCreator extends Component {
           character.race_trait_choice = choices.race.trait;
           character.class_proficiency_choices = choices.class;
           this.setState({ character, loaded: true });
+          console.log("Hey Class number" + character.class);
         })
     }
   }
@@ -138,6 +159,7 @@ class CharacterCreator extends Component {
 
     if (this.state.characterId !== null) {
       // Update character
+      //this.changeCharacter('level', 1, true);
       server.patch('/character/' + this.state.characterId, JSON.stringify(character));
       return;
     }
@@ -158,10 +180,12 @@ class CharacterCreator extends Component {
     if (typeof characterId !== 'undefined' && !loaded) {
       return <div className="CharacterCreator"></div>
     }
-
+    //console.log(this.state.classes.toArray());
+   // console.log("characters");
+   // console.log(character);
     return (
       <div className="CharacterCreator">
-        <SiteNavBar enableSave saveCharacter={this.saveCharacter}/>
+        <SiteNavBar enableSave save={this.saveCharacter}/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
@@ -182,7 +206,9 @@ class CharacterCreator extends Component {
               <ScoreSection ref={this.state.refs[2]} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <EquipmentSection ref={this.state.refs[3]} equipment={this.state.equipment} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
               <SpellSection ref={this.state.refs[4]} spells={this.state.spells} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
-              <DescriptionSection ref={this.state.refs[5]} changeCharacter={this.changeCharacter} character={character}/>
+              <BackgroundSection ref={this.state.refs[5]} backgrounds={this.state.backgrounds} changeCharacter={this.changeCharacter} character={character} loaded={loaded}/>
+              <DescriptionSection ref={this.state.refs[6]} changeCharacter={this.changeCharacter} character={character}/>
+              <LevelUpModal changeCharacter={this.changeCharacter} character={character} loaded={loaded} classes={this.state.classes}/>
             </Col>
           </Row>
         </Grid>

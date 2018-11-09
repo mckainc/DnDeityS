@@ -18,6 +18,10 @@ class HomePage extends Component {
           <Link to="/CharacterCreator">
             Create a new character!
           </Link>
+          <br />
+          <Link to="/MapMaker">
+            Create a new map!
+          </Link>
         </div>
       </div>
     );

@@ -22,7 +22,60 @@ except Exception, e:
     print('Error connecting to database: {0}'.format(e))
     sys.exit(-1)
 
+#backgrounds
+rows=0
+try:
+	print('\nTruncating Backgrounds table... ')
+	cursor.execute('TRUNCATE TABLE backgrounds')
+	print('Done.')
+except Exception, e:
+	print('Error truncating backgrounds table: {0}'.format(e))
+	sys.exit(-1)
+with open('Backgrounds.json') as b:
+	data = json.load(b)
+	for background in data['backgrounds']:
+		try:
+			jsonout = json.dumps(background)
+			jsonout = jsonout.replace("'", "\'")
+			query = 'INSERT INTO backgrounds(BackgroundData) values(\'%s\');' % jsonout
+			rows += cursor.execute(query)
+		except Exception, e:
+			print('Error inserting data into backgrounds table: {0}'.format(e))
+	try:
+		db.commit()
+		print('Done. {0} rows inserted into backgrounds table.\n'.format(rows))
+	except Exception, e:
+		print('Error committing data into backgrounds table: {0}\n'.format(e))
+		db.rollback()
 
+#Insert feats
+#Feats.JSON
+rows = 0
+try:
+	print('\nTruncating Feats table...')
+	cursor.execute('TRUNCATE TABLE feats')
+	print('Done.')
+except Exception, e:
+	print('Error truncating feats table: {0}'.format(e))
+	sys.exit(-1)
+with open('Feats.JSON') as f:
+	data = json.load(f)
+	for feat in data['feats']:
+		try:
+			jsonout = json.dumps(feat)
+			jsonout = jsonout.replace("'", "\'")
+			query = 'INSERT INTO feats(FeatData, FeatName) values(%s, %s)'
+			rows =1
+			print(feat["id"]) 
+			cursor.execute(query, (jsonout, feat['name']))
+		except Exception, e:
+			print('Error insterting data into feats table: {0}'.format(e))
+	try:
+		db.commit()
+		print('Done. {0} rows inserted into feats table.\n'.format(rows))
+	except Exception, e:
+		print('Error committing data into feats table: {0}\n'.format(e))
+		db.rollback()
 #Call API for equipment
 
 api_url = 'http://www.dnd5eapi.co/api/equipment'
@@ -55,7 +108,6 @@ for equipment in data['results']:
     except Exception, e:
         print('Error retrieving equipment data: {0}'.format(e))
         sys.exit(-1)
-
     # Insert equipment data into table
     try:
         query = 'INSERT INTO equipments(EquipmentName, EquipmentData) values(%s, %s);'
@@ -63,7 +115,6 @@ for equipment in data['results']:
         num_rows += rows
     except Exception, e:
         print('Error inserting data into Equipments table: {0}'.format(e))
-        sys.exit(-1)
 
 # Commit changes
 try:
@@ -74,10 +125,88 @@ except Exception, e:
     print('Rolling back.\n')
     db.rollback()
 
+#call API for subclasses
+api_url = 'http://www.dnd5eapi.co/api/subclasses'
+try:
+	resp = requests.get(url=api_url)
+	data = resp.json()
+except Exception, e:
+	print('Error retrieving data: {0}'.format(e))
+	sys.exit(-1)
+try:
+	print('\nTruncating subclasses table...')
+	cursor.execute('TRUNCATE TABLE subclasses')
+	print('Done.')
+except Exception, e:
+	print('Error truncating subclasses table: {0}'.format(e))
+	sys.exit(-1)
+print('\nInserting rows into subclasses from API data...')
+num_rows=0
+for subclass in data['results']:
+	print subclass['url']
+	try:
+		s_resp = requests.get(url=subclass['url'])
+		s_data = s_resp.json()
+	except Exception, e:
+		print('Error retrieving subclass data: {0}'.format(e))
+		sys.exit(-1)
+	try:
+		query = 'INSERT INTO subclasses(ClassName, SubclassData) values(%s, %s);'
+		rows = cursor.execute(query, (s_data['class']['name'], json.dumps(s_data)))
+		num_rows += rows
+	except Exception, e:
+		print('Error inserting data into subclasses table: {0}'.format(e))
+try:
+	db.commit()
+	print('Done. {0} rows inserted into subclasses table.\n'.format(num_rows))
+except Exception, e:
+	print('Error commiting inserts into subclasses table: {0}'.format(e))
+	print('Rolling back...\n')
+	db.rollback()
+
+#Call API for features
+api_url = 'http://www.dnd5eapi.co/api/features'
 
 
 
+try:
+	resp = requests.get(url=api_url)
+	data = resp.json()
+except Exception, e:
+	print('Error retrieving data: {0}'.format(e))
+	sys.exit(-1)
+#truncate table
+try:
+	print('\nTruncating classes table...')
+	cursor.execute('TRUNCATE TABLE features')
+	print('Done.')
+except Exception, e:
+	print('Error truncating features table: {0}'.format(e))
+	sys.exit(-1)
 
+print('\nInserting rows into features table from API data...')
+num_rows=0
+for feature in data['results']:
+	print feature['url']
+	try:
+		f_resp = requests.get(url=feature['url'])
+		f_data = f_resp.json()
+	except Exception, e:
+		print('Error retrieving feature data: {0}'.format(e))
+		sys.exit(-1)
+	try:
+		query = 'INSERT INTO features(FeatureName, ClassName, FeatureLevel, FeatureData) values(%s, %s, %s, %s);'
+		rows = cursor.execute(query, (feature['name'], f_data['class']['name'], f_data['level'], json.dumps(f_data)))
+		num_rows += rows
+	except Exception, e:
+		print('Error inserting data into features table: {0}'.format(e))
+try:
+	db.commit()
+	print('Done. {0} rows inserted into features table.\n'.format(num_rows))
+except Exception, e:
+	print('Error committing inserts to features table: {0}'.format(e))
+	print('Rolling back.\n')
+	db.rollback()
 
 # Call API for classes
 

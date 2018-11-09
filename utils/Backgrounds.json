@@ -1,0 +1,154 @@
+{
+  "backgrounds": [
+    {
+      "id": 1,
+      "name": "Acolyte",
+      "description": "You have spent your life in the service of a temple to a specific god or pantheon of gods. You act as an intermediary between the realm of the holy and the mortal world, performing sacred rites and offering sacrifices in order to conduct worshipers into the presence of the divine. You are not necessarily a cleric—performing sacred rites is not the same thing as channeling divine power. Choose a god, a pantheon of gods, or some other quasi-divine being, and work with your DM to detail the nature of your religious service. The Gods of the Multiverse section contains a sample pantheon, from the Forgotten Realms setting. Were you a lesser functionary in a temple, raised from childhood to assist the priests in the sacred rites? Or were you a high priest who suddenly experienced a call to serve your god in a different way? Perhaps you were the leader of a small cult outside of any established temple structure, or even an occult group that served a fiendish master that you now deny.",
+      "proficiencies": [
+        {
+          "name": "Skill: Insight"
+        },
+        {
+          "name": "Skill: Religion"
+        }
+      ],
+      "language_options": {
+        "choose": 2
+      },
+      "feature": {
+        "name": "Shelter of the Faithful",
+        "description": "As an acolyte, you command the respect of those who share your faith, and you can perform the religious ceremonies of your deity. You and your adventuring companions can expect to receive free healing and care at a temple, shrine, or other established presence of your faith, though you must provide any material components needed for spells. Those who share your religion will support you (but only you) at a modest lifestyle. You might also have ties to a specific temple dedicated to your chosen deity or pantheon, and you have a residence there. This could be the temple where you used to serve, if you remain on good terms with it, or a temple where you have found a new home. While near your temple, you can call upon the priests for assistance, provided the assistance you ask for is not hazardous and you remain in good standing with your temple."
+      },
+      "equipment": "A holy symbol (a gift to you when you entered the priesthood), a prayer book or prayer wheel, 5 sticks of incense, vestments, a set of common clothes, and a pouch containing 15 gp"
+    },
+    {
+      "id": 2,
+      "name": "Criminal/Spy",
+      "description": "You are an experienced criminal with a history of breaking the law. You have spent a lot of time among other criminals and still have contacts within the criminal underworld. You’re far closer than most people to the world of murder, theft, and violence that pervades the underbelly of civilization, and you have survived up to this point by flouting the rules and regulations of society.",
+      "proficiencies": [
+        {
+          "name": "Thieves’ tools"
+        },
+        {
+          "name": "Gaming Set"
+        }
+      ],
+      "specialty": {
+        "type": "Criminal Specialty",
+        "choices": [
+          "Blackmailer", "Burglar", "Enforcer", "Fence", "Highway robber", "Hired killer", "Pickpocket", "Smuggler"
+        ]
+      },
+      "feature": {
+        "name": "Criminal Contact",
+        "description": "You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. You know how to get messages to and from your contact, even over great distances; specifically, you know the local messengers, corrupt caravan masters, and seedy sailors who can deliver messages for you."
+      },
+      "equipment": "A crowbar, a set of dark common clothes including a hood, and a pouch containing 15 gp"
+    },
+    {
+      "id": 3,
+      "name": "Folk Hero",
+      "description": "You come from a humble social rank, but you are destined for so much more. Already the people of your home village regard you as their champion, and your destiny calls you to stand against the tyrants and monsters that threaten the common folk everywhere.",
+      "proficiencies": [
+        {
+          "name": "Skill: Animal Handling"
+        },
+        {
+          "name": "Skill: Survival"
+        }
+      ],
+      "specialty": {
+        "type": "Defining Event",
+        "choices": [
+          "I stood up to a tyrant’s agents.", "I saved people during a natural disaster.", "I stood alone against a terrible monster.", "I stole from a corrupt merchant to help the poor.", "I led a militia to fight off an invading army.", "I broke into a tyrant’s castle and stole weapons to arm the people.", "I trained the peasantry to use farm implements as weapons against a tyrant’s soldiers.", "A lord rescinded an unpopular decree after I led a symbolic act of protest against it.", "A celestial, fey, or similar creature gave me a blessing or revealed my secret origin.", "Recruited into a lord’s army, I rose to leadership and was commended for my heroism."
+        ]
+      },
+      "feature": {
+        "name": "Rustic Hospitality",
+        "description": "Since you come from the ranks of the common folk, you fit in among them with ease. You can find a place to hide, rest, or recuperate among other commoners, unless you have shown yourself to be a danger to them. They will shield you from the law or anyone else searching for you, though they will not risk their lives for you."
+      },
+      "equipment": "A set of artisan’s tools (one of your choice), a shovel, an iron pot, a set of common clothes, and a pouch containing 10 gp"
+    },
+    {
+      "id": 4,
+      "name": "Noble",
+      "description": "You understand wealth, power, and privilege. You carry a noble title, and your family owns land, collects taxes, and wields significant political influence. You might be a pampered aristocrat unfamiliar with work or discomfort, a former merchant just elevated to the nobility, or a disinherited scoundrel with a disproportionate sense of entitlement. Or you could be an honest, hard-working landowner who cares deeply about the people who live and work on your land, keenly aware of your responsibility to them. Work with your DM to come up with an appropriate title and determine how much authority that title carries. A noble title doesn’t stand on its own—it’s connected to an entire family, and whatever title you hold, you will pass it down to your own children. Not only do you need to determine your noble title, but you should also work with the DM to describe your family and their influence on you. Is your family old and established, or was your title only recently bestowed? How much influence do they wield, and over what area? What kind of reputation does your family have among the other aristocrats of the region? How do the common people regard them? What’s your position in the family? Are you the heir to the head of the family? Have you already inherited the title? How do you feel about that responsibility? Or are you so far down the line of inheritance that no one cares what you do, as long as you don’t embarrass the family? How does the head of your family feel about your adventuring career? Are you in your family’s good graces, or shunned by the rest of your family? Does your family have a coat of arms? An insignia you might wear on a signet ring? Particular colors you wear all the time? An animal you regard as a symbol of your line or even a spiritual member of the family? These details help establish your family and your title as features of the world of the campaign. ",
+      "proficiencies": [
+        {
+          "name": "Skill: History"
+        },
+        {
+          "name": "Skill: Persuasion"
+        },
+        {
+          "name": "Gaming Set"
+        }
+      ],
+      "language_options": {
+        "choose": 1
+      },
+      "feature": {
+        "name": "Position of Privilege",
+        "description": "Thanks to your noble birth, people are inclined to think the best of you. You are welcome in high society, and people assume you have the right to be wherever you are. The common folk make every effort to accommodate you and avoid your displeasure, and other people of high birth treat you as a member of the same social sphere. You can secure an audience with a local noble if you need to."
+      },
+      "equipment": "A set of fine clothes, a signet ring, a scroll of pedigree, and a purse containing 25 gp"
+    },
+    {
+      "id": 5,
+      "name": "Sage",
+      "description": "You spent years learning the lore of the multiverse. You scoured manuscripts, studied scrolls, and listened to the greatest experts on the subjects that interest you. Your efforts have made you a master in your fields of study.",
+      "proficiencies": [
+        {
+          "name": "Skill: History"
+        },
+        {
+          "name": "Skill: Arcana"
+        }
+      ],
+      "language_options": {
+        "choose": 2
+      },
+      "specialty": {
+        "type": "Specialty",
+        "choices": [
+          "Alchemist", "Astronomer", "Discredited academic", "Librarian", "Professor", "Researcher", "Wizard’s apprentice", "Scribe"
+        ]
+      },
+      "feature": {
+        "name": "Researcher",
+        "description": "When you attempt to learn or recall a piece of lore, if you do not know that information, you often know where and from whom you can obtain it. Usually, this information comes from a library, scriptorium, university, or a sage or other learned person or creature. Your DM might rule that the knowledge you seek is secreted away in an almost inaccessible place, or that it simply cannot be found. Unearthing the deepest secrets of the multiverse can require an adventure or even a whole campaign."
+      },
+      "equipment": "A bottle of black ink, a quill, a small knife, a letter from a dead colleague posing a question you have not yet been able to answer, a set of common clothes, and a pouch containing 10 gp"
+    },
+    {
+      "id": 6,
+      "name": "Soldier",
+      "description": "War has been your life for as long as you care to remember. You trained as a youth, studied the use of weapons and armor, learned basic survival techniques, including how to stay alive on the battlefield. You might have been part of a standing national army or a mercenary company, or perhaps a member of a local militia who rose to prominence during a recent war. When you choose this background, work with your DM to determine which military organization you were a part of, how far through its ranks you progressed, and what kind of experiences you had during your military career. Was it a standing army, a town guard, or a village militia? Or it might have been a noble’s or merchant’s private army, or a mercenary company.",
+      "proficiencies": [
+        {
+          "name": "Skill: Athletics"
+        },
+        {
+          "name": "Skill: Intimidation"
+        },
+        {
+          "name": "Vehicles (land)"
+        },
+        {
+          "name": "Gaming Set"
+        }
+      ],
+      "specialty": {
+        "type": "Specialty",
+        "choices": [
+          "Officer", "Scout", "Infantry", "Cavalry", "Healer", "Quartermaster", "Standard bearer", "Support staff"
+        ]
+      },
+      "feature": {
+        "name": "Military Rank",
+        "description": "You have a military rank from your career as a soldier. Soldiers loyal to your former military organization still recognize your authority and influence, and they defer to you if they are of a lower rank. You can invoke your rank to exert influence over other soldiers and requisition simple equipment or horses for temporary use. You can also usually gain access to friendly military encampments and fortresses where your rank is recognized."
+      },
+      "equipment": "An insignia of rank, a trophy taken from a fallen enemy (a dagger, broken blade, or piece of a banner), a set of bone dice or deck of cards, a set of common clothes, and a pouch containing 10 gp"
+    }
+  ]
+}
