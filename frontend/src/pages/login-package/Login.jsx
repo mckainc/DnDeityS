@@ -9,6 +9,7 @@ import NewLoginForm from "./NewLoginForm"
 import { Link, Redirect } from 'react-router-dom'
 
 import "./NewLoginForm.css"
+import "./BackGround.css"
 
 
 class Login extends Component {
