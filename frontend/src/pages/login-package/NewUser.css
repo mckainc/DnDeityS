@@ -14,3 +14,26 @@
     border-color: #FAFAFA;
 }
 
+.NewUser {
+    padding: 60px 0;
+}
+
+.NewUser form {
+    margin: 0 auto;
+    max-width: 320px;
+}
+
+
+.NewUser ControlLabel {
+    align-content: center;
+}
+
+.NewUser button {
+    align-self: center;
+    margin-bottom:  1rem;
+    color: red;
+}
+
+.NewUser h1, h2 {
+    text-align: center;
+}

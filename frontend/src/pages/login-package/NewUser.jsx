@@ -6,9 +6,9 @@ import serverURL from '../../objects/url';
 import NewUserForm from "./NewUserForm.jsx"
 import { Redirect } from 'react-router-dom'
 
-import "./NewUserForm.css"
-import { Panel } from 'react-bootstrap';
 
+import { Panel } from 'react-bootstrap';
+//import "./NewUserForm.css"
 import "./NewUser.css"
 
 class NewUser extends Component {
@@ -54,6 +54,7 @@ class NewUser extends Component {
             <div className="NewUser">
                 <div className="bg"/>
                 <Panel>
+                <h1 className="logo">DnDeity</h1>
                 <NewUserForm onSubmit={this.onSubmit} />
                 </Panel>
             </div>

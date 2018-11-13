@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 // components
 import SiteNavBar from '../../components/SiteNavBar';
@@ -38,6 +38,8 @@ class HomePage extends Component {
           <Button onClick = {() => this.handleClick("/CharacterCreator")}>Create a new character!</Button>
           <br />
           <Button onClick = {() => this.handleClick("/MapMaker")}>Create a new map!</Button>
+          <Button />
+          <Button />
         </div>
       </div>
     );

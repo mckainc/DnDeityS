@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Panel } from 'react-bootstrap';
 
 class NewLoginForm extends Component {
 
@@ -36,6 +36,7 @@ class NewLoginForm extends Component {
     
       render() {
         return (
+
           <form onSubmit={this.handleSubmit}>
               <FormGroup controlId="username" bsSize="large">
                 <ControlLabel>User Name</ControlLabel>
@@ -87,7 +88,6 @@ class NewLoginForm extends Component {
                 Submit
               </Button>
 
-            
           </form>
         );
       }
