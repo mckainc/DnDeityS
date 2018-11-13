@@ -8,8 +8,7 @@ import { Redirect } from 'react-router-dom'
 
 
 import { Panel } from 'react-bootstrap';
-//import "./NewUserForm.css"
-import "./NewUser.css"
+import "./NewUserForm.css"
 
 class NewUser extends Component {
     constructor(props) {
@@ -55,6 +54,7 @@ class NewUser extends Component {
                 <div className="bg"/>
                 <Panel>
                 <h1 className="logo">DnDeity</h1>
+                <h2>New Account</h2>
                 <NewUserForm onSubmit={this.onSubmit} />
                 </Panel>
             </div>

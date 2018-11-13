@@ -60,8 +60,6 @@ class NewLoginForm extends Component {
               <Button
                 disabled={!this.validationForm()}
                 type="submit"
-                bsSize="large"
-                block
               >
                 Login
               </Button>

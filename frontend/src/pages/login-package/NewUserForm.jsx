@@ -80,8 +80,6 @@ class NewLoginForm extends Component {
               </FormGroup>
 
               <Button
-                block
-                bsSize="large"
                 disabled={!this.validationForm()}
                 type="submit"
               >

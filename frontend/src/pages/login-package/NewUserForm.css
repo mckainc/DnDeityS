@@ -1,17 +1,31 @@
+.NewUser form {
+    margin: 0 auto;
+    max-width: 320px;
+}
 
-@media all and (min-width: 480px) {
-    .NewUser {
-        padding: 60px 0;
-    }
+.NewUser h1 {
+    text-align: center;
+}
 
-    .NewUser form {
-        margin: 0 auto;
-        max-width: 320px;
-    }
+.NewUser h2 {
+    text-align: center;
+}
 
-    
-    .NewUser ControlLabel {
-        align-content: center;
-    }
+.NewUser .panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.3);
+    background-color: #FAFAFA;
+    text-align: center;
+    border-radius: 2rem;
+    min-width: 35rem;
+    border-bottom-width: 2rem;
+    border-color: #FAFAFA;
+}
 
+.Login .panel button {
+    align-self: center;
+    margin-bottom: 1rem;
 }
