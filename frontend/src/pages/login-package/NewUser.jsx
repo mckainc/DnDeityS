@@ -54,7 +54,7 @@ class NewUser extends Component {
                 <div className="bg"/>
                 <Panel>
                 <h1 className="logo">DnDeity</h1>
-                <h2>New Account</h2>
+                <h3>New Account</h3>
                 <NewUserForm onSubmit={this.onSubmit} />
                 </Panel>
             </div>
