@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Grid, Row, Col } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 // components
@@ -35,11 +35,24 @@ class HomePage extends Component {
           <h1>DnDeity</h1>
           <br />
           <h2>Home Page</h2>
-          <Button onClick = {() => this.handleClick("/CharacterCreator")}>Create a new character!</Button>
-          <br />
-          <Button onClick = {() => this.handleClick("/MapMaker")}>Create a new map!</Button>
-          <Button />
-          <Button />
+          <div className="container home-page-body">
+          <Grid>
+            <Row>
+            <Col>
+            <Button onClick = {() => this.handleClick("/CharacterCreator")}>Character Designer</Button>
+          
+            <Button onClick = {() => this.handleClick("/MapMaker")}>Map Designer</Button>
+             </Col>
+            </Row>
+            <Row>
+            <Col>
+            <Button onClick = {() => this.handleClick("none")}>Join a Game</Button>
+            
+            <Button onClick = {() => this.handleClick("none")}>Host a Game</Button>
+            </Col>
+            </Row>
+          </Grid>
+          </div>
         </div>
       </div>
     );
