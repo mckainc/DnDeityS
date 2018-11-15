@@ -39,10 +39,10 @@ def authenticate_user():
 			if row[2] == password:
 				cur.close()
 				db.close()
-				return make_response(jsonify({'UserId': row[0]}), 200)
+				return make_response(jsonify({'UserId': row[4]}), 200)
 			cur.close()
 			db.close()
-			return make_response(jsonify({'error': 'bad password', 'user_id': row[0]}), 400)
+			return make_response(jsonify({'error': 'bad password', 'user_id': row[4]}), 400)
 		cur.close()
 		db.close()
 		return make_response(jsonify({'error': 'bad username'}), 400)
@@ -59,7 +59,7 @@ def create_user():
 		username = request.get_json(force=True)['username']
 		password = request.get_json(force=True)['password']
 		email = request.get_json(force=True)['email']
-		userhash = hash(username)
+		userhash = abs(hash(username))
 		# check if email/username are taken
 		cur = db.cursor()
 		cur.execute('select * from users where UserName = %s', (username,))
@@ -113,7 +113,7 @@ def update_user(user_id):
 		values_list.append(email)
 	except KeyError as e:
 		email = ''
-	query = query[:-2] + " where UserId = %s"
+	query = query[:-2] + " where UserHash = %s"
 	values_list.append(user_id)
 
 	cur.execute(query, tuple(values_list))
@@ -146,7 +146,7 @@ def reset_password(user_id):
 		server.login(email_username, email_password)
 		message = '\nClick this link in order to reset your password: http://localhost:3000/ChangePassword/' + str(user_id)
 		message += '\n\nIf you did not request a password reset, please ignore this message\n'
-		cur.execute('select UserEmail from users where UserId = %s', (user_id,))
+		cur.execute('select UserEmail from users where UserHash = %s', (user_id,))
 		# print(cur.fetchall(), file=sys.stderr)
 		msg = MIMEMultipart()
 		msg['To'] = cur.fetchall()[0][0]
