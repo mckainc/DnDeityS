@@ -29,7 +29,10 @@ class JoinGame extends Component {
       channel: this.state.code,
       event: 'join-lobby',
       message: {
-        msg: 'user joined'
+        username: 'nick',
+        character: 'John',
+        race: 'Human',
+        class: 'Rogue'
       }
     }
 

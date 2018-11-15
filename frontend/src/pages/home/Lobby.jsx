@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
 // types
+import { List } from 'immutable';
 import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
 import Pusher from 'pusher-js';
 
 // components
-import { Modal } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 
 const generateCode = () => {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -23,6 +24,7 @@ class Lobby extends Component {
 
     this.state = {
       code: '',
+      players: new List(),
     }
   }
 
@@ -34,26 +36,9 @@ class Lobby extends Component {
     const code = generateCode();
     const channel = pusher.subscribe(code);
 
-    channel.bind('join-lobby', data => console.log(data))
-
-    // const server = axios.create({
-    //   baseURL: serverURL,
-    // });
-
-    // const json = {
-    //   channel: code,
-    //   event: 'join-lobby',
-    //   message: {
-    //     testField: 'test'
-    //   }
-    // }
-
-    // server.post('/pushmessage', JSON.stringify(json))
-    //   .then(response => {
-    //     console.log(response)
-    //   })
-
-    // TODO bind channel to events
+    channel.bind('join-lobby', player => {
+      this.setState({ players: this.state.players.push(player)});
+    })
 
     this.setState({ code });
   }
@@ -64,6 +49,15 @@ class Lobby extends Component {
         <Modal.Header closeButton>Create a Lobby</Modal.Header>
         <Modal.Body>
           <p>Lobby Code: {this.state.code}</p>
+          <p><u><b>Joined Players</b></u></p>
+          {this.state.players.valueSeq().map(player => (
+            <p>
+              <b>Player: </b>{player.username}
+              <b> Character: </b>
+              {player.character}, {player.race} {player.class}
+            </p>
+          ))}
+          <Button>Start Game</Button>
         </Modal.Body>
       </Modal>
     )
