@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 
 // types
-import axios from 'axios';
 import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
-import serverURL from '../../objects/url.js';
 import Pusher from 'pusher-js';
 
 // components
@@ -36,24 +34,24 @@ class Lobby extends Component {
     const code = generateCode();
     const channel = pusher.subscribe(code);
 
-    channel.bind('test-event', data => console.log(data))
+    channel.bind('join-lobby', data => console.log(data))
 
-    const server = axios.create({
-      baseURL: serverURL,
-    });
+    // const server = axios.create({
+    //   baseURL: serverURL,
+    // });
 
-    const json = {
-      channel: code,
-      event: 'test-event',
-      message: {
-        testField: 'test'
-      }
-    }
+    // const json = {
+    //   channel: code,
+    //   event: 'join-lobby',
+    //   message: {
+    //     testField: 'test'
+    //   }
+    // }
 
-    server.post('/pushmessage', JSON.stringify(json))
-      .then(response => {
-        console.log(response)
-      })
+    // server.post('/pushmessage', JSON.stringify(json))
+    //   .then(response => {
+    //     console.log(response)
+    //   })
 
     // TODO bind channel to events
 
@@ -65,7 +63,7 @@ class Lobby extends Component {
       <Modal className="Lobby" show={this.props.showLobbyModal} onHide={this.props.onClose}>
         <Modal.Header closeButton>Create a Lobby</Modal.Header>
         <Modal.Body>
-          <p>Loby Code: {this.state.code}</p>
+          <p>Lobby Code: {this.state.code}</p>
         </Modal.Body>
       </Modal>
     )

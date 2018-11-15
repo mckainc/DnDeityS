@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 // components
 import Lobby from './Lobby';
+import JoinGame from './JoinGame';
 import SiteNavBar from '../../components/SiteNavBar';
 
 import { Button } from 'react-bootstrap';
@@ -15,11 +16,16 @@ class HomePage extends Component {
 
     this.state = {
       showLobbyModal: false,
+      showJoinModal: false,
     }
   }
 
   toggleLobbyModal = () => {
     this.setState({ showLobbyModal: !this.state.showLobbyModal });
+  }
+
+  toggleJoinModal = () => {
+    this.setState({ showJoinModal: !this.state.showJoinModal });
   }
 
   render() {
@@ -39,7 +45,10 @@ class HomePage extends Component {
           </Link>
           <br />
           <Button onClick={this.toggleLobbyModal}>Create a Lobby</Button>
+          <br />
+          <Button onClick={this.toggleJoinModal}>Join a Game</Button>
           <Lobby showLobbyModal={this.state.showLobbyModal} onClose={this.toggleLobbyModal}/>
+          <JoinGame showJoinModal={this.state.showJoinModal} onClose={this.toggleJoinModal}/>
         </div>
       </div>
     );
