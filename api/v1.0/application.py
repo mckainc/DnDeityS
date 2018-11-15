@@ -83,9 +83,10 @@ def create_user():
 		#	cur.close()
 		#	db.close()
 		#	return make_response(jsonify(row), 200)
-	#except KeyError as e:
-	cur.close()
-	db.close()
+	except KeyError as e:
+		cur.close()
+		db.close()
+		return make_response(jsonify({'error': 'cannot create user'}), 500)
 	return make_response(jsonify(userhash), 200)
 
 @application.route('/user/<int:user_id>', methods=['PATCH'])
