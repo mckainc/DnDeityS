@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 
+// types
 import { APP_ID, APP_CLUSTER, APP_SECRET, APP_KEY } from '../../objects/keys';
 import Pusher from 'pusher-js';
+
+// components
+import { Modal } from 'react-bootstrap';
 
 const generateCode = () => {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -14,6 +18,14 @@ const generateCode = () => {
 }
 
 class Lobby extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      code: '',
+    }
+  }
+
   componentWillMount() {
     var pusher = new Pusher(APP_KEY, {
       cluster: APP_CLUSTER
@@ -21,13 +33,18 @@ class Lobby extends Component {
 
     const code = generateCode();
     const channel = pusher.subscribe(code);
+
+    this.setState({ code });
   }
 
   render() {
     return (
-      <div className="Lobby">
-        Lobby
-      </div>
+      <Modal className="Lobby" show={this.props.showLobbyModal} onHide={this.props.onClose}>
+        <Modal.Header closeButton>Create a Lobby</Modal.Header>
+        <Modal.Body>
+          <p>Loby Code: {this.state.code}</p>
+        </Modal.Body>
+      </Modal>
     )
   }
 }
