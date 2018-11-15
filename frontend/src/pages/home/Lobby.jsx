@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 // types
-import { APP_ID, APP_CLUSTER, APP_SECRET, APP_KEY } from '../../objects/keys';
+import axios from 'axios';
+import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
+import serverURL from '../../objects/url.js';
 import Pusher from 'pusher-js';
 
 // components
@@ -27,12 +29,33 @@ class Lobby extends Component {
   }
 
   componentWillMount() {
-    var pusher = new Pusher(APP_KEY, {
+    const pusher = new Pusher(APP_KEY, {
       cluster: APP_CLUSTER
     });
 
     const code = generateCode();
     const channel = pusher.subscribe(code);
+
+    channel.bind('test-event', data => console.log(data))
+
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: code,
+      event: 'test-event',
+      message: {
+        testField: 'test'
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json))
+      .then(response => {
+        console.log(response)
+      })
+
+    // TODO bind channel to events
 
     this.setState({ code });
   }
