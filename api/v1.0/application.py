@@ -59,6 +59,7 @@ def create_user():
 		username = request.get_json(force=True)['username']
 		password = request.get_json(force=True)['password']
 		email = request.get_json(force=True)['email']
+		userhash = hash(username)
 		# check if email/username are taken
 		cur = db.cursor()
 		cur.execute('select * from users where UserName = %s', (username,))
@@ -74,18 +75,18 @@ def create_user():
 			return make_response(jsonify({'error': 'email is already taken'}), 500)
 
 		# if neither are there..
-		cur.execute('insert into users (UserName, UserPassword, UserEmail) values (%s, %s, %s)', (username, password, email))
+		cur.execute('insert into users (UserName, UserPassword, UserEmail, UserHash) values (%s, %s, %s, %s)', (username, password, email, userhash))
 		db.commit()
 		# get row and return
-		cur.execute('select * from users where UserName = %s', (username,))
-		for row in cur:
-			cur.close()
-			db.close()
-			return make_response(jsonify(row), 200)
-	except KeyError as e:
-		cur.close()
-		db.close()
-		abort(500)
+		#cur.execute('select * from users where UserName = %s', (username,))
+		#for row in cur:
+		#	cur.close()
+		#	db.close()
+		#	return make_response(jsonify(row), 200)
+	#except KeyError as e:
+	cur.close()
+	db.close()
+	return make_response(jsonify(userhash), 200)
 
 @application.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
