@@ -1,5 +1,6 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+api/v1.0/db_prod.py
 # dependencies
 node_modules/
 
