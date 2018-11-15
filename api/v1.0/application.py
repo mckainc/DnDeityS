@@ -7,6 +7,7 @@ import mysql.connector
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import pusher
 import json
 import sys
 
@@ -18,6 +19,14 @@ if application.config['ENV'] == 'development':
 	from db_dev import *
 else:
 	from db_prod import *
+
+pusher_client = pusher.Pusher(
+  app_id=pusher_app_id,
+  key=pusher_key,
+  secret=pusher_secret,
+  cluster=pusher_cluster,
+  ssl=pusher_ssl
+)
 
 @application.route('/')
 def index():
@@ -50,6 +59,21 @@ def authenticate_user():
 	except KeyError as e:
 		cur.close()
 		db.close()
+		abort(500)
+
+@application.route('/pushmessage', methods=['POST'])
+def push_message():
+	try:
+		channel = request.get_json(force=True)['channel']
+		event = request.get_json(force=True)['event']
+		message = request.get_json(force=True)['message']
+
+		message_json = json.dumps(message)
+
+		# send real time message
+		pusher_client.trigger(channel, event, message_json)
+		return make_response(jsonify({'message_pushed': 'true'}), 200)
+	except KeyError as e:
 		abort(500)
 
 @application.route('/user', methods=['POST'])
