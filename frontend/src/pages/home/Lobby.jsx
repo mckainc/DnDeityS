@@ -130,7 +130,7 @@ class Lobby extends Component {
               </div>
             </div>
           }
-          <Button>Start Game</Button>
+          <Button disabled={typeof map === 'undefined'}>Start Game</Button>
         </Modal.Body>
       </Modal>
     )

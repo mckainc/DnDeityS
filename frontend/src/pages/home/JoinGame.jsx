@@ -113,7 +113,7 @@ class JoinGame extends Component {
             <div className="scrollable-list">
               <ListGroup>
                 {filteredList.valueSeq().map(character => (
-                  <ListGroupItem onClick={() => this.selectCharacter(character)}>{character.name}</ListGroupItem>
+                  <ListGroupItem onClick={() => this.selectCharacter(character)}>{character.name}, {character.race} {character.class}</ListGroupItem>
                 ))}
               </ListGroup>
             </div>
@@ -133,7 +133,7 @@ class JoinGame extends Component {
               />
             </Col>
             <Col sm={2}>
-              <Button onClick={this.join}>Join</Button>
+              <Button onClick={this.join} disabled={typeof character === 'undefined'}>Join</Button>
             </Col>
           </FormGroup>
         </Form>
