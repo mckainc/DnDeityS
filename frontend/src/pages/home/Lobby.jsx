@@ -104,16 +104,16 @@ class Lobby extends Component {
             </p>
           ))}
           <p><u><b>Selected Map</b></u></p>
-          {typeof this.state.map !== 'undefined' &&
+          {typeof map !== 'undefined' &&
             <div className="selected-map">
               <ListGroupItem>
-                {this.state.map.name}
+                {map.name}
                 <a onClick={this.deleteMap} href="#!"><i className="fas fa-times"></i></a>
               </ListGroupItem>
               <br />
             </div>
           }
-          {typeof this.state.map === 'undefined' &&
+          {typeof map === 'undefined' &&
             <div className="map-select">
               <FormControl
                 name="Map Search"

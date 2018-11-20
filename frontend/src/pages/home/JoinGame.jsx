@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // types
+import { Map } from 'immutable';
 import serverURL from '../../objects/url.js';
 
 // components
-import { Modal, Form, FormControl, Col, ControlLabel, Button, FormGroup } from 'react-bootstrap';
+import { Modal, Form, FormControl, Col, ControlLabel, Button, FormGroup, ListGroup, ListGroupItem } from 'react-bootstrap';
+
+import './JoinGame.css';
 
 class JoinGame extends Component {
   constructor(props) {
@@ -13,7 +16,33 @@ class JoinGame extends Component {
 
     this.state = {
       code: '',
+      character: undefined,
+      characters: new Map(),
+      searchInput: '',
     }
+  }
+
+  componentWillMount() {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const userId = localStorage.getItem('user_id');
+
+    // Get user's characters
+    server.get('/characters/' + userId)
+      .then(response => {
+        let characters = new Map();
+        response.data.forEach(payload => {
+          const character = {};
+          character.id = payload[0];
+          character.name = payload[1];
+          character.race = payload[2];
+          character.class = payload[3];
+          characters = characters.set(character.id, character);
+        });
+        this.setState({ characters });
+      });
   }
 
   handleChange = e => {
@@ -30,9 +59,9 @@ class JoinGame extends Component {
       event: 'join-lobby',
       message: {
         username: 'nick',
-        character: 'John',
-        race: 'Human',
-        class: 'Rogue'
+        character: this.state.character.name,
+        race: this.state.character.race,
+        class: this.state.character.class,
       }
     }
 
@@ -41,11 +70,55 @@ class JoinGame extends Component {
     // TODO bind channel to events
   }
 
+  selectCharacter = character => {
+    this.setState({ character });
+  }
+
+  deleteCharacter = () => {
+    this.setState({ character: undefined });
+  }
+
+  search = e => {
+    this.setState({ searchInput: e.target.value });
+  }
+
   render() {
+    const { character, searchInput } = this.state;
+    const filteredList = this.state.characters.filter(character => {
+      return searchInput.toLowerCase() === character.name.substring(0, searchInput.length).toLowerCase();
+    }).sort((a, b) => a.name.localeCompare(b.name));
+
     return (
       <Modal className="JoinGame" show={this.props.showJoinModal} onHide={this.props.onClose}>
       <Modal.Header closeButton>Join a Game</Modal.Header>
       <Modal.Body>
+        <p><u><b>Selected Character</b></u></p>
+        {typeof character !== 'undefined' &&
+          <div className="selected-character">
+            <ListGroupItem>
+              {character.name}
+              <a onClick={this.deleteCharacter} href="#!"><i className="fas fa-times"></i></a>
+            </ListGroupItem>
+            <br />
+          </div>
+        }
+        {typeof character === 'undefined' &&
+          <div className="character-select">
+            <FormControl
+              name="Character Search"
+              type="text"
+              placeholder="Search Characters"
+              onChange={this.search}
+            />
+            <div className="scrollable-list">
+              <ListGroup>
+                {filteredList.valueSeq().map(character => (
+                  <ListGroupItem onClick={() => this.selectCharacter(character)}>{character.name}</ListGroupItem>
+                ))}
+              </ListGroup>
+            </div>
+          </div>
+        }
         <Form horizontal>
           <FormGroup>
             <Col sm={2}>
