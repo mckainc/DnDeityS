@@ -7,6 +7,7 @@ import mysql.connector
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import pusher
 import json
 import sys
 
@@ -18,6 +19,14 @@ if application.config['ENV'] == 'development':
 	from db_dev import *
 else:
 	from db_prod import *
+
+pusher_client = pusher.Pusher(
+  app_id=pusher_app_id,
+  key=pusher_key,
+  secret=pusher_secret,
+  cluster=pusher_cluster,
+  ssl=pusher_ssl
+)
 
 @application.route('/')
 def index():
@@ -39,10 +48,10 @@ def authenticate_user():
 			if row[2] == password:
 				cur.close()
 				db.close()
-				return make_response(jsonify({'UserId': row[0]}), 200)
+				return make_response(jsonify({'UserId': row[4]}), 200)
 			cur.close()
 			db.close()
-			return make_response(jsonify({'error': 'bad password', 'user_id': row[0]}), 400)
+			return make_response(jsonify({'error': 'bad password', 'user_id': row[4]}), 400)
 		cur.close()
 		db.close()
 		return make_response(jsonify({'error': 'bad username'}), 400)
@@ -52,6 +61,21 @@ def authenticate_user():
 		db.close()
 		abort(500)
 
+@application.route('/pushmessage', methods=['POST'])
+def push_message():
+	try:
+		channel = request.get_json(force=True)['channel']
+		event = request.get_json(force=True)['event']
+		message = request.get_json(force=True)['message']
+
+		message_json = json.dumps(message)
+
+		# send real time message
+		pusher_client.trigger(channel, event, message_json)
+		return make_response(jsonify({'message_pushed': 'true'}), 200)
+	except KeyError as e:
+		abort(500)
+
 @application.route('/user', methods=['POST'])
 def create_user():
 	try:
@@ -59,6 +83,7 @@ def create_user():
 		username = request.get_json(force=True)['username']
 		password = request.get_json(force=True)['password']
 		email = request.get_json(force=True)['email']
+		userhash = abs(hash(username))
 		# check if email/username are taken
 		cur = db.cursor()
 		cur.execute('select * from users where UserName = %s', (username,))
@@ -74,18 +99,19 @@ def create_user():
 			return make_response(jsonify({'error': 'email is already taken'}), 500)
 
 		# if neither are there..
-		cur.execute('insert into users (UserName, UserPassword, UserEmail) values (%s, %s, %s)', (username, password, email))
+		cur.execute('insert into users (UserName, UserPassword, UserEmail, UserHash) values (%s, %s, %s, %s)', (username, password, email, userhash))
 		db.commit()
 		# get row and return
-		cur.execute('select * from users where UserName = %s', (username,))
-		for row in cur:
-			cur.close()
-			db.close()
-			return make_response(jsonify(row), 200)
+		#cur.execute('select * from users where UserName = %s', (username,))
+		#for row in cur:
+		#	cur.close()
+		#	db.close()
+		#	return make_response(jsonify(row), 200)
 	except KeyError as e:
 		cur.close()
 		db.close()
-		abort(500)
+		return make_response(jsonify({'error': 'cannot create user'}), 500)
+	return make_response(jsonify(userhash), 200)
 
 @application.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
@@ -111,7 +137,7 @@ def update_user(user_id):
 		values_list.append(email)
 	except KeyError as e:
 		email = ''
-	query = query[:-2] + " where UserId = %s"
+	query = query[:-2] + " where UserHash = %s"
 	values_list.append(user_id)
 
 	cur.execute(query, tuple(values_list))
@@ -144,7 +170,7 @@ def reset_password(user_id):
 		server.login(email_username, email_password)
 		message = '\nClick this link in order to reset your password: http://localhost:3000/ChangePassword/' + str(user_id)
 		message += '\n\nIf you did not request a password reset, please ignore this message\n'
-		cur.execute('select UserEmail from users where UserId = %s', (user_id,))
+		cur.execute('select UserEmail from users where UserHash = %s', (user_id,))
 		# print(cur.fetchall(), file=sys.stderr)
 		msg = MIMEMultipart()
 		msg['To'] = cur.fetchall()[0][0]
