@@ -10,19 +10,24 @@ import './AvatarSection.css';
 class AvatarSection extends Component {
   constructor(props) {
     super(props);
-    console.log("Loading avatars...");
+    let avatar = props.loaded ? props.character.avatar : 'none';
 
     const fs = require('fs');
     let avatar_list = [
-      'dragonborn_female.png', 'dragonborn_male.png', 'dwarf_female.png', 'dwarf_male.png',
+      'temp_avatar.png', 'dragonborn_female.png', 'dragonborn_male.png', 'dwarf_female.png', 'dwarf_male.png',
       'elf_female.png', 'elf_male.png','gnome_female.png', 'gnome_male.png', 'halfling_female.png',
       'halfling_male.png', 'half_elf_female.png', 'half_elf_male.png', 'half_orc_female.png',
       'half_orc_male.png', 'human_female.png', 'human_male.png', 'tiefling_female.png', 'tiefling_male.png'
-     ]
+    ]
+
+    let current = avatar_list.indexOf(avatar);
+    if (current < 0) {
+      current = 0;
+    }
 
     this.state = {
       avatars: avatar_list,
-      current: 3,
+      current: current,
     }
   }
 
@@ -33,7 +38,7 @@ class AvatarSection extends Component {
 
     this.setState({ current : index });
     this.forceUpdate();
-    this.props.changeCharacter('avatars', current);
+    this.props.changeCharacter('avatar', avatar_name);
   }
 
   render() {
