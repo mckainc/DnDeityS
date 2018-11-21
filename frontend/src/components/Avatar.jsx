@@ -16,15 +16,13 @@ class Avatar extends Component {
   }
 
   render() {
-    const { file, selected } = this.props;
+    const { file, selected, onPress } = this.props;
     const { name } = this.state;
     const path = require("../textures/avatars/" + file);
     return (
       <div className="Avatar">
-        <b>{name}</b>
-        <div class={selected ? ("panel panel-primary") : ("panel panel-default")}>
-          <image src={path} class="img-thumbnail" alt={name}/>
-        </div>
+        <image class="img-thumbnail" src={path} alt={name}/>
+        <button type="button" class="btn btn-default btn-block" onClick={onPress}/>
       </div>
     );
   }

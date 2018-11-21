@@ -5,10 +5,12 @@ import { Col, Radio, Row } from 'react-bootstrap';
 
 import CollapsableSection from '../../components/CollapsableSection';
 import Avatar from '../../components/Avatar';
+import './AvatarSection.css';
 
 class AvatarSection extends Component {
   constructor(props) {
     super(props);
+    console.log("Loading avatars...");
 
     const fs = require('fs');
     let avatar_list = [
@@ -16,17 +18,17 @@ class AvatarSection extends Component {
       'elf_female.png', 'elf_male.png','gnome_female.png', 'gnome_male.png', 'halfling_female.png',
       'halfling_male.png', 'half_elf_female.png', 'half_elf_male.png', 'half_orc_female.png',
       'half_orc_male.png', 'human_female.png', 'human_male.png', 'tiefling_female.png', 'tiefling_male.png'
-    ]
+     ]
 
     this.state = {
       avatars: avatar_list,
-      current: -1,
+      current: 3,
     }
   }
 
   updateAvatar = (avatar_name) => {
     const { avatars, current } = this.state;
-    
+
     let index = avatars.indexOf(avatar_name);
 
     this.setState({ current : index });
@@ -36,17 +38,28 @@ class AvatarSection extends Component {
 
   render() {
     const { avatars, current } = this.state;
+    const current_src = require("../../textures/avatars/" + avatars[current]);
     return (
       <div className="AvatarSection" ref={this.props.innerRef}>
         <CollapsableSection title="Avatars" open={true}>
+          <h4>Current Avatar</h4>
           <Row>
-            {avatars.map((avatar, index) => (
-              index === current ? (
-                <Col xs={2} md={1}><Avatar file={avatar} selected={true} onclick={`updateAvatar(${avatar})`}/></Col>
-              ) : (
-                <Col xs={2} md={1}><Avatar file={avatar} selected={false} onclick={`updateAvatar(${avatar})`}/></Col>
-              )
-            ))}
+            <div class="col-sm-2">
+              <image class="img-thumbnail" src={current_src} alt={current_src}/>
+            </div>
+          </Row>
+          <Row>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                {avatars.map((avatar, index) => (
+                  index === current ? (
+                    <Col xs={2} md={1}><Avatar file={avatar} selected={true} onPress={(e) => this.updateAvatar(avatar, e)}/></Col>
+                  ) : (
+                    <Col xs={2} md={1}><Avatar file={avatar} selected={false} onPress={(e) => this.updateAvatar(avatar, e)}/></Col>
+                  )
+                ))}
+              </div>
+            </div>
           </Row>
         </CollapsableSection>
       </div>
