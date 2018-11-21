@@ -21,6 +21,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 yarn.lock
+api/v1.0/.elasticbeanstalk/
+api/v1.0/list/
+frontend/awsmobilejs/
+frontend/src/aws-exports.js
 
 .vscode
 <<<<<<< HEAD

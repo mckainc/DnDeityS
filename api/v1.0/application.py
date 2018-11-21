@@ -167,7 +167,7 @@ def reset_password(user_id):
 def get_characters(user_id):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	query = 'select characters.CharacterId as CharacterId, characters.CharacterName as CharacterName, races.RaceName as RaceName, classes.ClassName as ClassName, characters.CharacterExperience as Experience '
+	query = 'select characters.CharacterHash as CharacterId, characters.CharacterName as CharacterName, races.RaceName as RaceName, classes.ClassName as ClassName, characters.CharacterExperience as Experience '
 	query += 'from characters inner join classes on characters.ClassId=classes.ClassId inner join races on characters.RaceId=races.RaceId where characters.UserId = %s'
 	cur.execute(query, (user_id,))
 	returned = []
@@ -202,6 +202,10 @@ def create_character():
 			fields += "CharacterName, "
 			values += "%s, "
 			values_list.append(name)
+			characterhash = abs(hash(name))
+			fields += "CharacterHash, "
+			values += "%s, "
+			values_list.append(characterhash)
 		except KeyError as e:
 			name = ''
 		try:
@@ -300,7 +304,7 @@ def get_update_delete_character(character_id):
 	if request.method == 'GET':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
-		cur.execute('select CharacterId, UserId, races.RaceName, classes.ClassName, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterId = %s', (character_id,))
+		cur.execute('select CharacterHash, UserId, races.RaceName, classes.ClassName, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterHash = %s', (character_id,))
 		for row in cur.fetchall():
 			cur.close()
 			db.close()
@@ -312,7 +316,7 @@ def get_update_delete_character(character_id):
 		try:
 			db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 			cur = db.cursor()
-			cur.execute('delete from characters where CharacterId = %s', (character_id,))
+			cur.execute('delete from characters where CharacterHash = %s', (character_id,))
 			db.commit()
 			cur.close()
 			db.close()
@@ -401,7 +405,7 @@ def get_update_delete_character(character_id):
 			values_list.append(json.dumps(maxhp))
 		except KeyError as e:
 			maxhp = ''
-		query = query[:-2] + " where CharacterId = %s"
+		query = query[:-2] + " where CharacterHash = %s"
 		values_list.append(character_id)
 
 		cur.execute(query, tuple(values_list))
