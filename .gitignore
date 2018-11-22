@@ -1,5 +1,6 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+api/v1.0/db_prod.py
 # dependencies
 node_modules/
 frontend/awsmobilejs
@@ -23,6 +24,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 yarn.lock
+api/v1.0/.elasticbeanstalk/
+api/v1.0/list/
+frontend/awsmobilejs/
+frontend/src/aws-exports.js
 
 .vscode
 <<<<<<< HEAD
