@@ -55,11 +55,13 @@ class DiceTray extends Component {
   }
 
   render() {
+
+    const pathD4 = "../textures/dice/d4";
     
     return (
       <div className="DiceModal">
         <Button bsSize="xsmall" onClick={this.handleShowP1}>
-         Dice
+          Dice
         </Button>
 
         <Draggable>
@@ -83,7 +85,7 @@ class DiceTray extends Component {
                </FormGroup>
 
               <FormGroup controlId="bonus6">
-                <Button onClick={() => this.handleDiceRoll(6,this.state.bonus6)}>D6</Button>
+                <Button onClick={() => this.handleDiceRoll(6,this.state.bonus6, "res6")}>D6</Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -95,7 +97,7 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus8">
-                <Button onClick={() => this.handleDiceRoll(8,this.state.bonus8)}>D8</Button>
+                <Button onClick={() => this.handleDiceRoll(8,this.state.bonus8,"res8")}>D8</Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -107,7 +109,7 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus10">
-                <Button onClick={() => this.handleDiceRoll(10,this.state.bonus10)}>D10</Button>
+                <Button onClick={() => this.handleDiceRoll(10,this.state.bonus10,"res10")}>D10</Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -119,7 +121,7 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus12">
-                <Button onClick={() => this.handleDiceRoll(12,this.state.bonus12)}>D12</Button>
+                <Button onClick={() => this.handleDiceRoll(12,this.state.bonus12,"res12")}>D12</Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -131,7 +133,7 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus20">
-                <Button onClick={() => this.handleDiceRoll(20,this.state.bonus20)}>D20</Button>
+                <Button onClick={() => this.handleDiceRoll(20,this.state.bonus20,"res20")}>D20</Button>
                 <FormControl
                   autoFocus
                   type="text"
