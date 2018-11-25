@@ -22,7 +22,7 @@ class SiteNaveBar extends Component {
           <Nav>
             <NavItem><Link to="/MapList">Maps</Link></NavItem>
           </Nav>
-          <Nav>
+          <Nav pullRight>
             <NavItem><DiceTray/></NavItem>
           </Nav>
           {this.props.enableSave &&
