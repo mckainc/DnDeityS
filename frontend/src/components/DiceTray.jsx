@@ -28,6 +28,12 @@ class DiceTray extends Component {
       res10: 0,
       res12: 0,
       res20: 0,
+      roll4: 1,
+      roll6: 1,
+      roll8: 1,
+      roll10: 1,
+      roll12: 1,
+      roll20: 1,
     }
   }
 
@@ -39,11 +45,12 @@ class DiceTray extends Component {
     this.setState({ showP1: false});
   }
   
-  handleDiceRoll(die, bonus, id) {
+  handleDiceRoll(die, bonus, id, realDie) {
     var roll = Math.floor(Math.random() * (parseInt(die))) + 1;
     var bon = bonus;
     let result = parseInt(roll) + parseInt(bon);
     this.setState({[id]: result});
+    this.setState({[realDie]: roll});
   }
 
   handleChange = event => {
@@ -74,7 +81,9 @@ class DiceTray extends Component {
 
                 <Form>
               <FormGroup controlId="bonus4">
-                <Button onClick={() => this.handleDiceRoll(4,this.state.bonus4,"res4")}>D4</Button>
+                <Button onClick={() => this.handleDiceRoll(4,this.state.bonus4,"res4","roll4")}>
+                  <img src={require("../textures/dice/d4/" + this.state.roll4 + ".png")}/>
+                </Button>
                 <FormControl
                   autoFocus
                   type="text"
