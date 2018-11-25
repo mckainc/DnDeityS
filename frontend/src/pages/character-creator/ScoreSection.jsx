@@ -6,6 +6,8 @@ import { Col, Radio, Row } from 'react-bootstrap';
 import AbilityScore from '../../components/AbilityScore';
 import CollapsableSection from '../../components/CollapsableSection';
 
+import './ScoreSection.css';
+
 const abilityScores = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
 
 class ScoreSection extends Component {
@@ -62,9 +64,11 @@ class ScoreSection extends Component {
             </div>
           }
           <Row>
+            
             {abilityScores.map((score, index) => (
-              <Col xs={2} md={1}><AbilityScore type={score} score={this.state.points[index]} manual={manual} updatePoints={this.updatePoints}/></Col>
+              <Col xs={2} md={1}><div className="boxes"><AbilityScore type={score} score={this.state.points[index]} manual={manual} updatePoints={this.updatePoints}/></div></Col>
             ))}
+            
           </Row>
         </CollapsableSection>
       </div>

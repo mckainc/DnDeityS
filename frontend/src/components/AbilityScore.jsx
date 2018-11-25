@@ -41,9 +41,13 @@ class AbilityScore extends Component {
       <div className="AbilityScore">
         <b>{type}</b>
         <Panel>
+        
           <Panel.Body>
-            <FormControl type="number" name={`${type}-value`} id={type} value={score} onChange={this.updateModifier}/>
+            
+            <FormControl bsClass="abilitybox" type="number" name={`${type}-value`} id={type} value={score} onChange={this.updateModifier}/>
+            
           </Panel.Body>
+          
         </Panel>
         {modifier >= 0 && <p className="modifier">{`+${modifier}`}</p>}
         {modifier < 0 && <p className="modifier">{modifier}</p>}

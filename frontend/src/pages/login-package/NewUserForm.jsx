@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
 
 class NewLoginForm extends Component {
 
@@ -36,59 +36,61 @@ class NewLoginForm extends Component {
     
       render() {
         return (
-          <form onSubmit={this.handleSubmit}>
-              <FormGroup controlId="username" bsSize="large">
+
+          <Form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="username">
                 <ControlLabel>User Name</ControlLabel>
                 <FormControl
                   autoFocus
                   type="username"
                   value={this.state.username}
                   onChange={this.handleChange}
+                  placeholder="Enter Username"
                 />
               </FormGroup>
 
               
-              <FormGroup controlId="password" bsSize="large">
+              <FormGroup controlId="password">
                 <ControlLabel>Password</ControlLabel>
                 <FormControl
                   autoFocus
                   type="password"
                   value={this.state.password}
                   onChange={this.handleChange}
+                  placeholder="Enter Password"
                 />
               </FormGroup>
 
-              <FormGroup controlId="passwordAgain" bsSize="large">
+              <FormGroup controlId="passwordAgain">
                 <ControlLabel>Confirm Pass</ControlLabel>
                 <FormControl
                   autoFocus
                   type="password"
                   value={this.state.passwordAgain}
                   onChange={this.handleChange}
+                  placeholder="Re-Enter Password"
                 />
               </FormGroup>
 
-              <FormGroup controlId="email" bsSize="large">
+              <FormGroup controlId="email">
                 <ControlLabel>Email</ControlLabel>
                 <FormControl
                   autoFocus
                   type="text"
                   value={this.state.email}
                   onChange={this.handleChange}
+                  placeholder="Enter Email"
                 />
               </FormGroup>
 
               <Button
-                block
-                bsSize="large"
                 disabled={!this.validationForm()}
                 type="submit"
               >
                 Submit
               </Button>
 
-            
-          </form>
+          </Form>
         );
       }
 }
