@@ -5,6 +5,7 @@ import { Map } from 'immutable';
 
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
+import GameToolbar from './GameToolbar';
 import { Col } from 'react-bootstrap';
 
 class Game extends Component {
@@ -19,6 +20,7 @@ class Game extends Component {
   render() {
     return (
       <div className="Game">
+        <GameToolbar />
         <Col md={10}>
           <MapGrid x={25} y={25} map={this.state.map} playing={true} />
         </Col>
