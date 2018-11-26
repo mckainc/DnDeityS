@@ -1,4 +1,9 @@
-.DiceModal {
-    width: 10em;
-    color: red;
+
+.bonusField {
+    width: 3rem;
+}
+
+ img {
+    height: 3rem;
+    width: 3rem;
 }

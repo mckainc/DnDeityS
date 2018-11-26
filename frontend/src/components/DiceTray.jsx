@@ -79,12 +79,14 @@ class DiceTray extends Component {
 
             <Modal.Body>
 
-                <Form>
+                <Form bsClass="help">
               <FormGroup controlId="bonus4">
                 <Button onClick={() => this.handleDiceRoll(4,this.state.bonus4,"res4","roll4")}>
                   <img src={require("../textures/dice/d4/" + this.state.roll4 + ".png")}/>
                 </Button>
+                <p>+</p>
                 <FormControl
+                  bsClass="bonusField"
                   autoFocus
                   type="text"
                   value={this.state.bonus4}
@@ -97,7 +99,9 @@ class DiceTray extends Component {
                 <Button onClick={() => this.handleDiceRoll(6,this.state.bonus6, "res6","roll6")}>
                 <img src={require("../textures/dice/d6/" + this.state.roll6 + ".png")}/>
                 </Button>
+                <p>+</p>
                 <FormControl
+                  bsClass="bonusField"
                   autoFocus
                   type="text"
                   pattern="[0-9]*"
@@ -111,7 +115,9 @@ class DiceTray extends Component {
                 <Button onClick={() => this.handleDiceRoll(8,this.state.bonus8,"res8","roll8")}>
                 <img src={require("../textures/dice/d8/" + this.state.roll8 + ".png")}/>
                 </Button>
+                <p>+</p>
                 <FormControl
+                  bsClass="bonusField"
                   autoFocus
                   type="text"
                   pattern="[0-9]*"
@@ -125,7 +131,9 @@ class DiceTray extends Component {
                 <Button onClick={() => this.handleDiceRoll(10,this.state.bonus10,"res10","roll10")}>
                 <img src={require("../textures/dice/d10/" + this.state.roll10 + ".png")}/>
                 </Button>
+                <p>+</p>
                 <FormControl
+                  bsClass="bonusField"
                   autoFocus
                   type="text"
                   pattern="[0-9]*"
@@ -139,7 +147,9 @@ class DiceTray extends Component {
                 <Button onClick={() => this.handleDiceRoll(12,this.state.bonus12,"res12","roll12")}>
                   <img src={require("../textures/dice/d12/" + this.state.roll12 + ".png")}/>
                 </Button>
+                <p>+</p>
                 <FormControl
+                  bsClass="bonusField"
                   autoFocus
                   type="text"
                   pattern="[0-9]*"
@@ -153,7 +163,9 @@ class DiceTray extends Component {
                 <Button onClick={() => this.handleDiceRoll(20,this.state.bonus20,"res20","roll20")}>
                   <img src={require("../textures/dice/d20/" + this.state.roll20 + ".png")}/>
                 </Button>
+                <p>+</p>
                 <FormControl
+                  bsClass="bonusField"
                   autoFocus
                   type="text"
                   pattern="[0-9]*"
