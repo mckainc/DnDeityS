@@ -94,7 +94,9 @@ class DiceTray extends Component {
                </FormGroup>
 
               <FormGroup controlId="bonus6">
-                <Button onClick={() => this.handleDiceRoll(6,this.state.bonus6, "res6")}>D6</Button>
+                <Button onClick={() => this.handleDiceRoll(6,this.state.bonus6, "res6","roll6")}>
+                <img src={require("../textures/dice/d6/" + this.state.roll6 + ".png")}/>
+                </Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -106,7 +108,9 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus8">
-                <Button onClick={() => this.handleDiceRoll(8,this.state.bonus8,"res8")}>D8</Button>
+                <Button onClick={() => this.handleDiceRoll(8,this.state.bonus8,"res8","roll8")}>
+                <img src={require("../textures/dice/d8/" + this.state.roll8 + ".png")}/>
+                </Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -118,7 +122,9 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus10">
-                <Button onClick={() => this.handleDiceRoll(10,this.state.bonus10,"res10")}>D10</Button>
+                <Button onClick={() => this.handleDiceRoll(10,this.state.bonus10,"res10","roll10")}>
+                <img src={require("../textures/dice/d10/" + this.state.roll10 + ".png")}/>
+                </Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -130,7 +136,9 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus12">
-                <Button onClick={() => this.handleDiceRoll(12,this.state.bonus12,"res12")}>D12</Button>
+                <Button onClick={() => this.handleDiceRoll(12,this.state.bonus12,"res12","roll12")}>
+                  <img src={require("../textures/dice/d12/" + this.state.roll12 + ".png")}/>
+                </Button>
                 <FormControl
                   autoFocus
                   type="text"
@@ -142,7 +150,9 @@ class DiceTray extends Component {
                </FormGroup>
 
                <FormGroup controlId="bonus20">
-                <Button onClick={() => this.handleDiceRoll(20,this.state.bonus20,"res20")}>D20</Button>
+                <Button onClick={() => this.handleDiceRoll(20,this.state.bonus20,"res20","roll20")}>
+                  <img src={require("../textures/dice/d20/" + this.state.roll20 + ".png")}/>
+                </Button>
                 <FormControl
                   autoFocus
                   type="text"
