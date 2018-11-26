@@ -5,6 +5,11 @@
   height: 70vh;
 }
 
+.Game .MapGrid {
+  height: 90vh;
+}
+
+
 .MapGrid .row {
   max-height: 10rem;
   white-space: nowrap;
