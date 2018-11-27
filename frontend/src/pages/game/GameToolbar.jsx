@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 // components
 import { Navbar } from 'react-bootstrap';
+import CharacterSheetHeader from './CharacterSheetHeader';
 
 class GameToolbar extends Component {
   render() {
@@ -13,6 +14,7 @@ class GameToolbar extends Component {
             <Navbar.Brand><Link to="/home">DnDeity</Link></Navbar.Brand>
           </Navbar.Header>
         </Navbar>
+        <CharacterSheetHeader id="1222864699"/>
       </div>
     );
   }
