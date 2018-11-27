@@ -4,8 +4,11 @@ import axios from 'axios';
 // types
 import { Map } from 'immutable';
 import serverURL from '../../objects/url.js';
+import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
+import Pusher from 'pusher-js';
 
 // components
+import { Redirect } from 'react-router-dom';
 import { Modal, Form, FormControl, Col, ControlLabel, Button, FormGroup, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import './JoinGame.css';
@@ -18,6 +21,7 @@ class JoinGame extends Component {
       code: '',
       character: undefined,
       characters: new Map(),
+      startGame: false,
       searchInput: '',
     }
   }
@@ -67,7 +71,16 @@ class JoinGame extends Component {
 
     server.post('/pushmessage', JSON.stringify(json));
 
-    // TODO bind channel to events
+    // Bind channel to events
+    const pusher = new Pusher(APP_KEY, {
+      cluster: APP_CLUSTER
+    });
+
+    const channel = pusher.subscribe(this.state.code);
+
+    channel.bind('start-game', player => {
+      this.setState({ startGame: true });
+    })
   }
 
   selectCharacter = character => {
@@ -87,6 +100,10 @@ class JoinGame extends Component {
     const filteredList = this.state.characters.filter(character => {
       return searchInput.toLowerCase() === character.name.substring(0, searchInput.length).toLowerCase();
     }).sort((a, b) => a.name.localeCompare(b.name));
+
+    if (this.state.startGame) {
+      return <Redirect to="/Game"/>
+    }
 
     return (
       <Modal className="JoinGame" show={this.props.showJoinModal} onHide={this.props.onClose}>

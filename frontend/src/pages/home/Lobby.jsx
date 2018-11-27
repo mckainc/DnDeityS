@@ -8,6 +8,7 @@ import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
 import Pusher from 'pusher-js';
 
 // components
+import { Redirect } from 'react-router-dom';
 import { Modal, Button, ListGroup, ListGroupItem, FormControl } from 'react-bootstrap';
 
 import './Lobby.css';
@@ -31,6 +32,7 @@ class Lobby extends Component {
       map: undefined,
       maps: new Map(),
       players: new List(),
+      startGame: false,
       searchInput: '',
     }
   }
@@ -72,6 +74,24 @@ class Lobby extends Component {
     this.setState({ code });
   }
 
+  startGame = () => {
+    this.setState({ startGame: true });
+
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: this.state.code,
+      event: 'start-game',
+      message: {
+        map: this.state.map.id,
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
+  }
+
   selectMap = map => {
     this.setState({ map });
   }
@@ -89,6 +109,10 @@ class Lobby extends Component {
     const filteredList = this.state.maps.filter(map => {
       return searchInput.toLowerCase() === map.name.substring(0, searchInput.length).toLowerCase();
     }).sort((a, b) => a.name.localeCompare(b.name));
+
+    if (this.state.startGame) {
+      return <Redirect to="/Game"/>
+    }
 
     return (
       <Modal className="Lobby" show={this.props.showLobbyModal} onHide={this.props.onClose}>
@@ -130,7 +154,7 @@ class Lobby extends Component {
               </div>
             </div>
           }
-          <Button disabled={typeof map === 'undefined'}>Start Game</Button>
+          <Button disabled={typeof map === 'undefined'} onClick={this.startGame}>Start Game</Button>
         </Modal.Body>
       </Modal>
     )
