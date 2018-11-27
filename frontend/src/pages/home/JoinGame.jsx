@@ -78,8 +78,9 @@ class JoinGame extends Component {
 
     const channel = pusher.subscribe(this.state.code);
 
-    channel.bind('start-game', player => {
+    channel.bind('start-game', data => {
       this.setState({ startGame: true });
+      localStorage.setItem('map_id', data.map);
     })
   }
 

@@ -89,6 +89,8 @@ class Lobby extends Component {
       }
     }
 
+    localStorage.setItem('map_id', this.state.map.id)
+
     server.post('/pushmessage', JSON.stringify(json));
   }
 
