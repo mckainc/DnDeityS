@@ -1,0 +1,17 @@
+
+.bonusField {
+    width: 3rem;
+}
+
+ img {
+    height: 3rem;
+    width: 3rem;
+}
+
+.modal-backdrop {
+    opacity: 0 !important;
+}
+
+.DiceModal {
+    color: green;
+}

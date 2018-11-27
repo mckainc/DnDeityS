@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import DiceTray from './DiceTray';
+
 // components
 import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 
@@ -19,6 +21,9 @@ class SiteNaveBar extends Component {
           </Nav>
           <Nav>
             <NavItem><Link to="/MapList">Maps</Link></NavItem>
+          </Nav>
+          <Nav pullRight>
+            <NavItem><DiceTray/></NavItem>
           </Nav>
           {this.props.enableSave &&
           <Nav pullRight>
