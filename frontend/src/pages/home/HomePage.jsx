@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Button, Grid, Row, Col } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 // components
 import Lobby from './Lobby';
 import JoinGame from './JoinGame';
 import SiteNavBar from '../../components/SiteNavBar';
-
-import { Button } from 'react-bootstrap';
 
 import './HomePage.css';
 
@@ -17,6 +16,10 @@ class HomePage extends Component {
     this.state = {
       showLobbyModal: false,
       showJoinModal: false,
+      reCharacter: false,
+      reMap: false,
+      reMonster: false,
+      page: "none",
     }
   }
 
@@ -26,9 +29,18 @@ class HomePage extends Component {
 
   toggleJoinModal = () => {
     this.setState({ showJoinModal: !this.state.showJoinModal });
+      
+
+  }
+
+  handleClick(e){
+    this.setState({page: e});
   }
 
   render() {
+    if(this.state.page !== "none"){
+      return <Redirect to = {this.state.page}/>
+    }
     return (
       <div className="HomePage">
         <SiteNavBar/>
@@ -36,21 +48,26 @@ class HomePage extends Component {
           <h1>DnDeity</h1>
           <br />
           <h2>Home Page</h2>
-          <Link to="/CharacterCreator">
-            Create a new character!
-          </Link>
-          <br />
-          <Link to="/MapMaker">
-            Create a new map!
-          </Link>
-          <br />
-          <Button onClick={this.toggleLobbyModal}>Create a Lobby</Button>
-          <br />
-          <Button onClick={this.toggleJoinModal}>Join a Game</Button>
+          <Grid>
+            <Row>
+            <Col>
+            <Button onClick = {() => this.handleClick("/CharacterCreator")}>Character Designer</Button>
+          
+            <Button onClick = {() => this.handleClick("/MapMaker")}>Map Designer</Button>
+             </Col>
+            </Row>
+            <Row>
+            <Col>
+            <Button onClick = {this.toggleJoinModal}>Join a Game</Button>
+            
+            <Button onClick = {this.toggleLobbyModal}>Host a Game</Button>
+            </Col>
+            </Row>
+          </Grid>
           <Lobby showLobbyModal={this.state.showLobbyModal} onClose={this.toggleLobbyModal}/>
           <JoinGame showJoinModal={this.state.showJoinModal} onClose={this.toggleJoinModal}/>
+          </div>
         </div>
-      </div>
     );
   }
 }

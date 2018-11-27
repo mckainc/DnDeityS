@@ -6,3 +6,18 @@
 .home-page-content {
   padding-top: 6rem;
 }
+
+.HomePage button {
+  height: 16rem;
+  width: 16rem;
+  text-align: start;
+  vertical-align: top;
+  color: red; 
+}
+
+.home-page-body {
+  width: 50%;
+  height: 30%;
+  margin: auto;
+  align-self: center;
+}

@@ -5,6 +5,7 @@ from flask import jsonify
 from flask_cors import CORS
 import mysql.connector
 import smtplib
+import random
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import pusher
@@ -83,7 +84,7 @@ def create_user():
 		username = request.get_json(force=True)['username']
 		password = request.get_json(force=True)['password']
 		email = request.get_json(force=True)['email']
-		userhash = abs(hash(username))
+		userhash = abs(random.getrandbits(32))
 		# check if email/username are taken
 		cur = db.cursor()
 		cur.execute('select * from users where UserName = %s', (username,))
@@ -191,7 +192,7 @@ def reset_password(user_id):
 def get_characters(user_id):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	query = 'select characters.CharacterId as CharacterId, characters.CharacterName as CharacterName, races.RaceName as RaceName, classes.ClassName as ClassName, characters.CharacterExperience as Experience '
+	query = 'select characters.CharacterHash as CharacterId, characters.CharacterName as CharacterName, races.RaceName as RaceName, classes.ClassName as ClassName, characters.CharacterExperience as Experience, characters.CharacterAvatar as CharacterAvatar, characters.CharacterNotes as CharacterNotes '
 	query += 'from characters inner join classes on characters.ClassId=classes.ClassId inner join races on characters.RaceId=races.RaceId where characters.UserId = %s'
 	cur.execute(query, (user_id,))
 	returned = []
@@ -226,8 +227,19 @@ def create_character():
 			fields += "CharacterName, "
 			values += "%s, "
 			values_list.append(name)
+			characterhash = abs(random.getrandbits(32))
+			fields += "CharacterHash, "
+			values += "%s, "
+			values_list.append(characterhash)
 		except KeyError as e:
 			name = ''
+		try:
+			notes = request.get_json(force=True)['notes']
+			fields += "CharacterNotes, "
+			values += "%s, "
+			values_list.append(notes)
+		except KeyError as e:
+			notes = ''
 		try:
 			race = request.get_json(force=True)['race']
 			cur.execute("select RaceId from races where RaceName = %s", (race,))
@@ -260,6 +272,13 @@ def create_character():
 			values_list.append(json.dumps(equipment))
 		except KeyError as e:
 			equipment = ''
+		try:
+			avatar = request.get_json(force=True)['avatar']
+			fields += "CharacterAvatar, "
+			values += "%s, "
+			values_list.append(avatar)
+		except KeyError as e:
+			avatar = ''
 		try:
 			spells = request.get_json(force=True)['spells']
 			fields += "CharacterSpells, "
@@ -312,7 +331,7 @@ def create_character():
 		db.commit()
 		cur.close()
 		db.close()
-		return make_response(jsonify({'CharacterId': cur.lastrowid}), 200)
+		return make_response(jsonify({'CharacterId': characterhash}), 200)
 
 	except Exception as e:
 		cur.close()
@@ -324,19 +343,19 @@ def get_update_delete_character(character_id):
 	if request.method == 'GET':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
-		cur.execute('select CharacterId, UserId, races.RaceName, classes.ClassName, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterId = %s', (character_id,))
+		cur.execute('select CharacterHash, UserId, races.RaceName, classes.ClassName, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription, CharacterAvatar, CharacterNotes from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterHash = %s', (character_id,))
 		for row in cur.fetchall():
 			cur.close()
 			db.close()
 			return make_response(jsonify(row), 200)
 		cur.close()
 		db.close()
-		return make_response(jsonify({'error': 'no character with that id'}), 500)
+		return make_response(jsonify({'error': 'no character with that hash'}), 500)
 	if request.method == 'DELETE':
 		try:
 			db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 			cur = db.cursor()
-			cur.execute('delete from characters where CharacterId = %s', (character_id,))
+			cur.execute('delete from characters where CharacterHash = %s', (character_id,))
 			db.commit()
 			cur.close()
 			db.close()
@@ -372,6 +391,18 @@ def get_update_delete_character(character_id):
 			values_list.append(class_id)
 		except KeyError as e:
 			dnd_class = ''
+		try:
+			avatar = request.get_json(force=True)['avatar']
+			query += "CharacterAvatar = %s, "
+			values_list.append(avatar)
+		except KeyError as e:
+			avatar = ''
+		try:
+			notes = request.get_json(force=True)['notes']
+			query += "CharacterNotes = %s, "
+			values_list.append(notes)
+		except KeyError as e:
+			notes = ''
 		try:
 			ability_scores = request.get_json(force=True)['ability_scores']
 			query += "CharacterAbilityScores = %s, "
@@ -425,7 +456,7 @@ def get_update_delete_character(character_id):
 			values_list.append(json.dumps(maxhp))
 		except KeyError as e:
 			maxhp = ''
-		query = query[:-2] + " where CharacterId = %s"
+		query = query[:-2] + " where CharacterHash = %s"
 		values_list.append(character_id)
 
 		cur.execute(query, tuple(values_list))
