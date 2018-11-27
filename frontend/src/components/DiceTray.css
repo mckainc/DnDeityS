@@ -11,3 +11,7 @@
 .modal-backdrop {
     opacity: 0 !important;
 }
+
+.DiceModal {
+    color: green;
+}

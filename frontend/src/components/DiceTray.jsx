@@ -17,27 +17,26 @@ class DiceTray extends Component {
     this.handleCloseP1 = this.handleCloseP1.bind(this);
 
     this.state = {
-      showP1: false,
-      result: 0,
-      bonus4: 0,
+      showP1: false,//is modal being shown right now
+      bonus4: 0,//Bonus being added
       bonus6: 0,
       bonus8: 0,
       bonus10: 0,
       bonus12: 0,
       bonus20: 0,
-      res4: 0,
+      res4: 0,//Result of rolling dice and adding bonus
       res6: 0,
       res8: 0,
       res10: 0,
       res12: 0,
       res20: 0,
-      roll4: 1,
+      roll4: 1,//Roll is the first die rolled to determin picture
       roll6: 1,
       roll8: 1,
       roll10: 1,
       roll12: 1,
       roll20: 1,
-      num4: 1,
+      num4: 1,//Number of Dice Being rolled
       num6: 1,
       num8: 1,
       num10: 1,
@@ -46,10 +45,24 @@ class DiceTray extends Component {
     }
   }
 
+  //returns 1 for Max roll -1 for Min roll 0 for all other rolls
+  theoMaxMin(bonus, num, res, die){
+    var Max = parseInt(bonus) + (parseInt(num) * parseInt(die));
+    var Min = parseInt(bonus) + parseInt(num);
+    if(parseInt(Max) === parseInt(res)){
+      return "text-success";
+    } else if(parseInt(Min)===parseInt(res)){
+      return "text-danger";
+    }
+    return "";
+  }
+
+  //Displays Modal
   handleShowP1() {
     this.setState({ showP1: true});
   }  
 
+  //Hides Modal
   handleCloseP1() {
     this.setState({ showP1: false});
   }
@@ -135,8 +148,15 @@ class DiceTray extends Component {
                     </FormGroup>
                     </Col>
 
-                    <Col sm={2}> 
-                      <p>{this.state.res4}</p>
+                    <Col sm={2}>
+                      <p class={this.theoMaxMin(
+                        this.state.bonus4,
+                        this.state.num4,
+                        this.state.res4,
+                        4
+                      )}>
+                        {this.state.res4}
+                      </p>
                     </Col>
                 </Row>
               
@@ -178,7 +198,14 @@ class DiceTray extends Component {
                     </Col>
 
                 <Col sm={2}>
-                <p>{this.state.res6}</p>
+                <p class={this.theoMaxMin(
+                        this.state.bonus6,
+                        this.state.num6,
+                        this.state.res6,
+                        6
+                      )}>
+                        {this.state.res6}
+                      </p>
                 </Col>
                 </Row>
                </FormGroup>
@@ -220,7 +247,14 @@ class DiceTray extends Component {
                     </Col>
 
                 <Col sm={2}>
-                <p>{this.state.res8}</p>
+                <p class={this.theoMaxMin(
+                        this.state.bonus8,
+                        this.state.num8,
+                        this.state.res8,
+                        8
+                      )}>
+                        {this.state.res8}
+                      </p>
                 </Col>
                 </Row>
                </FormGroup>
@@ -262,7 +296,14 @@ class DiceTray extends Component {
                     </Col>
 
                 <Col sm={2}>
-                <p>{this.state.res10}</p>
+                <p class={this.theoMaxMin(
+                        this.state.bonus10,
+                        this.state.num10,
+                        this.state.res10,
+                        10
+                      )}>
+                        {this.state.res10}
+                      </p>
                 </Col>
                 </Row>
                </FormGroup>
@@ -304,7 +345,14 @@ class DiceTray extends Component {
                     </Col>
 
                 <Col sm={2}>
-                <p>{this.state.res12}</p>
+                <p class={this.theoMaxMin(
+                        this.state.bonus12,
+                        this.state.num12,
+                        this.state.res12,
+                        12
+                      )}>
+                        {this.state.res12}
+                      </p>
                 </Col>
                 </Row>
                </FormGroup>
@@ -346,7 +394,14 @@ class DiceTray extends Component {
                     </Col>
 
                 <Col sm={2}>
-                <p>{this.state.res20}</p>
+                <p class={this.theoMaxMin(
+                        this.state.bonus20,
+                        this.state.num20,
+                        this.state.res20,
+                        20
+                      )}>
+                        {this.state.res20}
+                      </p>
                 </Col>
                 </Row>
                </FormGroup>
