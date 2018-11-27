@@ -5,6 +5,9 @@ import Draggable from 'react-draggable';
 
 //css
 import './DiceTray.css';
+import { Static } from 'react-bootstrap/lib/FormControl';
+
+
 
 class DiceTray extends Component {
   constructor(props) {
@@ -72,7 +75,7 @@ class DiceTray extends Component {
         </Button>
 
         <Draggable>
-          <Modal  show={this.state.showP1} onHide={this.handleCloseP1}>
+          <Modal  show={this.state.showP1} onHide={this.handleCloseP1} backdrop={Static} backdropClassName="nogray">
             <Modal.Header closeButton>
                         <Modal.Title>Dice</Modal.Title>
             </Modal.Header>

@@ -7,3 +7,7 @@
     height: 3rem;
     width: 3rem;
 }
+
+.modal-backdrop {
+    opacity: 0.000001 !important;
+}
