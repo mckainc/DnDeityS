@@ -9,5 +9,5 @@
 }
 
 .modal-backdrop {
-    opacity: 0.000001 !important;
+    opacity: 0 !important;
 }
