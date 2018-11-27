@@ -13,6 +13,7 @@ import NewUser from './pages/login-package/NewUser';
 import ForgottenPassword from './pages/login-package/ForgottenPassword';
 import ChangePassword from './pages/login-package/ChangePassword';
 import MapMaker from './pages/map-maker/MapMaker';
+import Game from './pages/game/Game';
 
 class App extends Component {
   render() {
@@ -31,6 +32,7 @@ class App extends Component {
           <Route path="/ChangePassword/:user" component={ChangePassword} />
           <Route exact path="/MapMaker" component={MapMaker} />
           <Route path="/MapMaker/:mapId" component={MapMaker} />
+          <Route path="/Game" component={Game} />
         </div>
       </Router>
     );
