@@ -22,20 +22,23 @@ else:
 	from db_prod import *
 
 pusher_client = pusher.Pusher(
-  app_id=pusher_app_id,
-  key=pusher_key,
-  secret=pusher_secret,
-  cluster=pusher_cluster,
-  ssl=pusher_ssl
+	app_id=pusher_app_id,
+	key=pusher_key,
+	secret=pusher_secret,
+	cluster=pusher_cluster,
+	ssl=pusher_ssl
 )
+
 
 @application.route('/')
 def index():
-    return "Hello, World!"
+	return "Hello, World!"
+
 
 @application.errorhandler(404)
 def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
+	return make_response(jsonify({'error': 'Not found'}), 404)
+
 
 @application.route('/authenticate', methods=['POST'])
 def authenticate_user():
@@ -62,6 +65,7 @@ def authenticate_user():
 		db.close()
 		abort(500)
 
+
 @application.route('/pushmessage', methods=['POST'])
 def push_message():
 	try:
@@ -77,6 +81,23 @@ def push_message():
 	except KeyError as e:
 		abort(500)
 
+
+@application.route('/getusername/<int:user_id>', methods=['GET'])
+def get_name(user_id):
+	try:
+		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+		cur = db.cursor()
+		cur.execute('select users.UserEmail, users.UserName from users where UserHash = %s', (user_id,))
+		for row in cur:
+			cur.close()
+			db.close()
+			return make_response(jsonify(row), 200)
+	except KeyError as e:
+		cur.close()
+		db.close()
+		return make_response(jsonify({'error': 'get username error'}), 500)
+
+
 @application.route('/user', methods=['POST'])
 def create_user():
 	try:
@@ -84,7 +105,7 @@ def create_user():
 		username = request.get_json(force=True)['username']
 		password = request.get_json(force=True)['password']
 		email = request.get_json(force=True)['email']
-		userhash = abs(random.getrandbits(32))
+		userhash = random.randint(100,999999)
 		# check if email/username are taken
 		cur = db.cursor()
 		cur.execute('select * from users where UserName = %s', (username,))
