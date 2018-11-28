@@ -77,6 +77,8 @@ class Lobby extends Component {
   startGame = () => {
     this.setState({ startGame: true });
 
+    sessionStorage.setItem('character_id', -1);
+
     const server = axios.create({
       baseURL: serverURL,
     });

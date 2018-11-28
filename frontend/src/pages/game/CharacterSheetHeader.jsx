@@ -60,43 +60,39 @@ class CharacterSheetHeader extends Component {
       <div className="CharacterSheetHeader">
         <Media>
           <Media.Left align="middle">
-            <img width={64} height={64} src={src} alt={src}/>
+            <img width={128} height={128} src={src} alt={src}/>
           </Media.Left>
           <Media.Body>
             <Row>
-              <Col xs={10} md={10}>
-                <Row>
-                  <Col xs={4} md={1}>
-                    <small>Level</small>
-                    <h4>{ character.level }</h4>
-                  </Col>
-                  <Col xs={4} md={3}>
-                    <small>Name</small>
-                    <h4>{ character.name }</h4>
-                  </Col>
-                  <Col xs={4} md={2}>
-                    <small>Class</small>
-                    <h4>{ character.class }</h4>
-                  </Col>
-                  <Col xs={4} md={2}>
-                    <small>Race</small>
-                    <h4>{ character.race }</h4>
-                  </Col>
-                  <Col xs={4} md={2}>
-                    <small>Background</small>
-                    <h4>{ character.background }</h4>
-                  </Col>
-                  <Col xs={4} md={2}>
-                    <small>Alignment</small>
-                    <h4>{ character.alignment }</h4>
-                  </Col>
-                </Row>
+              <Col xs={4} md={1}>
+                <small>Level</small>
+                <h4>{ character.level }</h4>
+              </Col>
+              <Col xs={4} md={2}>
+                <small>Name</small>
+                <h4>{ character.name }</h4>
+              </Col>
+              <Col xs={4} md={2}>
+                <small>Class</small>
+                <h4>{ character.class }</h4>
+              </Col>
+              <Col xs={4} md={2}>
+                <small>Race</small>
+                <h4>{ character.race }</h4>
+              </Col>
+              <Col xs={4} md={2}>
+                <small>Background</small>
+                <h4>{ character.background }</h4>
+              </Col>
+              <Col xs={4} md={2}>
+                <small>Alignment</small>
+                <h4>{ character.alignment }</h4>
               </Col>
             </Row>
           </Media.Body>
         </Media>
         <Row>
-          <small>HP: { character.hp } / { character.max_hp }</small>
+          <h5>HP: { character.hp } / { character.max_hp }</h5>
           {percent_hp > 50 ? (
               <ProgressBar bsStyle="success" min={0} max={character.max_hp} now={character.hp}/>
             ) : (

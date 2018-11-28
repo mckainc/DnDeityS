@@ -6,17 +6,25 @@ import { Navbar, Row, Col } from 'react-bootstrap';
 import CharacterSheetHeader from './CharacterSheetHeader';
 
 class GameToolbar extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <div className="GameToolbar">
-        <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand><Link to="/home">DnDeity</Link></Navbar.Brand>
-          </Navbar.Header>
-        </Navbar>
-        <Col xs={12} md={9} mdPush={1}>
-          <CharacterSheetHeader id="1222864699"/>
-        </Col>
+        <Row>
+          <Navbar fluid>
+            <Navbar.Header>
+              <Navbar.Brand><Link to="/home">DnDeity</Link></Navbar.Brand>
+            </Navbar.Header>
+          </Navbar>
+        </Row>
+        <Row>
+          <Col md={9} mdPush={1}>
+            <CharacterSheetHeader id={this.props.characterId}/>
+          </Col>
+        </Row>
       </div>
     );
   }

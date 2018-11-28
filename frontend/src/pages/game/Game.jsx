@@ -52,13 +52,15 @@ class Game extends Component {
   }
 
   render() {
+    const characterId = sessionStorage.getItem('character_id');
+
     if (!this.state.loaded) {
       return <div className="Game" />
     }
 
     return (
       <div className="Game">
-        <GameToolbar />
+        <GameToolbar characterId={characterId}/>
         <Col md={10}>
           <MapGrid x={this.state.x} y={this.state.y} map={this.state.map} playing={true} />
         </Col>
