@@ -66,29 +66,27 @@ class CharacterSheetHeader extends Component {
             <Row>
               <Col xs={10} md={10}>
                 <Row>
+                  <Col xs={4} md={1}>
+                    <small>Level</small>
+                    <h4>{ character.level }</h4>
+                  </Col>
                   <Col xs={4} md={3}>
                     <small>Name</small>
                     <h4>{ character.name }</h4>
                   </Col>
-                  <Col xs={4} md={3}>
+                  <Col xs={4} md={2}>
                     <small>Class</small>
                     <h4>{ character.class }</h4>
                   </Col>
-                  <Col xs={4} md={3}>
+                  <Col xs={4} md={2}>
                     <small>Race</small>
                     <h4>{ character.race }</h4>
                   </Col>
-                </Row>
-                <Row>
-                  <Col xs={4} md={3}>
-                    <small>Lvl</small>
-                    <h4>{ character.level }</h4>
-                  </Col>
-                  <Col xs={4} md={3}>
+                  <Col xs={4} md={2}>
                     <small>Background</small>
                     <h4>{ character.background }</h4>
                   </Col>
-                  <Col xs={4} md={3}>
+                  <Col xs={4} md={2}>
                     <small>Alignment</small>
                     <h4>{ character.alignment }</h4>
                   </Col>
@@ -98,7 +96,7 @@ class CharacterSheetHeader extends Component {
           </Media.Body>
         </Media>
         <Row>
-          <small>Hp: { character.hp } / { character.max_hp }</small>
+          <small>HP: { character.hp } / { character.max_hp }</small>
           {percent_hp > 50 ? (
               <ProgressBar bsStyle="success" min={0} max={character.max_hp} now={character.hp}/>
             ) : (
