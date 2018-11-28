@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import tiles from '../../objects/tiles';
 
+// components
+import DraggablePlayer from './DraggablePlayer';
+
 import './MapTile.css';
 
 class MapTile extends Component {
@@ -97,6 +100,7 @@ class MapTile extends Component {
   }
 
   render() {
+    const { character } = this.props;
     const { tile, monster, event } = this.state;
     let isEmpty;
     if (typeof monster !== 'undefined') {
@@ -114,6 +118,7 @@ class MapTile extends Component {
             {typeof monster !== 'undefined' && <i className="fas fa-skull" draggable={false}/>}
             {typeof event !== 'undefined' && <i className="fas fa-exclamation" draggable={false}/>}
             <img className={isEmpty} src={tiles.get(tile)} draggable={false}/>
+            {typeof character !== 'undefined' && <DraggablePlayer character={character} /> }
           </div>
         }
         {tile === 'none' &&
