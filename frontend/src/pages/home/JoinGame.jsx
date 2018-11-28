@@ -86,10 +86,12 @@ class JoinGame extends Component {
 
   selectCharacter = character => {
     this.setState({ character });
+    sessionStorage.setItem('character_id', character.id);
   }
 
   deleteCharacter = () => {
     this.setState({ character: undefined });
+    sessionStorage.removeItem('character_id');
   }
 
   search = e => {

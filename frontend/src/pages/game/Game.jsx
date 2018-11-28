@@ -8,6 +8,7 @@ import serverURL from '../../objects/url.js';
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
+import CharacterSheetSidebar from './CharacterSheetSidebar';
 import { Col } from 'react-bootstrap';
 
 class Game extends Component {
@@ -52,21 +53,23 @@ class Game extends Component {
   }
 
   render() {
+    const characterId = sessionStorage.getItem('character_id');
+
     if (!this.state.loaded) {
       return <div className="Game" />
     }
 
     return (
       <div className="Game">
-        <GameToolbar />
+        <GameToolbar characterId={characterId}/>
         <Col md={10}>
           <MapGrid x={this.state.x} y={this.state.y} map={this.state.map} playing={true} />
         </Col>
         <Col md={2}>
-          Character Component
+          <CharacterSheetSidebar id={characterId}/>
         </Col>
       </div>
-    )
+    );
   }
 }
 
