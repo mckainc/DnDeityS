@@ -8,6 +8,7 @@ import serverURL from '../../objects/url.js';
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
+import CharacterSheetSidebar from './CharacterSheetSidebar';
 import { Col } from 'react-bootstrap';
 
 class Game extends Component {
@@ -65,10 +66,10 @@ class Game extends Component {
           <MapGrid x={this.state.x} y={this.state.y} map={this.state.map} playing={true} />
         </Col>
         <Col md={2}>
-          Character Component
+          <CharacterSheetSidebar id={characterId}/>
         </Col>
       </div>
-    )
+    );
   }
 }
 
