@@ -42,23 +42,23 @@ class CharacterSheetSidebar extends Component {
         languages.push(choices.race.language);
         languages.push(description.background_language1);
         languages.push(description.background_language2);
+        character.languages = languages;
 
         let proficiencies = [];
         proficiencies.push(choices.race.proficiency);
         choices.class.forEach(function(proficiency) {
-          if (typeof proficiency === 'Array') {
+          if (typeof proficiency === 'object') {
             let skills = [];
             proficiency.forEach(function(skill) {
               skills.push(skill);
             });
             character.skills = skills;
           }
-          else {
+          else if (proficiency !== "") {
             proficiencies.push(proficiency);
           }
         });
         character.proficiencies = proficiencies;
-        console.log(character);
 
         this.setState({ character, loaded: true });
       });
