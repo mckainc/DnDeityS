@@ -50,7 +50,7 @@ class AvatarSection extends Component {
           <h4>Current Avatar</h4>
           <Row>
             <div class="col-sm-2">
-              <image class="img-thumbnail" src={current_src} alt={current_src}/>
+              <img class="img-thumbnail" src={current_src} alt={current_src}/>
             </div>
           </Row>
           <Row>

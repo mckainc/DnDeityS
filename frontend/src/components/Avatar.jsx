@@ -21,7 +21,7 @@ class Avatar extends Component {
     const path = require("../textures/avatars/" + file);
     return (
       <div className="Avatar">
-        <image class="img-thumbnail" src={path} alt={name}/>
+        <img class="img-thumbnail" src={path} alt={name}/>
         <button type="button" class="btn btn-default btn-block" onClick={onPress}/>
       </div>
     );
