@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, FormGroup, FormControl, ControlLabel, Panel } from 'react-bootstrap';
+import { Row, Col, FormGroup, FormControl, ControlLabel, } from 'react-bootstrap';
 
 // components
 import CollapsableSection from '../../components/CollapsableSection';
@@ -36,7 +36,6 @@ class DescriptionSection extends Component {
     return (
       <div className="DescriptionSection" ref={this.props.innerRef}>
         <CollapsableSection title="Description" open={true}>
-            <Panel>
             <Row>
                 <Col sm={2}>
                 <FormGroup>
@@ -118,7 +117,6 @@ class DescriptionSection extends Component {
                 </FormGroup>
                 </Col>
             </Row>
-            </Panel>
         </CollapsableSection>
       </div>
     );
