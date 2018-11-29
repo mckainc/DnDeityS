@@ -8,13 +8,16 @@ import { Map } from 'immutable';
 import RaceType from '../../objects/RaceType';
 
 // components
-import { Row, Col, ProgressBar, Media, Tabs, Tab, Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, Row, Col, ProgressBar, Media, Tabs, Tab, Panel, ListGroup, ListGroupItem, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
 import InventoryListItem from './InventoryListItem';
 import SpellsListItem from './SpellsListItem';
 
 class CharacterSheetSidebar extends Component {
   constructor(props) {
     super(props);
+
+    this.handleACClick = this.handleACClick.bind(this);
+    this.handleACChange = this.handleACChange.bind(this);
 
     this.state = {
       dmMode: props.dmMode,
@@ -93,6 +96,7 @@ class CharacterSheetSidebar extends Component {
           a_scores[i] = '' + (Number(a_scores[i]) + s_bonuses[i]);
         }
         character.ability_scores = a_scores;
+        character.armor_class = 10 + Math.floor((Number(a_scores[1]) - 10) / 2);
 
         let inventory = [];
         JSON.parse(response.data[10]).forEach(item => {
@@ -291,6 +295,17 @@ class CharacterSheetSidebar extends Component {
     });
   }
 
+  handleACClick() {
+    const { character, ACForm } = this.state;
+    character.armor_class = ACForm;
+    console.log("change AC to " + ACForm);
+    this.setState({character});
+  }
+
+  handleACChange = event => {
+    this.setState({ACForm: event.target.value});
+  }
+
   componentWillReceiveProps(next_props) {
     if (next_props.id != this.props.id) {
       this.setState({character_id: next_props.id}, function () {
@@ -364,6 +379,24 @@ class CharacterSheetSidebar extends Component {
         {this.state.dmMode && <div><h4>{character.name}</h4><h4>{character.description}</h4><h5>HP: {character.hp}</h5></div>}
         <Tabs defaultActiveKey={1} id="character-sidebar-tab">
           <Tab eventKey={1} title="Ability Scores">
+            <Panel>
+              <Panel.Heading>
+                <Panel.Title componentClass="h3">Armor Class</Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>{character.armor_class}</Panel.Body>
+              <Panel.Footer>
+                <form>
+                  <FormGroup>
+                    <InputGroup>
+                      <FormControl type="text" value={this.state.ACForm} onChange={this.handleACChange}/>
+                      <InputGroup.Button>
+                        <Button onClick={this.handleACClick}>Change</Button>
+                      </InputGroup.Button>
+                    </InputGroup>
+                  </FormGroup>
+                </form>
+              </Panel.Footer>
+            </Panel>
             <Panel>
               <Panel.Heading>
                 <Panel.Title componentClass="h3">Strength {character.saving_throws.includes('STR') ? " (Saving Throw)" : ""}</Panel.Title>
