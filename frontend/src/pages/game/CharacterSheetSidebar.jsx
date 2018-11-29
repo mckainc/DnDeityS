@@ -95,7 +95,12 @@ class CharacterSheetSidebar extends Component {
         for (let i = 0; i < 6; i++) {
           a_scores[i] = '' + (Number(a_scores[i]) + s_bonuses[i]);
         }
+        let ability_modifiers = [];
+        for (let i = 0; i < 6; i++) {
+          ability_modifiers.push(Math.floor((Number(a_scores[i]) - 10) / 2));
+        }
         character.ability_scores = a_scores;
+        character.ability_modifiers = ability_modifiers;
         character.armor_class = 10 + Math.floor((Number(a_scores[1]) - 10) / 2);
 
         let inventory = [];
@@ -401,41 +406,41 @@ class CharacterSheetSidebar extends Component {
               <Panel.Heading>
                 <Panel.Title componentClass="h3">Strength {character.saving_throws.includes('STR') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{character.ability_scores[0]}</Panel.Body>
+              <Panel.Body>{character.ability_scores[0] + " (" + (character.ability_modifiers[0] > 0 ? "+" : "") + character.ability_modifiers[0] + ")"}</Panel.Body>
               {str_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
                 <Panel.Title componentClass="h3">Dexterity {character.saving_throws.includes('DEX') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{character.ability_scores[1]}</Panel.Body>
+              <Panel.Body>{character.ability_scores[1] + " (" + (character.ability_modifiers[1] > 0 ? "+" : "") + character.ability_modifiers[1] + ")"}</Panel.Body>
               {dex_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
                 <Panel.Title componentClass="h3">Constitution {character.saving_throws.includes('CON') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{character.ability_scores[2]}</Panel.Body>
+              <Panel.Body>{character.ability_scores[2] + " (" + (character.ability_modifiers[2] > 0 ? "+" : "") + character.ability_modifiers[2] + ")"}</Panel.Body>
             </Panel>
             <Panel>
               <Panel.Heading>
                 <Panel.Title componentClass="h3">Intelligence {character.saving_throws.includes('INT') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{character.ability_scores[3]}</Panel.Body>
+              <Panel.Body>{character.ability_scores[3] + " (" + (character.ability_modifiers[3] > 0 ? "+" : "") + character.ability_modifiers[3] + ")"}</Panel.Body>
               {int_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
                 <Panel.Title componentClass="h3">Wisdom {character.saving_throws.includes('WIS') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{character.ability_scores[4]}</Panel.Body>
+              <Panel.Body>{character.ability_scores[4] + " (" + (character.ability_modifiers[4] > 0 ? "+" : "") + character.ability_modifiers[4] + ")"}</Panel.Body>
               {wis_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
                 <Panel.Title componentClass="h3">Charisma {character.saving_throws.includes('CHA') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{character.ability_scores[5]}</Panel.Body>
+              <Panel.Body>{character.ability_scores[5] + " (" + (character.ability_modifiers[5] > 0 ? "+" : "") + character.ability_modifiers[5] + ")"}</Panel.Body>
               {chr_foot}
             </Panel>
           </Tab>
