@@ -1,6 +1,6 @@
 //React Stuff
 import React, { Component } from 'react';
-import { Modal, Button, FormGroup, FormControl, Form, Row, Col, Panel } from 'react-bootstrap';
+import { Modal, Button, FormGroup, FormControl, Form, Row, Col } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 
 //css
