@@ -17,7 +17,7 @@ class Game extends Component {
 
     this.state = {
       map: new Map(),
-      characters: [],
+      characters: new Map(),
       x: 25,
       y: 25,
       loaded: false,
@@ -59,10 +59,23 @@ class Game extends Component {
     characterArr.forEach(c => {
       // TODO load character x and y
       while (characters.has(`0,` + count)) { count++; }
-      characters = characters.set('0,' + count, c);
+      let character = c;
+      character.x = 0;
+      character.y = count;
+      characters = characters.set('0,' + count, character);
+      count++;
     })
 
     this.setState({ characters });
+  }
+
+  moveCharacter = (x, y, character) => {
+    const { characters } = this.state;
+    let newCharacters = characters.delete(character.x + ',' + character.y);
+    character.x = x;
+    character.y = y;
+    newCharacters = newCharacters.set(x + ',' + y, character);
+    this.setState({ characters: newCharacters });
   }
 
   render() {
@@ -76,7 +89,14 @@ class Game extends Component {
       <div className="Game">
         <GameToolbar characterId={characterId}/>
         <Col md={10}>
-          <MapGrid characters={this.state.characters} x={this.state.x} y={this.state.y} map={this.state.map} playing={true} />
+          <MapGrid
+            characters={this.state.characters}
+            x={this.state.x}
+            y={this.state.y}
+            map={this.state.map}
+            playing={true}
+            moveCharacter={this.moveCharacter}
+          />
         </Col>
         <Col md={2}>
           <CharacterSheetSidebar id={characterId}/>

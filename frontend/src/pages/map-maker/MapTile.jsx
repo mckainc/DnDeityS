@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DropTarget } from 'react-dnd';
 
 import tiles from '../../objects/tiles';
 
@@ -6,6 +7,26 @@ import tiles from '../../objects/tiles';
 import DraggablePlayer from './DraggablePlayer';
 
 import './MapTile.css';
+
+// Type for drag and drop
+const PlayerType = {
+  PLAYER: 'player',
+}
+
+// Methods for drag and drop
+const TileTarget = {
+  drop(props, monitor) {
+    const character = monitor.getItem().character;
+    props.moveCharacter(props.x, props.y, character)
+  }
+}
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 class MapTile extends Component {
   constructor(props) {
@@ -100,7 +121,7 @@ class MapTile extends Component {
   }
 
   render() {
-    const { characters } = this.props;
+    const { characters, connectDropTarget } = this.props;
     const { tile, monster, event } = this.state;
     let isEmpty;
     if (typeof monster !== 'undefined') {
@@ -116,7 +137,7 @@ class MapTile extends Component {
       character = characters.get(this.props.x + ',' + this.props.y);
     }
 
-    return (
+    return connectDropTarget(
       <div onMouseEnter={this.handleDraw} className="MapTile" onMouseDown={this.handleClick}>
         {tile !== 'none' &&
           <div className="tiled">
@@ -138,4 +159,4 @@ class MapTile extends Component {
   }
 }
 
-export default MapTile;
+export default DropTarget(PlayerType.PLAYER, TileTarget, collect)(MapTile);

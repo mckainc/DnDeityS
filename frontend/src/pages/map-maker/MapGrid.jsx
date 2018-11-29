@@ -43,6 +43,7 @@ class MapGrid extends PureComponent {
                   selectedTool={selectedTool}
                   selectedLayer={selectedLayer}
                   selectTile={this.props.selectTile}
+                  moveCharacter={this.props.moveCharacter}
                 />
               ))}
             </div>
