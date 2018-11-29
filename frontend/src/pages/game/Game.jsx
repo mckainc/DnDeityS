@@ -10,6 +10,7 @@ import Pusher from 'pusher-js';
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
+import InitiativeRequest from './InitiativeRequest';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
 import { Col } from 'react-bootstrap';
 
@@ -85,6 +86,19 @@ class Game extends Component {
     channel.bind('move-character', data => {
       this.moveCharacter(data.x, data.y, data.character);
     });
+
+    const characterId = sessionStorage.getItem('character_id');
+    if (characterId === '-1') {
+      // DM, subscribe to initiative results
+      channel.bind('initiative-response', data => {
+        
+      })
+    } else {
+      // Player, subscribe to initiative requests
+      channel.bind('initiative-request', data => {
+
+      })
+    }
   }
 
   moveCharacter = (x, y, character) => {
@@ -129,6 +143,7 @@ class Game extends Component {
 
     return (
       <div className="Game">
+        <InitiativeRequest />
         <GameToolbar characterId={characterId}/>
         <Col md={10}>
           <MapGrid
