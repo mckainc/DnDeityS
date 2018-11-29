@@ -4,6 +4,8 @@ import axios from 'axios';
 // types
 import { Map } from 'immutable';
 import serverURL from '../../objects/url.js';
+import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
+import Pusher from 'pusher-js';
 
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
@@ -17,6 +19,7 @@ class Game extends Component {
 
     this.state = {
       map: new Map(),
+      characters: new Map(),
       x: 25,
       y: 25,
       loaded: false,
@@ -50,6 +53,71 @@ class Game extends Component {
 
         this.setState({ map, x, y, loaded: true });
       });
+
+    // set characters from sessionStorage
+    let characterArr = JSON.parse(sessionStorage.getItem('characters'));
+    let characters = new Map();
+    let count = 0;
+    characterArr.forEach(c => {
+      if (typeof c.xval !== 'undefined' && c.xval !== null) {
+        characters = characters.set(c.xval + ',' + c.yval, c);
+        return;
+      }
+
+      while (characters.has(`0,` + count)) { count++; }
+      let character = c;
+      character.xval = 0;
+      character.yval = count;
+      characters = characters.set('0,' + count, character);
+      count++;
+    })
+
+    this.setState({ characters });
+
+    // subscribe to channel
+    const pusher = new Pusher(APP_KEY, {
+      cluster: APP_CLUSTER
+    });
+
+    const code = sessionStorage.getItem('channel');
+    const channel = pusher.subscribe(code);
+
+    channel.bind('move-character', data => {
+      this.moveCharacter(data.x, data.y, data.character);
+    });
+  }
+
+  moveCharacter = (x, y, character) => {
+    const { characters } = this.state;
+    let newCharacters = characters.delete(character.xval + ',' + character.yval);
+    character.xval = x;
+    character.yval = y;
+    newCharacters = newCharacters.set(x + ',' + y, character);
+    this.setState({ characters: newCharacters });
+  }
+
+  moveEvent = (x, y, character) => {
+    if (this.state.characters.has(x + ',' + y)) { return; }
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'move-character',
+      message: {
+        character,
+        x,
+        y,
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
+
+    // update character in database
+    character.xval = x;
+    character.yval = y;
+    server.patch('/character/' + character.id, JSON.stringify(character))
   }
 
   render() {
@@ -63,7 +131,14 @@ class Game extends Component {
       <div className="Game">
         <GameToolbar characterId={characterId}/>
         <Col md={10}>
-          <MapGrid x={this.state.x} y={this.state.y} map={this.state.map} playing={true} />
+          <MapGrid
+            characters={this.state.characters}
+            x={this.state.x}
+            y={this.state.y}
+            map={this.state.map}
+            playing={true}
+            moveEvent={this.moveEvent}
+          />
         </Col>
         <Col md={2}>
           <CharacterSheetSidebar id={characterId}/>

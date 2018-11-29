@@ -1,0 +1,12 @@
+img.player.nonempty {
+  position: relative;
+  left: -10rem;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+}
+
+img.player.empty {
+  height: 100%;
+  width: 100%;
+}

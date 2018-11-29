@@ -1,8 +1,32 @@
 import React, { Component } from 'react';
+import { DropTarget } from 'react-dnd';
 
 import tiles from '../../objects/tiles';
 
+// components
+import DraggablePlayer from './DraggablePlayer';
+
 import './MapTile.css';
+
+// Type for drag and drop
+const PlayerType = {
+  PLAYER: 'player',
+}
+
+// Methods for drag and drop
+const TileTarget = {
+  drop(props, monitor) {
+    const character = monitor.getItem().character;
+    props.moveEvent(props.x, props.y, character)
+  }
+}
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 class MapTile extends Component {
   constructor(props) {
@@ -97,6 +121,7 @@ class MapTile extends Component {
   }
 
   render() {
+    const { characters, connectDropTarget } = this.props;
     const { tile, monster, event } = this.state;
     let isEmpty;
     if (typeof monster !== 'undefined') {
@@ -107,19 +132,26 @@ class MapTile extends Component {
       isEmpty = 'empty';
     }
 
-    return (
+    let character = undefined;
+    if (typeof characters !== 'undefined' && characters.has(this.props.x + ',' + this.props.y)) {
+      character = characters.get(this.props.x + ',' + this.props.y);
+    }
+
+    return connectDropTarget(
       <div onMouseEnter={this.handleDraw} className="MapTile" onMouseDown={this.handleClick}>
         {tile !== 'none' &&
           <div className="tiled">
             {typeof monster !== 'undefined' && <i className="fas fa-skull" draggable={false}/>}
             {typeof event !== 'undefined' && <i className="fas fa-exclamation" draggable={false}/>}
             <img className={isEmpty} src={tiles.get(tile)} draggable={false}/>
+            {typeof character !== 'undefined' && <DraggablePlayer character={character} empty={false} /> }
           </div>
         }
         {tile === 'none' &&
           <div className='none'>
             {typeof monster !== 'undefined' && <i className="fas fa-skull" draggable={false}/>}
             {typeof event !== 'undefined' && <i className="fas fa-exclamation" draggable={false}/>}
+            {typeof character !== 'undefined' && <DraggablePlayer character={character} empty /> }
           </div>
         }
       </div>
@@ -127,4 +159,4 @@ class MapTile extends Component {
   }
 }
 
-export default MapTile;
+export default DropTarget(PlayerType.PLAYER, TileTarget, collect)(MapTile);
