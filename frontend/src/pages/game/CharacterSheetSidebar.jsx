@@ -17,6 +17,7 @@ class CharacterSheetSidebar extends Component {
     super(props);
 
     this.state = {
+      dmMode: props.dmMode,
       character_id: props.id,
       character: {},
       loaded: false
@@ -70,6 +71,12 @@ class CharacterSheetSidebar extends Component {
       server.get('/character/' + character_id)
       .then(response => {
         const character = {};
+
+        if (this.state.dmMode) {
+          character.name = response.data[4];
+          character.description = "level " + JSON.parse(response.data[14]).level + " " + response.data[2] + " " + response.data[3];
+          character.hp = response.data[6] + "/" + response.data[7];
+        }
 
         let a_scores;
         if (character.ability_scores === null) {
@@ -354,6 +361,7 @@ class CharacterSheetSidebar extends Component {
 
     return (
       <div className="CharacterSheetSidebar">
+        {this.state.dmMode && <div><h4>{character.name}</h4><h4>{character.description}</h4><h5>HP: {character.hp}</h5></div>}
         <Tabs defaultActiveKey={1} id="character-sidebar-tab">
           <Tab eventKey={1} title="Ability Scores">
             <Panel>

@@ -12,6 +12,7 @@ import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
 import { Col, DropdownButton, MenuItem } from 'react-bootstrap';
+import CharacterSheetHeader from './CharacterSheetHeader';
 
 class Game extends Component {
   constructor(props) {
@@ -129,10 +130,6 @@ class Game extends Component {
     });
   }
 
-  componentWillReceiveProps(props) {
-    
-  }
-
   render() {
     const characterId = sessionStorage.getItem('character_id');
 
@@ -144,6 +141,7 @@ class Game extends Component {
     return (
       <div className="Game">
         <GameToolbar characterId={characterId}/>
+        {characterId != -1 && <Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col> }
         <Col md={9}>
           <MapGrid
             characters={this.state.characters}
@@ -164,7 +162,7 @@ class Game extends Component {
                   <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
                 ))}
               </DropdownButton>
-              {this.state.active_character != -1 && (<CharacterSheetSidebar id={this.state.active_character}/>)}
+              {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character}/>)}
             </div>
           )}
         </Col>
