@@ -213,7 +213,7 @@ def reset_password(user_id):
 def get_characters(user_id):
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 	cur = db.cursor()
-	query = 'select characters.CharacterHash as CharacterId, characters.CharacterName as CharacterName, races.RaceName as RaceName, classes.ClassName as ClassName, characters.CharacterExperience as Experience, characters.CharacterAvatar as CharacterAvatar, characters.CharacterNotes as CharacterNotes '
+	query = 'select characters.CharacterHash as CharacterId, characters.CharacterName as CharacterName, races.RaceName as RaceName, classes.ClassName as ClassName, characters.CharacterExperience as Experience, characters.CharacterAvatar as CharacterAvatar, characters.CharacterNotes as CharacterNotes, characters.CharacterX as CharacterX, characters.CharacterY as CharacterY '
 	query += 'from characters inner join classes on characters.ClassId=classes.ClassId inner join races on characters.RaceId=races.RaceId where characters.UserId = %s'
 	cur.execute(query, (user_id,))
 	returned = []
@@ -254,6 +254,20 @@ def create_character():
 			values_list.append(characterhash)
 		except KeyError as e:
 			name = ''
+		try:
+			yval = request.get_json(force=True)['yval']
+			fields += "CharacterY, "
+			values += "%s, "
+			values_list.append(yval)
+		except KeyError as e:
+			yval = ''
+		try:
+			xval = request.get_json(force=True)['xval']
+			fields += "CharacterX, "
+			values += "%s, "
+			values_list.append(xval)
+		except KeyError as e:
+			xval = ''
 		try:
 			notes = request.get_json(force=True)['notes']
 			fields += "CharacterNotes, "
@@ -364,7 +378,7 @@ def get_update_delete_character(character_id):
 	if request.method == 'GET':
 		db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
 		cur = db.cursor()
-		cur.execute('select CharacterHash, UserId, races.RaceName, classes.ClassName, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription, CharacterAvatar, CharacterNotes from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterHash = %s', (character_id,))
+		cur.execute('select CharacterHash, UserId, races.RaceName, classes.ClassName, CharacterName, CharacterExperience, CharacterHp, CharacterMaxHp, CharacterAbilityScores, CharacterGold, CharacterEquipment, CharacterChoices, CharacterChoices, CharacterSpells, CharacterDescription, CharacterAvatar, CharacterNotes, CharacterX, CharacterY from characters inner join classes on classes.ClassId=characters.ClassId inner join races on races.RaceId=characters.RaceId where CharacterHash = %s', (character_id,))
 		for row in cur.fetchall():
 			cur.close()
 			db.close()
@@ -404,6 +418,18 @@ def get_update_delete_character(character_id):
 			values_list.append(race_id)
 		except KeyError as e:
 			race = ''
+		try:
+			xval = request.get_json(force=True)['xval']
+			query += "CharacterX = %s, "
+			values_list.append(xval)
+		except KeyError as e:
+			xval = ''
+		try:
+			yval = request.get_json(force=True)['yval']
+			query += "CharacterY = %s, "
+			values_list.append(yval)
+		except KeyError as e:
+			yval = ''
 		try:
 			dnd_class = request.get_json(force=True)['class']
 			cur.execute("select ClassId from classes where ClassName = %s", (dnd_class,))
