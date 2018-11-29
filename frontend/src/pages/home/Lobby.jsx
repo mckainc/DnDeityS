@@ -78,6 +78,7 @@ class Lobby extends Component {
     this.setState({ startGame: true });
 
     sessionStorage.setItem('character_id', -1);
+    sessionStorage.setItem('characters', JSON.stringify(this.state.players.toArray()));
 
     const server = axios.create({
       baseURL: serverURL,
@@ -88,6 +89,7 @@ class Lobby extends Component {
       event: 'start-game',
       message: {
         map: this.state.map.id,
+        characters: this.state.players.toArray(),
       }
     }
 

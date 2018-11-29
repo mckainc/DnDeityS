@@ -33,6 +33,7 @@ class MapGrid extends PureComponent {
             <div className="row">
               {Array.from(cols).map((_, y) => (
                 <MapTile
+                  characters={this.props.characters}
                   x={x}
                   y={y}
                   editTile={this.props.editTile}

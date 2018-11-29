@@ -100,7 +100,7 @@ class MapTile extends Component {
   }
 
   render() {
-    const { character } = this.props;
+    const { characters } = this.props;
     const { tile, monster, event } = this.state;
     let isEmpty;
     if (typeof monster !== 'undefined') {
@@ -111,6 +111,11 @@ class MapTile extends Component {
       isEmpty = 'empty';
     }
 
+    let character = undefined;
+    if (typeof characters !== 'undefined' && characters.has(this.props.x + ',' + this.props.y)) {
+      character = characters.get(this.props.x + ',' + this.props.y);
+    }
+
     return (
       <div onMouseEnter={this.handleDraw} className="MapTile" onMouseDown={this.handleClick}>
         {tile !== 'none' &&
@@ -118,13 +123,14 @@ class MapTile extends Component {
             {typeof monster !== 'undefined' && <i className="fas fa-skull" draggable={false}/>}
             {typeof event !== 'undefined' && <i className="fas fa-exclamation" draggable={false}/>}
             <img className={isEmpty} src={tiles.get(tile)} draggable={false}/>
-            {typeof character !== 'undefined' && <DraggablePlayer character={character} /> }
+            {typeof character !== 'undefined' && <DraggablePlayer character={character} empty={false} /> }
           </div>
         }
         {tile === 'none' &&
           <div className='none'>
             {typeof monster !== 'undefined' && <i className="fas fa-skull" draggable={false}/>}
             {typeof event !== 'undefined' && <i className="fas fa-exclamation" draggable={false}/>}
+            {typeof character !== 'undefined' && <DraggablePlayer character={character} empty /> }
           </div>
         }
       </div>

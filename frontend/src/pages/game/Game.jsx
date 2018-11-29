@@ -17,6 +17,7 @@ class Game extends Component {
 
     this.state = {
       map: new Map(),
+      characters: [],
       x: 25,
       y: 25,
       loaded: false,
@@ -50,6 +51,18 @@ class Game extends Component {
 
         this.setState({ map, x, y, loaded: true });
       });
+
+    // set characters from sessionStorage
+    let characterArr = JSON.parse(sessionStorage.getItem('characters'));
+    let characters = new Map();
+    let count = 0;
+    characterArr.forEach(c => {
+      // TODO load character x and y
+      while (characters.has(`0,` + count)) { count++; }
+      characters = characters.set('0,' + count, c);
+    })
+
+    this.setState({ characters });
   }
 
   render() {
@@ -63,7 +76,7 @@ class Game extends Component {
       <div className="Game">
         <GameToolbar characterId={characterId}/>
         <Col md={10}>
-          <MapGrid x={this.state.x} y={this.state.y} map={this.state.map} playing={true} />
+          <MapGrid characters={this.state.characters} x={this.state.x} y={this.state.y} map={this.state.map} playing={true} />
         </Col>
         <Col md={2}>
           <CharacterSheetSidebar id={characterId}/>
