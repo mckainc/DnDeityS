@@ -215,6 +215,7 @@ class CharacterSheetSidebar extends Component {
           });
         }
         if (typeof classes.get(response.data[3]) !== 'undefined') {
+          let saving_throws = [];
           let temp = classes.get(response.data[3]).description;
           temp.proficiencies.forEach(proficiency => {
             if (proficiency.name.startsWith('Skill: ')) {
@@ -224,8 +225,42 @@ class CharacterSheetSidebar extends Component {
               proficiencies.push(proficiency.name);
             }
           });
+          temp.saving_throws.forEach(s_throw => {
+            saving_throws.push(s_throw.name);
+          });
+          character.saving_throws = saving_throws;
         }
-        character.skills = skills;
+        let str_skills = [];
+        let dex_skills = [];
+        let int_skills = [];
+        let wis_skills = [];
+        let chr_skills = [];
+        character.perception = false;
+        skills.forEach(skill => {
+          if (skill === 'Skill: Perception') {
+            character.perception = true;
+          }
+          else if (skill === 'Skill: Athletics') {
+            str_skills.push(skill);
+          }
+          else if (skill === 'Skill: Acrobatics' || skill === 'Skill: Sleight of Hand' || skill === 'Skill: Stealth') {
+            dex_skills.push(skill);
+          }
+          else if (skill === 'Skill: Deception' || skill === 'Skill: Intimidation' || skill === 'Skill: Performance' || skill === 'Skill: Persuasion') {
+            chr_skills.push(skill);
+          }
+          else if (skill === 'Skill: Arcana' || skill === 'Skill: History' || skill === 'Skill: Investigation' || skill === 'Skill: Nature' || skill === 'Skill: Religion') {
+            int_skills.push(skill);
+          }
+          else {
+            wis_skills.push(skill);
+          }
+        });
+        character.str_skills = str_skills;
+        character.dex_skills = dex_skills;
+        character.int_skills = int_skills;
+        character.wis_skills = wis_skills;
+        character.chr_skills = chr_skills;
         character.proficiencies = proficiencies.join(', ');
 
         let traits = '';
@@ -256,45 +291,103 @@ class CharacterSheetSidebar extends Component {
       return <div className="CharacterSheetSidebar"></div>;
     }
 
+    let str_foot;
+    if (character.str_skills.length > 0) {
+      str_foot = (
+        <Panel.Footer>
+          <small>Athletics</small>
+        </Panel.Footer>
+      );
+    }
+
+    let dex_foot;
+    if (character.dex_skills.length > 0) {
+      dex_foot = (
+        <Panel.Footer>
+          {character.dex_skills.map(skill => (
+            <div><small>{skill.slice(7)}</small><br/></div>
+          ))}
+        </Panel.Footer>
+      );
+    }
+
+    let int_foot;
+    if (character.int_skills.length > 0) {
+      int_foot = (
+        <Panel.Footer>
+          {character.int_skills.map(skill => (
+            <div><small>{skill.slice(7)}</small><br/></div>
+          ))}
+        </Panel.Footer>
+      );
+    }
+
+    let wis_foot;
+    if (character.wis_skills.length > 0) {
+      wis_foot = (
+        <Panel.Footer>
+          {character.wis_skills.map(skill => (
+            <div><small>{skill.slice(7)}</small><br/></div>
+          ))}
+        </Panel.Footer>
+      );
+    }
+
+    let chr_foot;
+    if (character.chr_skills.length > 0) {
+      chr_foot = (
+        <Panel.Footer>
+          {character.chr_skills.map(skill => (
+            <div><small>{skill.slice(7)}</small><br/></div>
+          ))}
+        </Panel.Footer>
+      );
+    }
+
     return (
       <div className="CharacterSheetSidebar">
         <Tabs defaultActiveKey={1} id="character-sidebar-tab">
           <Tab eventKey={1} title="Ability Scores">
             <Panel>
               <Panel.Heading>
-                <Panel.Title componentClass="h3">Strength</Panel.Title>
+                <Panel.Title componentClass="h3">Strength {character.saving_throws.includes('STR') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{character.ability_scores[0]}</Panel.Body>
+              {str_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
-                <Panel.Title componentClass="h3">Dexterity</Panel.Title>
+                <Panel.Title componentClass="h3">Dexterity {character.saving_throws.includes('DEX') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{character.ability_scores[1]}</Panel.Body>
+              {dex_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
-                <Panel.Title componentClass="h3">Constitution</Panel.Title>
+                <Panel.Title componentClass="h3">Constitution {character.saving_throws.includes('CON') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{character.ability_scores[2]}</Panel.Body>
             </Panel>
             <Panel>
               <Panel.Heading>
-                <Panel.Title componentClass="h3">Intelligence</Panel.Title>
+                <Panel.Title componentClass="h3">Intelligence {character.saving_throws.includes('INT') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{character.ability_scores[3]}</Panel.Body>
+              {int_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
-                <Panel.Title componentClass="h3">Wisdom</Panel.Title>
+                <Panel.Title componentClass="h3">Wisdom {character.saving_throws.includes('WIS') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{character.ability_scores[4]}</Panel.Body>
+              {wis_foot}
             </Panel>
             <Panel>
               <Panel.Heading>
-                <Panel.Title componentClass="h3">Charisma</Panel.Title>
+                <Panel.Title componentClass="h3">Charisma {character.saving_throws.includes('CHA') ? " (Saving Throw)" : ""}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{character.ability_scores[5]}</Panel.Body>
+              {chr_foot}
             </Panel>
           </Tab>
           <Tab eventKey={2} title="Inventory">
