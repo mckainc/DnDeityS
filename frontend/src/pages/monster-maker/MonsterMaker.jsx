@@ -53,11 +53,22 @@ class MonsterMaker extends Component {
         }
       }
 
+    //subProperty would be which attack or action it is
+    changeMonster = (property, subProperty, value, isList) => {
+        const { monster } = this.state;
+        if(isList === true){
+            monster[property][subProperty] = value;
+        } else {
+            monster[property] = value;
+        }
+    }
+
     render(){
+        const monsterId = this.props.match.params.monsterId;
 
         return (
             <div>
-
+                
             </div>
         );
     }
