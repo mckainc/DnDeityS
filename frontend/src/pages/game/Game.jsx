@@ -59,7 +59,6 @@ class Game extends Component {
     let characters = new Map();
     let count = 0;
     characterArr.forEach(c => {
-      console.log(c)
       if (typeof c.xval !== 'undefined' && c.xval !== null) {
         characters = characters.set(c.xval + ',' + c.yval, c);
         return;
@@ -98,6 +97,7 @@ class Game extends Component {
   }
 
   moveEvent = (x, y, character) => {
+    if (this.state.characters.has(x + ',' + y)) { return; }
     const server = axios.create({
       baseURL: serverURL,
     });
