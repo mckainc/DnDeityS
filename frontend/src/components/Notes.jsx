@@ -19,6 +19,7 @@ class Notes extends Component {
       characterId: null,
       character: { description: {} },
       loaded: false,
+      buff: 0,
     }
   }
 
@@ -83,9 +84,17 @@ class Notes extends Component {
 
   //Update notes field
   changeNotes = (value) => {
+    
+    var temp = this.state.buff;
+    console.log("character buffer: " + temp);
+    temp++;
     const { character } = this.state;
-    character.notes = value;
-    this.saveCharacter();
+    character['notes'] = value;
+    if(temp >= 30){
+      this.saveCharacter();
+      temp = 0;
+    }
+    this.setState({buff: temp});
   }
 
   //Displays Modal
@@ -96,6 +105,7 @@ class Notes extends Component {
   //Hides Modal
   handleCloseP1() {
     this.setState({ showP1: false});
+    this.saveCharacter();
   }
 
   render() {
@@ -116,7 +126,7 @@ class Notes extends Component {
             <Modal.Body>
             <FormGroup>
                 <FormControl
-                  name="Notes"
+                  name="notes"
                   componentClass="textarea"
                   placeholder="Notes ..."
                   onChange={(e) => this.changeNotes(e.target.value)}
