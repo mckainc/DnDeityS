@@ -14,6 +14,7 @@ import ForgottenPassword from './pages/login-package/ForgottenPassword';
 import ChangePassword from './pages/login-package/ChangePassword';
 import MapMaker from './pages/map-maker/MapMaker';
 import Game from './pages/game/Game';
+import MonsterMaker from './pages/monster-maker/MonsterMaker';
 
 class App extends Component {
   render() {
@@ -33,6 +34,8 @@ class App extends Component {
           <Route exact path="/MapMaker" component={MapMaker} />
           <Route path="/MapMaker/:mapId" component={MapMaker} />
           <Route path="/Game" component={Game} />
+          <Route exact path="/MonsterMaker" component={MonsterMaker} />
+          <Route path="/MonsterMaker/:monsterId" component={MonsterMaker} />
         </div>
       </Router>
     );

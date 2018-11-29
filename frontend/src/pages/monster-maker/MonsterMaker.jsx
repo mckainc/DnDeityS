@@ -5,6 +5,11 @@ import axios from 'axios';
 import { Map } from 'immutable';
 import serverURL from '../../objects/url.js';
 
+//Components
+import SiteNavBar from '../../components/SiteNavBar';
+import CharacterNavBar from '../../components/CharacterNavBar';
+
+
 const sections = ['Description', 'Combat', 'Ability Scores', 'Sences', 'Special Abilities', 'Actions', 'Legendary Actions', 'Saves', 'Resistances'];
 
 class MonsterMaker extends Component {
@@ -69,7 +74,11 @@ class MonsterMaker extends Component {
     }
 
     render(){
+        const { monster, loaded } = this.state;
         const monsterId = this.props.match.params.monsterId;
+        if (typeof monsterId !== 'undefined' && !loaded) {
+            return <div className="MonsterMaker"></div>
+        }
 
         return (
             <div className="MonsterMaker">
@@ -77,7 +86,7 @@ class MonsterMaker extends Component {
                 <Grid fluid className="character-grid">
                     <Row>
                         <Col xs={1} md={1}>
-                             <MonsterNavBar refs={this.state.refs} sections={sections}/>
+                             <CharacterNavBar refs={this.state.refs} sections={sections}/>
                          </Col>
                          <Col xs={17} md={11}>
                              <h1>Monster Maker</h1>
