@@ -1,13 +1,10 @@
 //React Stuff
 import React, { Component } from 'react';
-import { Modal, Button, FormGroup, ControlLabel, FormControl, Form, Row, Col } from 'react-bootstrap';
+import { Modal, Button, FormGroup, FormControl, Form, Row, Col, Panel } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 
 //css
 import './DiceTray.css';
-import { Static } from 'react-bootstrap/lib/FormControl';
-
-
 
 class DiceTray extends Component {
   constructor(props) {
@@ -98,25 +95,27 @@ class DiceTray extends Component {
   render() {
     
     return (
-      <div className="DiceModal">
+      <div>
         <Button bsSize="xsmall" onClick={this.handleShowP1}>
           Dice
         </Button>
 
-        <Draggable>
-          <Modal  show={this.state.showP1} onHide={this.handleCloseP1} backdrop={Static} backdropClassName="nogray">
+          <div>
+          <Draggable>
+          <Modal  show={this.state.showP1} onHide={this.handleCloseP1} backdrop={false}>
+            
             <Modal.Header closeButton>
                         <Modal.Title>Dice</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
 
-                <Form bsClass="help">
+                <Form>
               
                 <Row>
                   <Col sm={2}>
                     <Button onClick={() => this.handleDiceRoll(4,this.state.bonus4,"res4","roll4",this.state.num4)}>
-                     <img src={require("../textures/dice/d4/" + this.state.roll4 + ".png")}/>
+                     <img src={require("../textures/dice/d4/" + this.state.roll4 + ".png")} class="lildice"/>
                      </Button>
                    </Col>
 
@@ -165,7 +164,7 @@ class DiceTray extends Component {
                 <Row>
                 <Col sm={2}>
                 <Button onClick={() => this.handleDiceRoll(6,this.state.bonus6, "res6","roll6",this.state.num6)}>
-                <img src={require("../textures/dice/d6/" + this.state.roll6 + ".png")}/>
+                <img src={require("../textures/dice/d6/" + this.state.roll6 + ".png")} class="lildice"/>
                 </Button>
                 </Col>
 
@@ -214,7 +213,7 @@ class DiceTray extends Component {
                <Row>
                <Col sm={2}>
                 <Button onClick={() => this.handleDiceRoll(8,this.state.bonus8,"res8","roll8",this.state.num8)}>
-                <img src={require("../textures/dice/d8/" + this.state.roll8 + ".png")}/>
+                <img src={require("../textures/dice/d8/" + this.state.roll8 + ".png")} class="lildice"/>
                 </Button>
                 </Col>
 
@@ -263,7 +262,7 @@ class DiceTray extends Component {
                <Row>
                <Col sm={2}>
                 <Button onClick={() => this.handleDiceRoll(10,this.state.bonus10,"res10","roll10",this.state.num10)}>
-                <img src={require("../textures/dice/d10/" + this.state.roll10 + ".png")}/>
+                <img src={require("../textures/dice/d10/" + this.state.roll10 + ".png")} class="lildice"/>
                 </Button>
                 </Col>
 
@@ -312,7 +311,7 @@ class DiceTray extends Component {
                <Row>
                <Col sm={2}>
                 <Button onClick={() => this.handleDiceRoll(12,this.state.bonus12,"res12","roll12",this.state.num12)}>
-                  <img src={require("../textures/dice/d12/" + this.state.roll12 + ".png")}/>
+                  <img src={require("../textures/dice/d12/" + this.state.roll12 + ".png")} class="lildice"/>
                 </Button>
                 </Col>
 
@@ -361,7 +360,7 @@ class DiceTray extends Component {
                <Row>
                <Col sm={2}>
                 <Button onClick={() => this.handleDiceRoll(20,this.state.bonus20,"res20","roll20",this.state.num20)}>
-                  <img src={require("../textures/dice/d20/" + this.state.roll20 + ".png")}/>
+                  <img src={require("../textures/dice/d20/" + this.state.roll20 + ".png")} class="lildice"/>
                 </Button>
                 </Col>
 
@@ -408,8 +407,11 @@ class DiceTray extends Component {
 
               </Form>
             </Modal.Body>
+           
           </Modal>
-        </Draggable>
+          </Draggable>
+          </div>
+
       </div>
     );
   }

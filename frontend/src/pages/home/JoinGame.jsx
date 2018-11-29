@@ -43,6 +43,9 @@ class JoinGame extends Component {
           character.name = payload[1];
           character.race = payload[2];
           character.class = payload[3];
+          character.image = payload[5];
+          character.xval = payload[7];
+          character.yval = payload[8];
           characters = characters.set(character.id, character);
         });
         this.setState({ characters });
@@ -66,6 +69,10 @@ class JoinGame extends Component {
         character: this.state.character.name,
         race: this.state.character.race,
         class: this.state.character.class,
+        image: this.state.character.image,
+        id: this.state.character.id,
+        xval: this.state.character.xval,
+        yval: this.state.character.yval,
       }
     }
 
@@ -79,8 +86,10 @@ class JoinGame extends Component {
     const channel = pusher.subscribe(this.state.code);
 
     channel.bind('start-game', data => {
-      this.setState({ startGame: true });
       localStorage.setItem('map_id', data.map);
+      sessionStorage.setItem('channel', this.state.code);
+      sessionStorage.setItem('characters', JSON.stringify(data.characters));
+      this.setState({ startGame: true });
     })
   }
 
@@ -105,59 +114,59 @@ class JoinGame extends Component {
     }).sort((a, b) => a.name.localeCompare(b.name));
 
     if (this.state.startGame) {
-      return <Redirect to="/Game"/>
+      return <Redirect to="/Game" />
     }
 
     return (
       <Modal className="JoinGame" show={this.props.showJoinModal} onHide={this.props.onClose}>
-      <Modal.Header closeButton>Join a Game</Modal.Header>
-      <Modal.Body>
-        <p><u><b>Selected Character</b></u></p>
-        {typeof character !== 'undefined' &&
-          <div className="selected-character">
-            <ListGroupItem>
-              {character.name}
-              <a onClick={this.deleteCharacter} href="#!"><i className="fas fa-times"></i></a>
-            </ListGroupItem>
-            <br />
-          </div>
-        }
-        {typeof character === 'undefined' &&
-          <div className="character-select">
-            <FormControl
-              name="Character Search"
-              type="text"
-              placeholder="Search Characters"
-              onChange={this.search}
-            />
-            <div className="scrollable-list">
-              <ListGroup>
-                {filteredList.valueSeq().map(character => (
-                  <ListGroupItem onClick={() => this.selectCharacter(character)}>{character.name}, {character.race} {character.class}</ListGroupItem>
-                ))}
-              </ListGroup>
+        <Modal.Header closeButton>Join a Game</Modal.Header>
+        <Modal.Body>
+          <p><u><b>Selected Character</b></u></p>
+          {typeof character !== 'undefined' &&
+            <div className="selected-character">
+              <ListGroupItem>
+                {character.name}, {character.race} {character.class}
+                <a onClick={this.deleteCharacter} href="#!"><i className="fas fa-times"></i></a>
+              </ListGroupItem>
+              <br />
             </div>
-          </div>
-        }
-        <Form horizontal>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Code:</ControlLabel>
-            </Col>
-            <Col sm={8}>
+          }
+          {typeof character === 'undefined' &&
+            <div className="character-select">
               <FormControl
-                name="code"
+                name="Character Search"
                 type="text"
-                placeholder="Enter Lobby Code"
-                onChange={this.handleChange}
+                placeholder="Search Characters"
+                onChange={this.search}
               />
-            </Col>
-            <Col sm={2}>
-              <Button onClick={this.join} disabled={typeof character === 'undefined'}>Join</Button>
-            </Col>
-          </FormGroup>
-        </Form>
-      </Modal.Body>
+              <div className="scrollable-list">
+                <ListGroup>
+                  {filteredList.valueSeq().map(character => (
+                    <ListGroupItem onClick={() => this.selectCharacter(character)}>{character.name}, {character.race} {character.class}</ListGroupItem>
+                  ))}
+                </ListGroup>
+              </div>
+            </div>
+          }
+          <Form horizontal>
+            <FormGroup>
+              <Col sm={2}>
+                <ControlLabel>Code:</ControlLabel>
+              </Col>
+              <Col sm={8}>
+                <FormControl
+                  name="code"
+                  type="text"
+                  placeholder="Enter Lobby Code"
+                  onChange={this.handleChange}
+                />
+              </Col>
+              <Col sm={2}>
+                <Button onClick={this.join} disabled={typeof character === 'undefined'}>Join</Button>
+              </Col>
+            </FormGroup>
+          </Form>
+        </Modal.Body>
       </Modal>
     )
   }
