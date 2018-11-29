@@ -24,6 +24,7 @@ class Game extends Component {
       x: 25,
       y: 25,
       loaded: false,
+      showInitiativeRequest: false,
     }
   }
 
@@ -91,12 +92,12 @@ class Game extends Component {
     if (characterId === '-1') {
       // DM, subscribe to initiative results
       channel.bind('initiative-response', data => {
-        
+        console.log(data);
       })
     } else {
       // Player, subscribe to initiative requests
-      channel.bind('initiative-request', data => {
-
+      channel.bind('initiative-request', () => {
+        this.setState({ showInitiativeRequest: true });
       })
     }
   }
@@ -134,6 +135,38 @@ class Game extends Component {
     server.patch('/character/' + character.id, JSON.stringify(character))
   }
 
+  sendInitiativeRequest = () => {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'initiative-request',
+      message: {}
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
+  }
+
+  sendInitiativeResponse = (initiative) => {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'initiative-response',
+      message: {
+        characterId: sessionStorage.getItem('character_id'),
+        initiative,
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
+    this.setState({ showInitiativeRequest: false });
+  }
+
   render() {
     const characterId = sessionStorage.getItem('character_id');
 
@@ -143,8 +176,8 @@ class Game extends Component {
 
     return (
       <div className="Game">
-        <InitiativeRequest />
-        <GameToolbar characterId={characterId}/>
+        {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
+        <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
         <Col md={10}>
           <MapGrid
             characters={this.state.characters}

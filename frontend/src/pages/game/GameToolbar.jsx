@@ -30,7 +30,9 @@ class GameToolbar extends Component {
             </Nav>
             {this.props.characterId === '-1' &&
               <Nav pullRight>
-                <NavItem><Button bsSize="xsmall">Initiative</Button></NavItem>
+                <NavItem>
+                  <Button bsSize="xsmall" onClick={this.props.sendInitiativeRequest}>Initiative</Button>
+                </NavItem>
               </Nav>
             }
           </Navbar>

@@ -19,6 +19,10 @@ class InitiativeRequest extends Component {
     this.setState({ initiative: e.target.value });
   }
 
+  handleClick = () => {
+    this.props.sendInitiativeResponse(this.state.initiative);
+  }
+
   render() {
     return (
       <Draggable cancel='.drag-cancel'>
@@ -39,7 +43,7 @@ class InitiativeRequest extends Component {
                   />
                 </Col>
                 <Col sm={2}>
-                  <Button>Send</Button>
+                  <Button onClick={this.handleClick}>Send</Button>
                 </Col>
               </FormGroup>
             </Form>
