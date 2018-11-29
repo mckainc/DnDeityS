@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Row, Col, Nav, NavItem } from 'react-bootstrap';
 import CharacterSheetHeader from './CharacterSheetHeader';
 import DiceTray from '../../components/DiceTray';
+import Notes from '../../components/Notes';
 
 class GameToolbar extends Component {
   constructor(props) {
@@ -22,6 +23,9 @@ class GameToolbar extends Component {
             </Navbar.Header>
             <Nav pullRight>
               <NavItem><DiceTray/></NavItem>
+            </Nav>
+            <Nav pullRight>
+              <NavItem><Notes characterId={sessionStorage.getItem('character_id')}/></NavItem>
             </Nav>
           </Navbar>
         </Row>

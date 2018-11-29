@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import DiceTray from './DiceTray';
+import Notes from './Notes';
 
 // components
 import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
@@ -29,6 +30,9 @@ class SiteNaveBar extends Component {
           <Nav pullRight>
             <NavItem>
               <Button className="save" bsSize="xsmall" onClick={this.props.save}>Save</Button>
+            </NavItem>
+            <NavItem>
+              <Notes save={this.props.save} characterId={this.props.characterId}/>
             </NavItem>
           </Nav>
           }

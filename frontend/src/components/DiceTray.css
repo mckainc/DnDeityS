@@ -1,17 +1,13 @@
-
 .bonusField {
     width: 3rem;
 }
 
- img {
+img.lildice {
     height: 3rem;
     width: 3rem;
 }
 
-.modal-backdrop {
-    opacity: 0 !important;
-}
-
-.DiceModal {
-    color: green;
+.lilmodal {
+    height:20rem;
+    width:35rem;
 }
