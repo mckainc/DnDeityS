@@ -44,6 +44,8 @@ class JoinGame extends Component {
           character.race = payload[2];
           character.class = payload[3];
           character.image = payload[5];
+          character.xval = payload[7];
+          character.yval = payload[8];
           characters = characters.set(character.id, character);
         });
         this.setState({ characters });
@@ -68,6 +70,9 @@ class JoinGame extends Component {
         race: this.state.character.race,
         class: this.state.character.class,
         image: this.state.character.image,
+        id: this.state.character.id,
+        xval: this.state.character.xval,
+        yval: this.state.character.yval,
       }
     }
 

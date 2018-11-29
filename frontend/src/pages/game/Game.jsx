@@ -59,11 +59,16 @@ class Game extends Component {
     let characters = new Map();
     let count = 0;
     characterArr.forEach(c => {
-      // TODO load character x and y
+      console.log(c)
+      if (typeof c.xval !== 'undefined' && c.xval !== null) {
+        characters = characters.set(c.xval + ',' + c.yval, c);
+        return;
+      }
+
       while (characters.has(`0,` + count)) { count++; }
       let character = c;
-      character.x = 0;
-      character.y = count;
+      character.xval = 0;
+      character.yval = count;
       characters = characters.set('0,' + count, character);
       count++;
     })
@@ -85,9 +90,9 @@ class Game extends Component {
 
   moveCharacter = (x, y, character) => {
     const { characters } = this.state;
-    let newCharacters = characters.delete(character.x + ',' + character.y);
-    character.x = x;
-    character.y = y;
+    let newCharacters = characters.delete(character.xval + ',' + character.yval);
+    character.xval = x;
+    character.yval = y;
     newCharacters = newCharacters.set(x + ',' + y, character);
     this.setState({ characters: newCharacters });
   }
@@ -108,6 +113,11 @@ class Game extends Component {
     }
 
     server.post('/pushmessage', JSON.stringify(json));
+
+    // update character in database
+    character.xval = x;
+    character.yval = y;
+    server.patch('/character/' + character.id, JSON.stringify(character))
   }
 
   render() {
