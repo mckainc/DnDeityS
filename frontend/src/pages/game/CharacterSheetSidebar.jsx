@@ -10,6 +10,7 @@ import RaceType from '../../objects/RaceType';
 // components
 import { Row, Col, ProgressBar, Media, Tabs, Tab, Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import InventoryListItem from './InventoryListItem';
+import SpellsListItem from './SpellsListItem';
 
 class CharacterSheetSidebar extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class CharacterSheetSidebar extends Component {
     const { character_id } = this.state;
 
     var equipment = new Map();
+    var spells = new Map();
     server.get('/equipment')
       .then((response) => {
         response.data.forEach(payload => {
@@ -39,15 +41,15 @@ class CharacterSheetSidebar extends Component {
           equipment = equipment.set(item.name, item);
         });
     }).then(result => {
-      var spells = new Map();
       server.get('/spells')
         .then((response) => {
           response.data.forEach(payload => {
-            const spell = new RaceType(payload[1], payload[2]);
-            spells = spells.set(spells.name, spell);
+            const sp = new RaceType(payload[1], payload[2]);
+            // console.log(sp);
+            spells = spells.set(sp.name, sp);
           });
-      });
-    }).then(result => {
+      })
+    .then(result => {
       server.get('/character/' + character_id)
       .then(response => {
         const character = {};
@@ -92,7 +94,49 @@ class CharacterSheetSidebar extends Component {
         });
         // character.inventory = JSON.parse(response.data[10]);
         character.inventory = inventory;
-        character.spells = JSON.parse(response.data[13]);
+
+        let known_spells = [];
+        JSON.parse(response.data[13]).forEach(spell => {
+          console.log(spell);
+          let data = {};
+          data.name = spell.name;
+          if (typeof spells.get(spell.name) !== 'undefined') {
+            let temp = spells.get(spell.name).description;
+            data.level = temp.level;
+            data.range = temp.range;
+            data.school = temp.school.name;
+            if (typeof temp.material !== 'undefined') {
+              data.material = temp.material;
+            }
+            else {
+              data.material = 'None';
+            }
+            data.casting_time = temp.casting_time;
+            data.duration = temp.duration;
+            data.concentration = temp.concentration;
+            if (typeof temp.higher_level !== 'undefined') {
+              data.description = temp.desc[0] + ' ' + temp.higher_level[0];
+            }
+            else {
+              data.description = temp.desc[0];
+            }
+            let components = '';
+            if (temp.components.includes('V')) {
+              components += 'Verbal, ';
+            }
+            if (temp.components.includes('S')) {
+              components += 'Somatic, ';
+            }
+            if (temp.components.includes('M')) {
+              components += 'Material, ';
+            }
+            components = components.slice(0, -2);
+            data.components = components;
+            known_spells.push(data);
+          }
+        });
+        character.spells = known_spells;
+        // character.spells = JSON.parse(response.data[13]);
         
         const description = JSON.parse(response.data[14]);
         const choices = JSON.parse(response.data[11]);
@@ -121,6 +165,7 @@ class CharacterSheetSidebar extends Component {
         console.log(character);
 
         this.setState({ character, loaded: true });
+      });
       });
     });
   }
@@ -176,7 +221,6 @@ class CharacterSheetSidebar extends Component {
           <Tab eventKey={2} title="Inventory">
             <div className="scrollable-list">
               <ListGroup>
-                <ListGroupItem header="Equipment" />
                 {character.inventory.map(item => (
                   <InventoryListItem item={item}/>
                 ))}
@@ -184,7 +228,13 @@ class CharacterSheetSidebar extends Component {
             </div>
           </Tab>
           <Tab eventKey={3} title="Spells">
-            Tab 3 content
+            <div className="scrollable-list">
+              <ListGroup>
+                {character.spells.map(spell => (
+                  <SpellsListItem spell={spell}/>
+                ))}
+              </ListGroup>
+            </div>
           </Tab>
         </Tabs>;
       </div>
