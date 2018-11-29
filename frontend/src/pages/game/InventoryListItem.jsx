@@ -78,7 +78,7 @@ class InventoryListItem extends Component {
       <div className="InventoryListItem">
         <ListGroupItem>
           {item.name}
-          <Button className="pull-right" onClick={this.handleModalShow}>Details</Button>
+          <Button bsSize="small" className="pull-right" onClick={this.handleModalShow}>Details</Button>
         </ListGroupItem>
 
         <Modal show={modal} onHide={this.handleModalHide}>

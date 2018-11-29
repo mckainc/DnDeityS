@@ -11,11 +11,12 @@ import Pusher from 'pusher-js';
 import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
-import { Col } from 'react-bootstrap';
+import { Col, DropdownButton, MenuItem } from 'react-bootstrap';
 
 class Game extends Component {
   constructor(props) {
     super(props);
+    this.changeCharacter = this.changeCharacter.bind(this);
 
     this.state = {
       map: new Map(),
@@ -23,6 +24,7 @@ class Game extends Component {
       x: 25,
       y: 25,
       loaded: false,
+      active_character: -1,
     }
   }
 
@@ -120,12 +122,24 @@ class Game extends Component {
     server.patch('/character/' + character.id, JSON.stringify(character))
   }
 
+  changeCharacter(eventKey) {
+    // console.log("Update character to: " + eventKey);
+    this.setState({
+      active_character: eventKey
+    });
+  }
+
+  componentWillReceiveProps(props) {
+    
+  }
+
   render() {
     const characterId = sessionStorage.getItem('character_id');
 
     if (!this.state.loaded) {
       return <div className="Game" />
     }
+    // console.log(this.state);
 
     return (
       <div className="Game">
@@ -141,7 +155,18 @@ class Game extends Component {
           />
         </Col>
         <Col md={3}>
-          <CharacterSheetSidebar id={characterId}/>
+          {characterId != -1 ? (
+            <CharacterSheetSidebar id={characterId}/>
+          ) : (
+            <div>
+              <DropdownButton title="Characters">
+                {this.state.characters.map((character) => (
+                  <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
+                ))}
+              </DropdownButton>
+              {this.state.active_character != -1 && (<CharacterSheetSidebar id={this.state.active_character}/>)}
+            </div>
+          )}
         </Col>
       </div>
     );

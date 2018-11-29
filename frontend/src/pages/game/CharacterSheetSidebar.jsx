@@ -284,6 +284,14 @@ class CharacterSheetSidebar extends Component {
     });
   }
 
+  componentWillReceiveProps(next_props) {
+    if (next_props.id != this.props.id) {
+      this.setState({character_id: next_props.id}, function () {
+        this.componentWillMount();
+      });
+    }
+  }
+
   render() {
     const { character, loaded } = this.state;
 
