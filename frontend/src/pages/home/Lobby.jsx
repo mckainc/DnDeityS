@@ -71,6 +71,7 @@ class Lobby extends Component {
       this.setState({ players: this.state.players.push(player)});
     })
 
+    sessionStorage.setItem('channel', code);
     this.setState({ code });
   }
 

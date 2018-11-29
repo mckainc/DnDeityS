@@ -4,6 +4,8 @@ import axios from 'axios';
 // types
 import { Map } from 'immutable';
 import serverURL from '../../objects/url.js';
+import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
+import Pusher from 'pusher-js';
 
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
@@ -67,6 +69,18 @@ class Game extends Component {
     })
 
     this.setState({ characters });
+
+    // subscribe to channel
+    const pusher = new Pusher(APP_KEY, {
+      cluster: APP_CLUSTER
+    });
+
+    const code = sessionStorage.getItem('channel');
+    const channel = pusher.subscribe(code);
+
+    channel.bind('move-character', data => {
+      this.moveCharacter(data.x, data.y, data.character);
+    });
   }
 
   moveCharacter = (x, y, character) => {
@@ -76,6 +90,24 @@ class Game extends Component {
     character.y = y;
     newCharacters = newCharacters.set(x + ',' + y, character);
     this.setState({ characters: newCharacters });
+  }
+
+  moveEvent = (x, y, character) => {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'move-character',
+      message: {
+        character,
+        x,
+        y,
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
   }
 
   render() {
@@ -95,7 +127,7 @@ class Game extends Component {
             y={this.state.y}
             map={this.state.map}
             playing={true}
-            moveCharacter={this.moveCharacter}
+            moveEvent={this.moveEvent}
           />
         </Col>
         <Col md={2}>

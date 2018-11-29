@@ -82,6 +82,7 @@ class JoinGame extends Component {
 
     channel.bind('start-game', data => {
       localStorage.setItem('map_id', data.map);
+      sessionStorage.setItem('channel', this.state.code);
       sessionStorage.setItem('characters', JSON.stringify(data.characters));
       this.setState({ startGame: true });
     })

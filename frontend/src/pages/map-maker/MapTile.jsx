@@ -17,7 +17,7 @@ const PlayerType = {
 const TileTarget = {
   drop(props, monitor) {
     const character = monitor.getItem().character;
-    props.moveCharacter(props.x, props.y, character)
+    props.moveEvent(props.x, props.y, character)
   }
 }
 
