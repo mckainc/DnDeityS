@@ -8,6 +8,7 @@ import serverURL from '../../objects/url.js';
 //Components
 import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
+import DescriptionSection from './DescriptionSection';
 
 
 const sections = ['Description', 'Combat', 'Ability Scores', 'Sences', 'Special Abilities', 'Actions', 'Legendary Actions', 'Saves', 'Resistances'];
@@ -25,6 +26,7 @@ class MonsterMaker extends Component {
             monsterId: null,
             monster: { },
             loaded: false,
+            refs: refs.slice(),
         }
     }
 
@@ -90,7 +92,7 @@ class MonsterMaker extends Component {
                          </Col>
                          <Col xs={17} md={11}>
                              <h1>Monster Maker</h1>
-              
+                             <DescriptionSection ref={this.state.refs[0]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
                         </Col>
                     </Row>
                   </Grid>
