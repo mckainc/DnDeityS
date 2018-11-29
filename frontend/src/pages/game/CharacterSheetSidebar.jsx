@@ -66,16 +66,15 @@ class CharacterSheetSidebar extends Component {
             let temp = equipment.get(item.name).description;
 
             // console.log(item.name);
-            // console.log(temp);
             data.cost = '' + temp.cost.quantity + temp.cost.unit;
             data.weight = '' + temp.weight;
             if (temp.equipment_category === 'Weapon') {
               data.type = 'weapon';
               data.range = temp.weapon_range;
               data.category = temp.weapon_category;
-              // if (typeof temp.2h_damage !== 'undefined') {
-              //   data.two-handed = temp.2h_damage.dice_count + ' d' + temp.2h_damage.dice_value + ' ' + temp.2h_damage.damage_type.name + ' damage';
-              // }
+              if (typeof temp['2h_damage'] !== 'undefined') {
+                data.two_handed = temp['2h_damage'].dice_count + ' d' + temp['2h_damage'].dice_value + ' ' + temp['2h_damage'].damage_type.name + ' damage';
+              }
               data.damage = temp.damage.dice_count + ' d' + temp.damage.dice_value + ' ' + temp.damage.damage_type.name + ' damage';
             }
             else if (temp.equipment_category === 'Armor') {

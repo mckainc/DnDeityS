@@ -34,14 +34,29 @@ class InventoryListItem extends Component {
 
     let info;
     if (item.type === 'weapon') {
-      info = (
-        <div>
-          <h4>{item.range + ' Weapon'}</h4>
-          <br/>
-          <h5>Does...</h5>
-          <h4>{item.damage}</h4>
-        </div>
-      );
+      if (typeof item.two_handed !== 'undefined') {
+        info = (
+          <div>
+            <h4>{item.range + ' Weapon'}</h4>
+            <br/>
+            <h5>Does...</h5>
+            <h4>{item.damage}</h4>
+            <br/>
+            <h5>Two-Handed...</h5>
+            <h4>{item.two_handed}</h4>
+          </div>
+        );
+      }
+      else {
+        info = (
+          <div>
+            <h4>{item.range + ' Weapon'}</h4>
+            <br/>
+            <h5>Does...</h5>
+            <h4>{item.damage}</h4>
+          </div>
+        );
+      }
     }
     else if (item.type === 'armor') {
       info = (
