@@ -130,7 +130,7 @@ class Game extends Component {
     return (
       <div className="Game">
         <GameToolbar characterId={characterId}/>
-        <Col md={10}>
+        <Col md={9}>
           <MapGrid
             characters={this.state.characters}
             x={this.state.x}
@@ -140,7 +140,7 @@ class Game extends Component {
             moveEvent={this.moveEvent}
           />
         </Col>
-        <Col md={2}>
+        <Col md={3}>
           <CharacterSheetSidebar id={characterId}/>
         </Col>
       </div>

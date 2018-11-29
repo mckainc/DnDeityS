@@ -62,14 +62,8 @@ class SpellsListItem extends Component {
     return (
       <div className="Spells">
         <ListGroupItem>
-          <Row>
-            <Col md={1}>
-              {spell.name}
-            </Col>
-            <Col md={1}>
-              <Button onClick={this.handleModalShow}>Details</Button>
-            </Col>
-          </Row>
+          {spell.name}
+          <Button className="pull-right" onClick={this.handleModalShow}>Details</Button>
         </ListGroupItem>
 
         <Modal show={modal} onHide={this.handleModalHide}>
