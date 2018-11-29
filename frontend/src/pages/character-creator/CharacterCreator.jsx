@@ -113,6 +113,8 @@ class CharacterCreator extends Component {
     
     // load character data, if any
     const characterId = this.props.match.params.characterId;
+    console.log(characterId);
+    console.log("hey there pops");
     if (typeof characterId !== 'undefined') {
       this.setState({ characterId });
       server.get('/character/' + characterId)
@@ -128,6 +130,7 @@ class CharacterCreator extends Component {
           character.exp = response.data[5];
           character.charId = this.state.characterId;
           character.avatar = response.data[15];
+          character.notes = response.data[16];
           //character.level = JSON.parse(response.data[15]);
           
           const choices = JSON.parse(response.data[11]);
@@ -176,18 +179,17 @@ class CharacterCreator extends Component {
 
   render() {
     const { character, loaded } = this.state;
+    console.log(this.state.characterId);
 
     // Allow the page to load if it is pulling in character data
     const characterId = this.props.match.params.characterId;
     if (typeof characterId !== 'undefined' && !loaded) {
       return <div className="CharacterCreator"></div>
     }
-    //console.log(this.state.classes.toArray());
-   // console.log("characters");
-   // console.log(character);
+ 
     return (
       <div className="CharacterCreator">
-        <SiteNavBar enableSave save={this.saveCharacter}/>
+        <SiteNavBar enableSave save={this.saveCharacter} characterId={this.props.match.params.characterId}/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>
