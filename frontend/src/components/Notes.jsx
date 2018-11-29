@@ -1,6 +1,6 @@
 //React Stuff
 import React, { Component } from 'react';
-import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Modal, FormGroup, FormControl, Button, ControlLabel, Form } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 import axios from 'axios';
 import serverURL from '../objects/url.js';
@@ -114,29 +114,31 @@ class Notes extends Component {
 
     return (
       <div className="NotesModal">
-        <Button bsSize="xsmall" onClick={this.handleShowP1}>
-            Notes
-        </Button>
-
-        <Draggable>
-          <Modal show={this.state.showP1} onHide={this.handleCloseP1} backdrop={false} backdropClassName="nogray">
-            <Modal.Header closeButton>
-                        <Modal.Title>Notes</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+      <Button bsSize="xsmall" onClick={this.handleShowP1}>
+          Notes
+      </Button>
+      
+        <Modal show={this.state.showP1} onHide={this.handleCloseP1} backdrop={false} backdropClassName="nogray">
+          <Modal.Header closeButton>
+                      <Modal.Title>Notes</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            
             <FormGroup>
-                <FormControl
-                  name="notes"
-                  componentClass="textarea"
-                  placeholder="Notes ..."
-                  onChange={(e) => this.changeNotes(e.target.value)}
-                  defaultValue={character.notes}
-                />
-              </FormGroup>
-            </Modal.Body>
-          </Modal>
-        </Draggable>
-      </div>
+               <ControlLabel>Help</ControlLabel>
+              <FormControl
+                name="notes"
+                componentClass="textarea"
+                placeholder="Notes ..."
+                onChange={(e) => this.changeNotes(e.target.value)}
+                defaultValue={character.notes}
+              />
+            </FormGroup>
+            
+          </Modal.Body>
+        </Modal>
+      
+    </div>
     );
   }
 }
@@ -145,3 +147,8 @@ export default Notes;
 
 //onChange={(e) => changeCharacter('backstory', e.target.value, true)}
 //defaultValue={character.description.backstory}
+/*
+
+ 
+
+*/
