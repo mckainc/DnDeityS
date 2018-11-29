@@ -11,6 +11,11 @@ class MonsterMaker extends Component {
     constructor(props){
         super(props);
 
+        const refs = [];
+        for (let i = 0;i < sections.length; i++) {
+            refs.push(React.createRef());
+          }
+
         this.state = {
             monsterId: null,
             monster: { },
@@ -67,8 +72,19 @@ class MonsterMaker extends Component {
         const monsterId = this.props.match.params.monsterId;
 
         return (
-            <div>
-                
+            <div className="MonsterMaker">
+                <SiteNavBar enableSave save={this.saveCharacter}/>
+                <Grid fluid className="character-grid">
+                    <Row>
+                        <Col xs={1} md={1}>
+                             <MonsterNavBar refs={this.state.refs} sections={sections}/>
+                         </Col>
+                         <Col xs={17} md={11}>
+                             <h1>Monster Maker</h1>
+              
+                        </Col>
+                    </Row>
+                  </Grid>
             </div>
         );
     }
