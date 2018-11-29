@@ -60,7 +60,7 @@ class CharacterSheetHeader extends Component {
       <div className="CharacterSheetHeader">
         <Media>
           <Media.Left align="middle">
-            <img width={128} height={128} src={src} alt={src}/>
+            <img width={64} height={64} src={src} alt={src}/>
           </Media.Left>
           <Media.Body>
             <Row>

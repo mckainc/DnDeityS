@@ -32,6 +32,8 @@ class CharacterSheetSidebar extends Component {
 
     var equipment = new Map();
     var spells = new Map();
+    var classes = new Map();
+    var races = new Map();
     server.get('/equipment')
       .then((response) => {
         response.data.forEach(payload => {
@@ -48,16 +50,43 @@ class CharacterSheetSidebar extends Component {
             // console.log(sp);
             spells = spells.set(sp.name, sp);
           });
-      })
-    .then(result => {
+    }).then(result => {
+      server.get('/classes')
+        .then((response) => {
+          response.data.forEach(payload => {
+            const c = new RaceType(payload[1], payload[2]);
+            // console.log(sp);
+            classes = classes.set(c.name, c);
+          });
+    }).then(result => {
+      server.get('/races')
+        .then((response) => {
+          response.data.forEach(payload => {
+            const race = new RaceType(payload[1], payload[2]);
+            // console.log(sp);
+            races = races.set(race.name, race);
+          });
+    }).then(result => {
       server.get('/character/' + character_id)
       .then(response => {
         const character = {};
 
-        character.ability_scores = JSON.parse(response.data[8]);
+        let a_scores;
         if (character.ability_scores === null) {
-          character.ability_scores = ['8', '8', '8', '8', '8', '8'];
+          a_scores = ['8', '8', '8', '8', '8', '8'];
         }
+        else {
+          a_scores = JSON.parse(response.data[8]);
+        }
+        let s_bonuses;
+        if (typeof races.get(response.data[2]) !== 'undefined') {
+          s_bonuses = races.get(response.data[2]).description.ability_bonuses;
+        }
+        for (let i = 0; i < 6; i++) {
+          a_scores[i] = '' + (Number(a_scores[i]) + s_bonuses[i]);
+        }
+        character.ability_scores = a_scores;
+
         let inventory = [];
         JSON.parse(response.data[10]).forEach(item => {
           let data = {};
@@ -96,7 +125,6 @@ class CharacterSheetSidebar extends Component {
 
         let known_spells = [];
         JSON.parse(response.data[13]).forEach(spell => {
-          console.log(spell);
           let data = {};
           data.name = spell.name;
           if (typeof spells.get(spell.name) !== 'undefined') {
@@ -139,31 +167,83 @@ class CharacterSheetSidebar extends Component {
         
         const description = JSON.parse(response.data[14]);
         const choices = JSON.parse(response.data[11]);
-        let languages = [];
-        languages.push(choices.race.language);
-        languages.push(description.background_language1);
-        languages.push(description.background_language2);
-        character.languages = languages;
+        let languages = '';
+        // languages.push(choices.race.language);
+        // languages.push(description.background_language1);
+        // languages.push(description.background_language2);
+        if (choices.race.language !== "") {
+          languages += choices.race.language + ', ';
+        }
+        if (description.background_language1 !== "") {
+          languages += description.background_language1 + ', ';
+        }
+        if (description.background_language2 !== "") {
+          languages += description.background_language2 + ', ';
+        }
+        if (typeof races.get(response.data[2]) !== 'undefined') {
+          let temp = races.get(response.data[2]).description;
+          temp.languages.forEach(language => {
+            languages += language.name + ', ';
+          });
+        }
+        character.languages = languages.slice(0, -2);
 
         let proficiencies = [];
-        proficiencies.push(choices.race.proficiency);
-        choices.class.forEach(function(proficiency) {
+        let skills = [];
+        if (choices.race.proficiency !== "") {
+          proficiencies.push(choices.race.proficiency);
+        }
+        choices.class.forEach(proficiency => {
           if (typeof proficiency === 'object') {
-            let skills = [];
             proficiency.forEach(function(skill) {
               skills.push(skill);
             });
-            character.skills = skills;
           }
-          else if (proficiency != "") {
+          else if (proficiency !== "") {
             proficiencies.push(proficiency);
           }
         });
-        character.proficiencies = proficiencies;
+        if (typeof races.get(response.data[2]) !== 'undefined') {
+          let temp = races.get(response.data[2]).description;
+          temp.starting_proficiencies.forEach(proficiency => {
+            if (proficiency.name.startsWith('Skill: ')) {
+              skills.push(proficiency.name);
+            }
+            else {
+              proficiencies.push(proficiency.name);
+            }
+          });
+        }
+        if (typeof classes.get(response.data[3]) !== 'undefined') {
+          let temp = classes.get(response.data[3]).description;
+          temp.proficiencies.forEach(proficiency => {
+            if (proficiency.name.startsWith('Skill: ')) {
+              skills.push(proficiency.name);
+            }
+            else {
+              proficiencies.push(proficiency.name);
+            }
+          });
+        }
+        character.skills = skills;
+        character.proficiencies = proficiencies.join(', ');
+
+        let traits = '';
+        if (typeof races.get(response.data[2]) !== 'undefined') {
+          let temp = races.get(response.data[2]).description;
+          character.speed = temp.speed;
+          character.size = temp.size;
+          temp.traits.forEach(trait => {
+            traits += trait.name + ', ';
+          });
+        }
+        character.traits = traits.slice(0, -2);
 
         console.log(character);
 
         this.setState({ character, loaded: true });
+      });
+      });
       });
       });
     });
@@ -234,6 +314,32 @@ class CharacterSheetSidebar extends Component {
                 ))}
               </ListGroup>
             </div>
+          </Tab>
+          <Tab eventKey={4} title="Info">
+            <Panel>
+              <Panel.Heading>
+                <Panel.Title componentClass="h3">Proficiencies</Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>{character.proficiencies}</Panel.Body>
+            </Panel>
+            <Panel>
+              <Panel.Heading>
+                <Panel.Title componentClass="h3">Traits</Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>{character.traits}</Panel.Body>
+            </Panel>
+            <Panel>
+              <Panel.Heading>
+                <Panel.Title componentClass="h3">Stats</Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>Size: {character.size}<br/>Speed: {character.speed}</Panel.Body>
+            </Panel>
+            <Panel>
+              <Panel.Heading>
+                <Panel.Title componentClass="h3">Languages</Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>{character.languages}</Panel.Body>
+            </Panel>
           </Tab>
         </Tabs>;
       </div>
