@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import { Panel, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import MonsterSelector from '../map-maker/MonsterSelector';
 
-class MonsterEditor extends Component {
+class InGameMonsterEditor extends Component {
   handleChange = e => {
     const { selectedX, selectedY } = this.props;
 
@@ -84,4 +85,4 @@ class MonsterEditor extends Component {
   }
 }
 
-export default MonsterEditor;
+export default InGameMonsterEditor;
