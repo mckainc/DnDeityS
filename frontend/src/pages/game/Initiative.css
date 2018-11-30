@@ -5,3 +5,8 @@
   z-index: 100;
   width: 25%;
 }
+
+.Initiative .fa-times {
+  color: gray;
+  float: right;
+}

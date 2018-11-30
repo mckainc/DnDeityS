@@ -8,11 +8,13 @@ import './Initiative.css';
 
 class Initiative extends Component {
   render() {
-    // console.log(this.props.initiativeList)
     return (
       <Draggable>
         <Panel className="Initiative">
-          <Panel.Heading>Initiative</Panel.Heading>
+          <Panel.Heading>
+            Initiative
+            <a onClick={this.props.hideModal} href="#!"><i className="fas fa-times"></i></a>
+          </Panel.Heading>
           <Panel.Body>
             <ListGroup>
               {this.props.initiativeList

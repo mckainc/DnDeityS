@@ -95,10 +95,10 @@ class Game extends Component {
     if (characterId === '-1') {
       // DM, subscribe to initiative results
       channel.bind('initiative-response', data => {
+        if (!this.state.showInitiativeModal) { return; }
         const char = characterArr.find(c => `${c.id}` === data.characterId);
         char.initiative = data.initiative;
 
-        console.log(this.state.initiativeList)
         let i;
         for (i = 0; i < this.state.initiativeList.size; i++) {
           if (this.state.initiativeList.get(i).initiative < char.initiative) {
@@ -149,6 +149,10 @@ class Game extends Component {
     server.patch('/character/' + character.id, JSON.stringify(character))
   }
 
+  hideModal = () => {
+    this.setState({ showInitiativeModal: false, initiativeList: new List() });
+  }
+
   sendInitiativeRequest = () => {
     const server = axios.create({
       baseURL: serverURL,
@@ -192,7 +196,7 @@ class Game extends Component {
     return (
       <div className="Game">
         {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
-        {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} />}
+        {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} hideModal={this.hideModal} />}
         <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
         <Col md={10}>
           <MapGrid
