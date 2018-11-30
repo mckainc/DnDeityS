@@ -21,6 +21,12 @@ class ActionListItem extends Component {
     }
   }
 
+  componentWillReceiveProps(next_props) {
+    if (next_props.action.name != this.props.action.name) {
+      this.setState({ action: next_props.action });
+    }
+  }
+
   handleModalShow() {
     this.setState({modal: true});
   }
