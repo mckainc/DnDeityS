@@ -109,7 +109,9 @@ class JoinGame extends Component {
 
   render() {
     const { character, searchInput } = this.state;
-    const filteredList = this.state.characters.filter(character => {
+    const filteredList = this.state.characters
+      .filter(character => character.image !== null )
+      .filter(character => {
       return searchInput.toLowerCase() === character.name.substring(0, searchInput.length).toLowerCase();
     }).sort((a, b) => a.name.localeCompare(b.name));
 
