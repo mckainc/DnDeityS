@@ -22,7 +22,9 @@ class JoinGame extends Component {
       character: undefined,
       characters: new Map(),
       startGame: false,
+      sending: false,
       searchInput: '',
+      username: '',
     }
   }
 
@@ -50,6 +52,12 @@ class JoinGame extends Component {
         });
         this.setState({ characters });
       });
+    
+    // Get username
+    server.get('/getusername/' + userId)
+      .then(response => {
+        this.setState({ username: response.data[1] });
+      })
   }
 
   handleChange = e => {
@@ -65,7 +73,7 @@ class JoinGame extends Component {
       channel: this.state.code,
       event: 'join-lobby',
       message: {
-        username: 'nick',
+        username: this.state.username,
         character: this.state.character.name,
         race: this.state.character.race,
         class: this.state.character.class,
