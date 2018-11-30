@@ -1,11 +1,13 @@
 //React Stuff
 import React, { Component } from 'react';
-import { Modal, FormGroup, FormControl, Button, ControlLabel, Form } from 'react-bootstrap';
+import { FormGroup, FormControl, Panel, ControlLabel } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 import axios from 'axios';
 import serverURL from '../objects/url.js';
+import '../pages/game/Initiative'
 //css
 //import './Notes.css';
+//import './Initiative.css';
 
 class Notes extends Component {
   constructor(props) {
@@ -80,6 +82,8 @@ class Notes extends Component {
         const characterId = response.data.CharacterId;
         this.setState({ characterId });
       })
+
+      //this.props.hideNotes();
   }
 
   //Update notes field
@@ -108,38 +112,36 @@ class Notes extends Component {
     this.saveCharacter();
   }
 
+  //this.props.hideNotes
+
   render() {
     console.log(this.state.characterId);
+    console.log(this.state.character.notes);
     const character  = this.state.character;
 
     return (
-      <div className="NotesModal">
-      <Button bsSize="xsmall" onClick={this.handleShowP1}>
-          Notes
-      </Button>
-      <Draggable cancel=".drag-cancel">
-        <Modal show={this.state.showP1} onHide={this.handleCloseP1} backdrop={false} backdropClassName="nogray">
-          <Modal.Header closeButton>
-                      <Modal.Title>Notes</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+      <Draggable>
+        <Panel className="Initiative">
+          <Panel.Heading>
+            <a onClick={this.props.hideNotes} href="#!"><i className="fas fa-times"></i></a>
+          </Panel.Heading>
+          <Panel.Body>
             
             <FormGroup>
-               <ControlLabel>Help</ControlLabel>
+               <ControlLabel>Notes</ControlLabel>
               <FormControl
                 name="notes"
                 className="drag-cancel"
                 componentClass="textarea"
                 placeholder="Notes ..."
                 onChange={(e) => this.changeNotes(e.target.value)}
-                defaultValue={character.notes}
+                value={character.notes}
               />
             </FormGroup>
             
-          </Modal.Body>
-        </Modal>
+          </Panel.Body>
+        </Panel>
         </Draggable>
-    </div>
     );
   }
 }

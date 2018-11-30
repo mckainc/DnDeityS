@@ -13,6 +13,7 @@ import GameToolbar from './GameToolbar';
 import InitiativeRequest from './InitiativeRequest';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
 import Initiative from './Initiative';
+import Notes from '../../components/Notes';
 import { Col, DropdownButton, MenuItem } from 'react-bootstrap';
 import CharacterSheetHeader from './CharacterSheetHeader';
 
@@ -27,6 +28,7 @@ class Game extends Component {
       x: 25,
       y: 25,
       loaded: false,
+      showNoteModal: false,
       showInitiativeRequest: false,
       showInitiativeModal: false,
       initiativeList: new List(),
@@ -150,6 +152,14 @@ class Game extends Component {
     this.setState({ showInitiativeModal: false, initiativeList: new List() });
   }
 
+  hideNotes = () => {
+    this.setState({showNoteModal: false});
+  }
+
+  showNotes = () => {
+    this.setState({showNoteModal: true});
+  }
+
   sendInitiativeRequest = () => {
     const server = axios.create({
       baseURL: serverURL,
@@ -202,7 +212,8 @@ class Game extends Component {
       <div className="Game">
         {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
         {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} hideModal={this.hideModal} />}
-        <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
+        {this.state.showNoteModal && <Notes hideNotes={this.hideNotes} characterId={characterId}/>}
+        <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} showNotes={this.showNotes}/>
         {characterId != -1 && <Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col> }
         <Col md={9}>
           <MapGrid
