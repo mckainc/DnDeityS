@@ -12,8 +12,11 @@ import DescriptionSection from './DescriptionSection';
 import CombatSection from './CombatSection';
 import AbilityScoreSection from './AbilityScoreSection';
 import SencesSection from './SencesSection';
-
-
+import SpecialAbilitiesSection from './SpecialAbilitiesSection';
+import ActionsSection from './ActionsSection';
+import LegendarySection from './LegendarySection';
+import SaveSection from './SavesSection';
+import ResistancesSection from './ResistincesSection';
 
 const sections = ['Description', 'Combat', 'Ability Scores', 'Sences', 'Special Abilities', 'Actions', 'Legendary Actions', 'Saves', 'Resistances'];
 
@@ -28,7 +31,7 @@ class MonsterMaker extends Component {
 
         this.state = {
             monsterId: null,
-            monster: { },
+            monster: { description: { actions: {}, special_abilities: {} } },
             loaded: false,
             refs: refs.slice(),
         }
@@ -46,27 +49,8 @@ class MonsterMaker extends Component {
           server.get('/monster/' + monsterId)
             .then(response => {
               const monster = {};
-              monster.name = response.data[3];//Description
-              monster.size = response.data[4];
-              monster.type = response.data[5];
-              monster.subtype = response.data[6];
-              monster.alignment = response.data[7];
-              monster.armor_class = response.data[8];//Combat
-              monster.hit_points = response.data[9];
-              monster.hit_dice = response.data[10];
-              monster.speed = response.data[11];
-              monster.ability_scores = JSON.parse(response.data[12]);//Ability Score
-              monster.saves = JSON.parse(response.data[13]);
-              monster.damage_vulnerabilities = response.data[14];
-              monster.resistances = response.data[15];
-              monster.immunities = response.data[16];
-              monster.challenge_rating = response.data[17];//Combat
-              monster.special_abilities = JSON.parse(response.data[18]);
-              monster.actions = JSON.parse(response.data[19]);
-              monster.legendary_actions = JSON.parse(response.data[20]);
-              monster.passivePerception = response.data[21];
-              monster.vision1 = response.data[22];
-              monster.vision2 = response.data[23];
+              monster.description = JSON.parse(response.data[0]);
+              monster.name = response.data[1];
               this.setState({ monster, loaded: true });
             })
         }
@@ -101,8 +85,7 @@ class MonsterMaker extends Component {
                              <h1>Monster Maker</h1>
                              <DescriptionSection ref={this.state.refs[0]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
                              <CombatSection ref={this.state.refs[1]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
-                             <AbilityScoreSection ref={this.state.refs[2]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
-                             <SencesSection ref={this.state.refs[3]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
+                             <AbilityScoreSection ref={this.state.refs[2]} changeMonster={this.changeMonster} monster={monster.description} loaded={loaded}/>
                         </Col>
                     </Row>
                   </Grid>
@@ -112,3 +95,11 @@ class MonsterMaker extends Component {
 }
 
 export default MonsterMaker;
+
+/*
+
+                             <AbilityScoreSection ref={this.state.refs[2]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
+                             <SencesSection ref={this.state.refs[3]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
+                             <SpecialAbilitiesSection ref={this.state.refs[4]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
+
+*/

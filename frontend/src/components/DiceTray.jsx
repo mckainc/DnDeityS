@@ -101,8 +101,8 @@ class DiceTray extends Component {
         </Button>
 
           <div>
-          <Draggable>
-          <Modal  show={this.state.showP1} onHide={this.handleCloseP1} backdrop={false}>
+          <Draggable cancel=".drag-cancel">
+          <Modal  show={this.state.showP1} onHide={this.handleCloseP1} backdrop={false} className="DiceTrayStyle">
             
             <Modal.Header closeButton>
                         <Modal.Title>Dice</Modal.Title>
@@ -110,7 +110,7 @@ class DiceTray extends Component {
 
             <Modal.Body>
 
-                <Form>
+                <Form classname="drag-cancel">
               
                 <Row>
                   <Col sm={2}>

@@ -117,7 +117,7 @@ class Notes extends Component {
       <Button bsSize="xsmall" onClick={this.handleShowP1}>
           Notes
       </Button>
-      
+      <Draggable cancel=".drag-cancel">
         <Modal show={this.state.showP1} onHide={this.handleCloseP1} backdrop={false} backdropClassName="nogray">
           <Modal.Header closeButton>
                       <Modal.Title>Notes</Modal.Title>
@@ -128,6 +128,7 @@ class Notes extends Component {
                <ControlLabel>Help</ControlLabel>
               <FormControl
                 name="notes"
+                className="drag-cancel"
                 componentClass="textarea"
                 placeholder="Notes ..."
                 onChange={(e) => this.changeNotes(e.target.value)}
@@ -137,7 +138,7 @@ class Notes extends Component {
             
           </Modal.Body>
         </Modal>
-      
+        </Draggable>
     </div>
     );
   }

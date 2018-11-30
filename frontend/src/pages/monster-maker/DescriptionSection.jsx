@@ -11,11 +11,11 @@ class DescriptionSection extends Component {
 		super(props);
 
         const name = props.loaded ? props.monster.name : 'none';
-        const size = props.loaded ? props.monster.size : 'none';
-        const type = props.loaded ? props.monster.type : 'none';
-        const subtype = props.loaded ? props.monster.subtype : 'none';
-        const alignment = props.loaded ? props.monster.alignment : 'none';
-        const challenge_rating = props.loaded ? props.monster.challenge_rating : 'none';
+        const size = props.loaded ? props.monster.description.size : 'none';
+        const type = props.loaded ? props.monster.description.type : 'none';
+        const subtype = props.loaded ? props.monster.description.subtype : 'none';
+        const alignment = props.loaded ? props.monster.description.alignment : 'none';
+        const challenge_rating = props.loaded ? props.monster.description.challenge_rating : 'none';
 
 		this.state = {
                 name: name,
@@ -44,7 +44,7 @@ class DescriptionSection extends Component {
                     name="name"
                     type="text"
                     placeholder="Enter monster's name"
-                    onChange={(e) => changeMonster('name','none', e.target.value, false)}
+                    onChange={(e) => changeMonster('name','none', e.target.value, true)}
                     defaultValue={monster.name}
                     />
                 </FormGroup>
@@ -57,8 +57,8 @@ class DescriptionSection extends Component {
                     name="size"
                     type="text"
                     placeholder="Enter monster's size"
-                    onChange={(e) => changeMonster('size','none', e.target.value, false)}
-                    defaultValue={monster.size}
+                    onChange={(e) => changeMonster('description','size', e.target.value, true)}
+                    defaultValue={monster.description.size}
                     />
                 </FormGroup>
                 </Col>
@@ -70,8 +70,8 @@ class DescriptionSection extends Component {
                     name="type"
                     type="text"
                     placeholder="Enter monster's type..."
-                    onChange={(e) => changeMonster('type','none', e.target.value, false)}
-                    defaultValue={monster.type}
+                    onChange={(e) => changeMonster('description','type', e.target.value, true)}
+                    defaultValue={monster.description.type}
                     />
                 </FormGroup>
                 </Col>
@@ -85,8 +85,8 @@ class DescriptionSection extends Component {
                     name="subtype"
                     type="text"
                     placeholder="Enter monster's subtype if any"
-                    onChange={(e) => changeMonster('subtype','none', e.target.value, false)}
-                    defaultValue={monster.subtype}
+                    onChange={(e) => changeMonster('description','subtype', e.target.value, true)}
+                    defaultValue={monster.description.subtype}
                     />
                 </FormGroup>
                 </Col>
@@ -98,8 +98,8 @@ class DescriptionSection extends Component {
                     name="alignment"
                     type="text"
                     placeholder="Enter monster's alignment"
-                    onChange={(e) => changeMonster('alignment','none', e.target.value, false)}
-                    defaultValue={monster.alignment}
+                    onChange={(e) => changeMonster('description','alignment', e.target.value, true)}
+                    defaultValue={monster.description.alignment}
                     />
                 </FormGroup>
                 </Col>
@@ -111,8 +111,8 @@ class DescriptionSection extends Component {
                     name="challenge_rating"
                     type="number"
                     placeholder="Enter monster's challenge rating"
-                    onChange={(e) => changeMonster('challenge_rating','none', e.target.value, false)}
-                    defaultValue={monster.challenge_rating}
+                    onChange={(e) => changeMonster('description','challenge_rating', e.target.value, true)}
+                    defaultValue={monster.description.challenge_rating}
                     />
                 </FormGroup>
                 </Col>

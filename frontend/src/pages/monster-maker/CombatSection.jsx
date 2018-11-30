@@ -10,10 +10,10 @@ class CombatSection extends Component {
 	constructor(props) {
 		super(props);
 
-        const armor_class = props.loaded ? props.monster.name : 'none';
-        const hit_points = props.loaded ? props.monster.size : 'none';
-        const hit_dice = props.loaded ? props.monster.type : 'none';
-        const speed = props.loaded ? props.monster.subtype : 'none';
+        const armor_class = props.loaded ? props.monster.description.armor_class : 'none';
+        const hit_points = props.loaded ? props.monster.description.hit_points : 'none';
+        const hit_dice = props.loaded ? props.monster.description.hit_dice : 'none';
+        const speed = props.loaded ? props.monster.description.speed : 'none';
 
 		this.state = {
             armor_class: armor_class,
@@ -40,8 +40,8 @@ class CombatSection extends Component {
                     name="armor_class"
                     type="number"
                     placeholder="Enter monster's AC"
-                    onChange={(e) => changeMonster('armor_class','none', e.target.value, false)}
-                    defaultValue={monster.armor_class}
+                    onChange={(e) => changeMonster('description','armor_class', e.target.value, true)}
+                    defaultValue={monster.description.armor_class}
                     />
                 </FormGroup>
                 </Col>
@@ -53,8 +53,8 @@ class CombatSection extends Component {
                     name="hit_points"
                     type="number"
                     placeholder="Enter monster's HP"
-                    onChange={(e) => changeMonster('hit_points','none', e.target.value, false)}
-                    defaultValue={monster.hit_points}
+                    onChange={(e) => changeMonster('description','hit_points', e.target.value, true)}
+                    defaultValue={monster.description.hit_points}
                     />
                 </FormGroup>
                 </Col>
@@ -68,8 +68,8 @@ class CombatSection extends Component {
                     name="hit_dice"
                     type="text"
                     placeholder="Enter monster's HD"
-                    onChange={(e) => changeMonster('hit_dice','none', e.target.value, false)}
-                    defaultValue={monster.hit_dice}
+                    onChange={(e) => changeMonster('description','hit_dice', e.target.value, true)}
+                    defaultValue={monster.description.hit_dice}
                     />
                 </FormGroup>
                 </Col>
@@ -81,8 +81,8 @@ class CombatSection extends Component {
                     name="speed"
                     type="text"
                     placeholder="Enter monster's speed"
-                    onChange={(e) => changeMonster('speed','none', e.target.value, false)}
-                    defaultValue={monster.speed}
+                    onChange={(e) => changeMonster('description','speed', e.target.value, true)}
+                    defaultValue={monster.description.speed}
                     />
                 </FormGroup>
                 </Col>

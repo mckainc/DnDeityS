@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Panel, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
 // components
 import AbilityScore from '../../components/AbilityScore';
@@ -11,37 +11,130 @@ class AbilityScoreSection extends Component {
 	constructor(props) {
 		super(props);
 
-        let points = props.loaded ? props.monster.ability_scores : ['8', '8', '8', '8', '8', '8'];
-         if (points === null) points = ['8', '8', '8', '8', '8', '8'];
-
+    const strength = props.loaded ? props.monster.strength : 'none';
+    const dexterity = props.loaded ? props.monster.dexterity : 'none';
+    const constitution = props.loaded ? props.monster.constitution : 'none';
+    const intelligence = props.loaded ? props.monster.intelligence : 'none';
+    const wisdom = props.loaded ? props.monster.wisdom : 'none';
+    const charisma = props.loaded ? props.monster.charisma : 'none';
 
 		this.state = {
-            points,
+            strength: strength,
+            dexterity: dexterity,
+            constitution: constitution,
+            intelligence: intelligence,
+            wisdom: wisdom,
+            charisma: charisma,
 		}
 	}
-	
-	updatePoints = (score, type) => {
-        const { points } = this.state;
-        const index = abilityScores.indexOf(type);
-
-        points[index] = score;
-
-        this.setState({ points });
-        this.forceUpdate();
-        this.props.changeMonster('ability_scores', 'none', points);
-    }
 
   render() {
-    
+    const { changeMonster, monster } = this.props;
     return (
-      <div className="AbilityScore" ref={this.props.innerRef}>
+      <div className="AbilityScores" ref={this.props.innerRef}>
         <CollapsableSection title="Ability Score" open={true}>
-        <Row>
-            
-            {abilityScores.map((score, index) => (
-              <Col xs={2} md={1}><div className="boxes"><AbilityScore type={score} score={this.state.points[index]} manual={true} updatePoints={this.updatePoints}/></div></Col>
-            ))}
-            
+        <Row> 
+            <Col xs={2} md={1}>
+                <Panel>
+                  <Panel.Body>
+                      <FormGroup>
+                        <ControlLabel>STR</ControlLabel>
+                        <FormControl 
+                          bsClass="abilitybox" 
+                          type="number" 
+                          name="strength" 
+                          onChange={(e) => changeMonster('description','strength',e.target.value,true)}
+                          defaultValue={monster.strength}
+                        />
+                      </FormGroup>
+                  </Panel.Body>
+                </Panel>
+            </Col>
+
+            <Col xs={2} md={1}>
+                <Panel>
+                  <Panel.Body>
+                      <FormGroup>
+                        <ControlLabel>DEX</ControlLabel>
+                        <FormControl 
+                          bsClass="abilitybox" 
+                          type="number" 
+                          name="dexterity" 
+                          onChange={(e) => changeMonster('description','dexterity',e.target.value,true)}
+                          defaultValue={monster.dexterity}
+                        />
+                      </FormGroup>
+                  </Panel.Body>
+                </Panel>
+            </Col>
+
+            <Col xs={2} md={1}>
+                <Panel>
+                  <Panel.Body>
+                      <FormGroup>
+                        <ControlLabel>CON</ControlLabel>
+                        <FormControl 
+                          bsClass="abilitybox" 
+                          type="number" 
+                          name="constitution" 
+                          onChange={(e) => changeMonster('description','constitution',e.target.value,true)}
+                          defaultValue={monster.constitution}
+                        />
+                      </FormGroup>
+                  </Panel.Body>
+                </Panel>
+            </Col>
+
+            <Col xs={2} md={1}>
+                <Panel>
+                  <Panel.Body>
+                      <FormGroup>
+                        <ControlLabel>INT</ControlLabel>
+                        <FormControl 
+                          bsClass="abilitybox" 
+                          type="number" 
+                          name="intelligence" 
+                          onChange={(e) => changeMonster('description','intelligence',e.target.value,true)}
+                          defaultValue={monster.intelligence}
+                        />
+                      </FormGroup>
+                  </Panel.Body>
+                </Panel>
+            </Col>
+
+            <Col xs={2} md={1}>
+                <Panel>
+                  <Panel.Body>
+                      <FormGroup>
+                        <ControlLabel>WIS</ControlLabel>
+                        <FormControl 
+                          bsClass="abilitybox" 
+                          type="number" 
+                          name="wisdom" 
+                          onChange={(e) => changeMonster('description','wisdom',e.target.value,true)}
+                          defaultValue={monster.wisdom}
+                        />
+                      </FormGroup>
+                  </Panel.Body>
+                </Panel>
+            </Col>
+
+            <Col xs={2} md={1}>
+                <Panel>
+                  <Panel.Body>
+                      <FormGroup>
+                        <ControlLabel>CHA</ControlLabel>
+                        <FormControl 
+                          bsClass="abilitybox" 
+                          type="number" 
+                          name="charisma" 
+                          onChange={(e) => changeMonster('description','charisma',e.target.value,true)}
+                          defaultValue={monster.charisma}
+                        />
+                      </FormGroup>
+                  </Panel.Body>
+                </Panel>
+            </Col>
           </Row>
         </CollapsableSection>
       </div>
