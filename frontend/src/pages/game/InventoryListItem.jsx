@@ -29,6 +29,12 @@ class InventoryListItem extends Component {
     this.setState({modal: false});
   }
 
+  componentWillReceiveProps(next_props) {
+    if (next_props.item.name != this.props.item.name) {
+      this.setState({ item: next_props.item });
+    }
+  }
+
   render() {
     const { item, modal } = this.state;
 

@@ -29,35 +29,14 @@ class SpellsListItem extends Component {
     this.setState({modal: false});
   }
 
+  componentWillReceiveProps(next_props) {
+    if (next_props.spell.name != this.props.spell.name) {
+      this.setState({ spell: next_props.spell });
+    }
+  }
+
   render() {
     const { spell, modal } = this.state;
-
-    let info;
-    if (spell.type === 'weapon') {
-      info = (
-        <div>
-          <h4>{spell.range + ' Weapon'}</h4>
-          <br/>
-          <h5>Does...</h5>
-          <h4>{spell.damage}</h4>
-        </div>
-      );
-    }
-    else if (spell.type === 'armor') {
-      info = (
-        <div>
-          <h4>{spell.category} Armor</h4>
-          <br/>
-          <h5>Armor Class...</h5>
-          <h4>{spell.armor_class}</h4>
-        </div>
-      );
-    }
-    else {
-      info = (
-        <p>{spell.description}</p>
-      );
-    }
 
     return (
       <div className="Spells">
