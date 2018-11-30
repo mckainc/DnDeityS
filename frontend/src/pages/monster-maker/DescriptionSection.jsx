@@ -44,7 +44,7 @@ class DescriptionSection extends Component {
                     name="name"
                     type="text"
                     placeholder="Enter monster's name"
-                    onChange={(e) => changeMonster('name','none', e.target.value, true)}
+                    onChange={(e) => changeMonster('name','none', e.target.value, false)}
                     defaultValue={monster.name}
                     />
                 </FormGroup>

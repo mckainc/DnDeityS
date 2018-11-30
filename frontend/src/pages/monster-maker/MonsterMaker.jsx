@@ -42,19 +42,41 @@ class MonsterMaker extends Component {
           baseURL: serverURL,
         });
         
-        // load character data, if any
-        const monsterId = this.props.match.params.characterId;
+        // load monster data, if any
+        const monsterId = this.props.match.params.monsterId;
         if (typeof monsterId !== 'undefined') {
           this.setState({ monsterId });
           server.get('/monster/' + monsterId)
             .then(response => {
               const monster = {};
-              monster.description = JSON.parse(response.data[0]);
-              monster.name = response.data[1];
+              monster.description = JSON.parse(response.data[4]);
+              monster.name = response.data[3];
               this.setState({ monster, loaded: true });
             })
         }
       }
+
+    saveMonster = () => {
+        const { monster } = this.state;
+        const server = axios.create({
+            baseURL: serverURL,
+        });
+
+        const userId = localStorage.getItem('user_id');
+        monster['user_id'] = userId;
+
+         if (this.state.monsterId !== null) {
+            server.patch('/monster/' + this.state.monsterId, JSON.stringify(monster));
+            return;
+         }
+
+        // Create monster
+        server.post('/monster', JSON.stringify(monster))
+        .then(response => {
+            const monsterId = response.data.monsterId;
+            this.setState({ monsterId });
+        })
+    }
 
     //subProperty would be which attack or action it is
     changeMonster = (property, subProperty, value, isList) => {
@@ -75,7 +97,7 @@ class MonsterMaker extends Component {
 
         return (
             <div className="MonsterMaker">
-                <SiteNavBar enableSave save={this.saveCharacter}/>
+                <SiteNavBar enableSave save={this.saveMonster}/>
                 <Grid fluid className="character-grid">
                     <Row>
                         <Col xs={1} md={1}>
