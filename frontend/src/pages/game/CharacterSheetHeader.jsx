@@ -7,7 +7,7 @@ import serverURL from '../../objects/url.js';
 import { Map } from 'immutable';
 
 // components
-import { Row, Col, ProgressBar, Media } from 'react-bootstrap';
+import { Row, Col, ProgressBar, Media, FormGroup, InputGroup, FormControl, Button } from 'react-bootstrap';
 
 class CharacterSheetHeader extends Component {
   constructor(props) {
@@ -16,8 +16,19 @@ class CharacterSheetHeader extends Component {
     this.state = {
       character_id: props.id,
       character: {},
-      loaded: false
+      loaded: false,
+      HPForm: ''
     }
+  }
+
+  handleHPClick = () => {
+    const { HPForm, character } = this.state;
+    character.hp = HPForm;
+    this.setState({ character })
+  }
+
+  handleHPChange = event => {
+    this.setState({ HPForm: event.target.value });
   }
 
   componentWillMount() {
@@ -102,6 +113,16 @@ class CharacterSheetHeader extends Component {
               <ProgressBar bsStyle="danger" min={0} max={character.max_hp} now={character.hp}/>
             )
           )}
+          <form>
+            <FormGroup>
+              <InputGroup>
+                <FormControl type="text" value={this.state.HPForm} onChange={this.handleHPChange}/>
+                <InputGroup.Button>
+                  <Button onClick={this.handleHPClick}>Change Current HP</Button>
+                </InputGroup.Button>
+              </InputGroup>
+            </FormGroup>
+          </form>
         </Row>
       </div>
     );
