@@ -8,6 +8,7 @@ import './Initiative.css';
 
 class Initiative extends Component {
   render() {
+    const sortedList = this.props.initiativeList.sort((a, b) => a.initiative < b.initiative)
     return (
       <Draggable>
         <Panel className="Initiative">
@@ -17,7 +18,7 @@ class Initiative extends Component {
           </Panel.Heading>
           <Panel.Body>
             <ListGroup>
-              {this.props.initiativeList
+              {sortedList
                 .valueSeq().map(character => (
                   <ListGroupItem>
                     {character.initiative}: {character.character}, {character.race} {character.class}

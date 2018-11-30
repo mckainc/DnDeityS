@@ -102,13 +102,7 @@ class Game extends Component {
         const char = characterArr.find(c => `${c.id}` === data.characterId);
         char.initiative = data.initiative;
 
-        let i;
-        for (i = 0; i < this.state.initiativeList.size; i++) {
-          if (this.state.initiativeList.get(i).initiative < char.initiative) {
-            break;
-          }
-        }
-        const initiativeList = this.state.initiativeList.insert(i, char);
+        const initiativeList = this.state.initiativeList.push(char);
         this.setState({ initiativeList });
       })
     } else {
