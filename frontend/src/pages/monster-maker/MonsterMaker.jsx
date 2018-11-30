@@ -86,6 +86,8 @@ class MonsterMaker extends Component {
                              <DescriptionSection ref={this.state.refs[0]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
                              <CombatSection ref={this.state.refs[1]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
                              <AbilityScoreSection ref={this.state.refs[2]} changeMonster={this.changeMonster} monster={monster.description} loaded={loaded}/>
+                             <SencesSection ref={this.state.refs[3]} changeMonster={this.changeMonster} monster={monster.description} loaded={loaded}/>
+                             <SpecialAbilitiesSection ref={this.state.refs[4]} changeMonster={this.changeMonster} monster={monster} loaded={loaded}/>
                         </Col>
                     </Row>
                   </Grid>

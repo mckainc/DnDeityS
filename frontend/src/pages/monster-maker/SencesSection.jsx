@@ -40,7 +40,7 @@ class SencesSection extends Component {
                     name="vision"
                     type="text"
                     placeholder="Enter monster's Sight"
-                    onChange={(e) => changeMonster('vision1','none', e.target.value, false)}
+                    onChange={(e) => changeMonster('description','vision', e.target.value, true)}
                     defaultValue={monster.vision1}
                     />
                 </FormGroup>
@@ -48,24 +48,12 @@ class SencesSection extends Component {
 
                 <Col sm={2}>
                 <FormGroup>
-                    <ControlLabel>Vision</ControlLabel>
-                    <FormControl
-                    name="vision2"
-                    type="text"
-                    placeholder="Enter monster's sight"
-                    onChange={(e) => changeMonster('vision2','none', e.target.value, false)}
-                    defaultValue={monster.vision2}
-                    />
-                </FormGroup>
-                </Col>
-                <Col sm={2}>
-                <FormGroup>
                     <ControlLabel>Passive Perception</ControlLabel>
                     <FormControl
                     name="perception"
                     type="number"
                     placeholder="Enter monster's Passive Perception"
-                    onChange={(e) => changeMonster('passivePerception','none', e.target.value, false)}
+                    onChange={(e) => changeMonster('description','passivePerception', e.target.value, true)}
                     defaultValue={monster.passivePerception}
                     />
                 </FormGroup>
