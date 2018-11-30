@@ -99,6 +99,8 @@ class JoinGame extends Component {
       sessionStorage.setItem('characters', JSON.stringify(data.characters));
       this.setState({ startGame: true });
     })
+
+    this.setState({ sending: true });
   }
 
   selectCharacter = character => {
@@ -171,9 +173,14 @@ class JoinGame extends Component {
                   onChange={this.handleChange}
                 />
               </Col>
+              {!this.state.sending && 
               <Col sm={2}>
-                <Button onClick={this.join} disabled={typeof character === 'undefined'}>Join</Button>
-              </Col>
+                <Button onClick={this.join} disabled={typeof character === 'undefined'} style={{ float: 'right'}}>Join</Button>
+              </Col>}
+              {this.state.sending && 
+              <Col sm={2}>
+                <Button disabled style={{ float: 'right'}}>Waiting...</Button>
+              </Col>}
             </FormGroup>
           </Form>
         </Modal.Body>
