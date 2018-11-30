@@ -82,7 +82,7 @@ class CharacterSheetSidebar extends Component {
         }
 
         let a_scores;
-        if (character.ability_scores === null) {
+        if (JSON.parse(response.data[8]) === null) {
           a_scores = ['8', '8', '8', '8', '8', '8'];
         }
         else {
