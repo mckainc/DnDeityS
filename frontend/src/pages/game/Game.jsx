@@ -236,6 +236,40 @@ class Game extends Component {
     this.setState({ map: newMap });
   }
 
+  saveMap = () => {
+    const { map, mapInfo } = this.state;
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+    let mapJSON = {};
+
+    // push all of the tiles onto an array
+    let tiles = [];
+    map.forEach((xmap, x) => xmap.forEach((tile, y) => {
+      const t = tile;
+      t.x = x;
+      t.y = y;
+      tiles.push(t);
+    }));
+
+    mapJSON.tiles = tiles;
+
+    // add map info
+    mapJSON.name = mapInfo.name;
+    mapJSON.height = mapInfo.height;
+    mapJSON.width = mapInfo.width;
+
+    // add user id
+    const userId = localStorage.getItem('user_id');
+    mapJSON['user_id'] = userId;
+
+    if (this.state.mapId !== null) {
+      // Update map
+      server.patch('/map/' + this.state.mapId, JSON.stringify(mapJSON));
+      return;
+    }
+  }
+
   render() {
     const { monsters, selectedTile } = this.state;
     const characterId = sessionStorage.getItem('character_id');
