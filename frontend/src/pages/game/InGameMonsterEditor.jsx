@@ -18,6 +18,10 @@ class InGameMonsterEditor extends Component {
 
   handleChange = e => {
     const { selectedX, selectedY } = this.props;
+    if (e.target.name === 'delete') {
+      this.props.editTile(selectedX, selectedY, 'monster', undefined);
+      return;
+    }
 
     let monster = {};
     if (this.props.map.has(selectedX)) {
@@ -39,11 +43,13 @@ class InGameMonsterEditor extends Component {
   }
 
   deleteMonster = () => {
+    const { selectedX, selectedY } = this.props;
     const event = {};
     event.target = {};
-    event.target.name = 'type';
+    event.target.name = 'delete';
     event.target.value = '';
     this.handleChange(event);
+    this.props.saveMap();
   }
 
   getSkills = (monster) => {
@@ -198,6 +204,7 @@ class InGameMonsterEditor extends Component {
         <Panel>
           <Panel.Heading>
             <Panel.Title componentClass="h1">Monster Editor</Panel.Title>
+            <Button bsStyle="danger" onClick={this.deleteMonster}>Kill Monster</Button>
           </Panel.Heading>
           <Panel.Body>
             <Row>

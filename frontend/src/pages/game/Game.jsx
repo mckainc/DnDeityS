@@ -230,14 +230,22 @@ class Game extends Component {
     if (newMap.get(x).has(y)) {
       tile = newMap.get(x).get(y);
     }
-    tile[type] = data;
+
+    if (type === 'monster' && data === 'undefined') {
+      delete tile['monster'];
+    }
+    else {
+      tile[type] = data;
+    }
+
     newMap = newMap.set(x, newMap.get(x).set(y, tile));
+    console.log(newMap.toObject());
 
     this.setState({ map: newMap });
   }
 
   saveMap = () => {
-    const { map, mapInfo } = this.state;
+    const { map } = this.state;
     const server = axios.create({
       baseURL: serverURL,
     });
@@ -254,20 +262,8 @@ class Game extends Component {
 
     mapJSON.tiles = tiles;
 
-    // add map info
-    mapJSON.name = mapInfo.name;
-    mapJSON.height = mapInfo.height;
-    mapJSON.width = mapInfo.width;
-
-    // add user id
-    const userId = localStorage.getItem('user_id');
-    mapJSON['user_id'] = userId;
-
-    if (this.state.mapId !== null) {
-      // Update map
-      server.patch('/map/' + this.state.mapId, JSON.stringify(mapJSON));
-      return;
-    }
+    server.patch('/map/' + localStorage.getItem('map_id'), JSON.stringify(mapJSON));
+    return;
   }
 
   render() {
@@ -328,6 +324,7 @@ class Game extends Component {
                 map={this.state.map}
                 selectedX={this.state.selectedX}
                 selectedY={this.state.selectedY}
+                saveMap={this.saveMap}
               />
             </Col>
           </div>
