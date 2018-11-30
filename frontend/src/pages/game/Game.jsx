@@ -12,7 +12,7 @@ import RaceType from '../../objects/RaceType';
 import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
-import { Col, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
 import CharacterSheetHeader from './CharacterSheetHeader';
 import InGameMonsterEditor from './InGameMonsterEditor';
 
@@ -178,48 +178,55 @@ class Game extends Component {
     return (
       <div className="Game">
         <GameToolbar characterId={characterId}/>
-        {characterId != -1 ? (
-          <Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col>
-        ) : (
-          <InGameMonsterEditor
-            monsters={monsters}
-            editTile={this.editTile}
-            map={this.state.map}
-            selectedX={this.state.selectedX}
-            selectedY={this.state.selectedY}
-          />
-        )}
-        <Col md={9}>
-          <MapGrid
-            characters={this.state.characters}
-            x={this.state.x}
-            y={this.state.y}
-            map={this.state.map}
-            playing={true}
-            moveEvent={this.moveEvent}
-            selectedX={this.state.selectedX}
-            selectedY={this.state.selectedY}
-            editTile={this.editTile}
-            selectedTool='edit'
-            selectedLayer='monsters'
-            selectedTile={selectedTile}
-            selectTile={this.selectTile}
-          />
-        </Col>
-        <Col md={3}>
-          {characterId != -1 ? (
-            <CharacterSheetSidebar id={characterId}/>
-          ) : (
-            <div>
-              <DropdownButton title="Characters">
-                {this.state.characters.map((character) => (
-                  <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
-                ))}
-              </DropdownButton>
-              {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character}/>)}
-            </div>
-          )}
-        </Col>
+        {characterId != -1 ? (<Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col>) : (<div/>)}
+        <Row>
+          <Col md={9}>
+            <MapGrid
+              characters={this.state.characters}
+              x={this.state.x}
+              y={this.state.y}
+              map={this.state.map}
+              playing={true}
+              moveEvent={this.moveEvent}
+              selectedX={this.state.selectedX}
+              selectedY={this.state.selectedY}
+              editTile={this.editTile}
+              selectedTool='edit'
+              selectedLayer='monsters'
+              selectedTile={selectedTile}
+              selectTile={this.selectTile}
+            />
+          </Col>
+          <Col md={3}>
+            {characterId != -1 ? (
+              <CharacterSheetSidebar id={characterId}/>
+            ) : (
+              <div>
+                <DropdownButton title="Characters">
+                  {this.state.characters.map((character) => (
+                    <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
+                  ))}
+                </DropdownButton>
+                {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character}/>)}
+              </div>
+            )}
+          </Col>
+        </Row>
+        <Row>
+        {characterId == -1 ? (
+          <div>
+            <Col md={10} mdPush={1}>
+              <InGameMonsterEditor
+                monsters={monsters}
+                editTile={this.editTile}
+                map={this.state.map}
+                selectedX={this.state.selectedX}
+                selectedY={this.state.selectedY}
+              />
+            </Col>
+          </div>
+        ) : (<div/>)}
+        </Row>
       </div>
     );
   }
