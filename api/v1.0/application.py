@@ -576,6 +576,68 @@ def get_backgrounds():
 	else:
 		return make_response(jsonify(returned))
 
+@application.route('/monster/<int:monster_id>', methods=['DELETE'])
+def delete_monster(monster_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	query = 'delete from monsters where MonsterId = %s'
+	cur.execute(query, (monster_id,))
+	db.commit()
+	cur.close()
+	db.close()
+	return make_response(jsonify({'success' : 'deleted'}), 200)
+
+@application.route('/monsters/<int:user_id>', methods=['GET'])
+def get_monsters_byuser(user_id):
+    db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+    cur = db.cursor()
+    query = 'select * from monsters where UserId = %s;'
+    cur.execute(query, (user_id,))
+    returned = []
+    for row in cur.fetchall():
+        returned.append(row)
+    cur.close()
+    db.close()
+    return make_response(jsonify(returned), 200)
+
+@application.route('/monster/<int:monster_id>', methods=['GET'])
+def get_monsters_bymonster(monster_id):
+    db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+    cur = db.cursor()
+    query = 'select * from monsters where MonsterId = %s;'
+    cur.execute(query, (monster_id,))
+    returned = []
+    for row in cur.fetchall():
+        returned.append(row)
+    cur.close()
+    db.close()
+    return make_response(jsonify(returned), 200)
+
+@application.route('/monster', methods=['POST'])
+def create_monster():
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	query = "insert into monsters, MonsterName = %s, MonsterData = %s"
+	values_list = []	
+	try:
+		name = request.get_json(force=True)['name']
+		data = json.dumps(request.get_json(force=True)['data'])
+		userid = request.get_json(force=True)['userid']
+		values_list.append(name)
+		values_list.append(data)
+		values_list.append(userid)
+		cur.execute('insert into monsters (MonsterName, MonsterData, UserId) values (%s, %s, %s)', (name, data, userid))
+		db.commit()
+		cur.close()
+		db.close()
+		return make_response(jsonify({'MonsterId': cur.lastrowid}), 200)
+	except KeyError as e:
+		cur.close()
+		db.close()
+		return make_response(jsonify({'error' : "monster error"}))
+	
+	
+
 @application.route('/monsters', methods=['GET'])
 def get_monsters():
 	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
