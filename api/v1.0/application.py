@@ -600,6 +600,32 @@ def get_monsters_byuser(user_id):
     db.close()
     return make_response(jsonify(returned), 200)
 
+@application.route('/monster/<int:monster_id>', methods=['PATCH'])
+def update_monster(monster_id):
+	db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
+	cur = db.cursor()
+	query = 'update monsters set '
+	values_list = []
+	try:
+		name = request.get_json(force=True)['name']
+		query += "MonsterName = %s, "
+		values_list.append(name)
+	except KeyError as e:
+		name = ''
+	try:
+		description = request.get_json(force=True)['description']
+		query += "MonsterData = %s, "
+		values_list.append(description)
+	except KeyError as e:
+		description = ''
+	query = query[:-2] + " where MonsterId = %s"
+	values_list.append(monster_id)
+	cur.execute(query, tuple(values_list))
+	db.commit()
+	cur.close()
+	db.close()
+	return make_response(jsonify({'MonsterId': monster_id}), 200)	
+
 @application.route('/monster/<int:monster_id>', methods=['GET'])
 def get_monsters_bymonster(monster_id):
     db = mysql.connector.connect(host=db_dnd_host, user=db_dnd_user, password=db_dnd_password, database=db_dnd)
