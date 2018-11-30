@@ -24,7 +24,9 @@ class GameToolbar extends Component {
               <NavItem><DiceTray/></NavItem>
             </Nav>
             <Nav pullRight>
-              <NavItem><Notes characterId={sessionStorage.getItem('character_id')}/></NavItem>
+              <NavItem>
+                <Button bsSize="xsmall" onClick={this.props.showNotes}>Notes</Button>
+              </NavItem>
             </Nav>
             {this.props.characterId === '-1' &&
               <Nav pullRight>
@@ -41,3 +43,4 @@ class GameToolbar extends Component {
 }
 
 export default GameToolbar;
+//<Notes characterId={sessionStorage.getItem('character_id')}/>

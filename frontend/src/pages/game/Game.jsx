@@ -15,6 +15,7 @@ import InitiativeRequest from './InitiativeRequest';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
 import Initiative from './Initiative';
 import { Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
+import Notes from '../../components/Notes';
 import CharacterSheetHeader from './CharacterSheetHeader';
 import InGameMonsterEditor from './InGameMonsterEditor';
 
@@ -29,6 +30,7 @@ class Game extends Component {
       x: 25,
       y: 25,
       loaded: false,
+      showNoteModal: false,
       showInitiativeRequest: false,
       showInitiativeModal: false,
       initiativeList: new List(),
@@ -160,6 +162,14 @@ class Game extends Component {
 
   hideModal = () => {
     this.setState({ showInitiativeModal: false, initiativeList: new List() });
+  }
+
+  hideNotes = () => {
+    this.setState({showNoteModal: false});
+  }
+
+  showNotes = () => {
+    this.setState({showNoteModal: true});
   }
 
   sendInitiativeRequest = () => {
