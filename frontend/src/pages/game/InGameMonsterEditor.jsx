@@ -36,8 +36,8 @@ class InGameMonsterEditor extends Component {
 
   render() {
     const { selectedX, selectedY } = this.props;
-    let monster = {};
 
+    let monster = {};
     if (this.props.map.has(selectedX) && this.props.map.get(selectedX).has(selectedY)) {
       monster = this.props.map.get(selectedX).get(selectedY).monster;
       if (typeof monster === 'undefined') monster = {};
@@ -45,9 +45,10 @@ class InGameMonsterEditor extends Component {
       if (typeof monster.description === 'undefined') monster.description = '';
       if (typeof monster.type === 'undefined') monster.type = '';
     }
+    console.log(monster);
 
     return (
-      <div className="MonsterEditor">
+      <div className="InGameMonsterEditor">
         <Panel>
           <h4>Monster Editor</h4>
           <Form >
