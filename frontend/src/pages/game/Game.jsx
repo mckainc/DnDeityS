@@ -6,6 +6,7 @@ import { Map, List } from 'immutable';
 import serverURL from '../../objects/url.js';
 import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
 import Pusher from 'pusher-js';
+import RaceType from '../../objects/RaceType';
 
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
@@ -13,8 +14,9 @@ import GameToolbar from './GameToolbar';
 import InitiativeRequest from './InitiativeRequest';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
 import Initiative from './Initiative';
-import { Col, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
 import CharacterSheetHeader from './CharacterSheetHeader';
+import InGameMonsterEditor from './InGameMonsterEditor';
 
 class Game extends Component {
   constructor(props) {
@@ -59,8 +61,18 @@ class Game extends Component {
           map = map.set(tile.x, map.get(tile.x).set(tile.y, tile));
         });
 
-        this.setState({ map, x, y, loaded: true });
+        this.setState({ map, x, y });
+      }).then(response => {
+      server.get('/monsters')
+      .then((response) => {
+        let monsters = new Map();
+        response.data.forEach(payload => {
+          const monster = new RaceType(payload[1], payload[2]);
+          monsters = monsters.set(monster.name, monster);
+        });
+        this.setState({ monsters, loaded: true });
       });
+    });
 
     // set characters from sessionStorage
     let characterArr = JSON.parse(sessionStorage.getItem('characters'));
@@ -190,7 +202,32 @@ class Game extends Component {
     });
   }
 
+  selectTile = (selectedX, selectedY) => {
+    this.setState({ selectedX, selectedY });
+  }
+
+  changeTile = (selectedTile) => {
+    this.setState({ selectedTile });
+  }
+
+  editTile = (x, y, type, data) => {
+    const { map } = this.state;
+    let newMap = map;
+    if (!newMap.has(x)) {
+      newMap = newMap.set(x, new Map());
+    }
+    let tile = {};
+    if (newMap.get(x).has(y)) {
+      tile = newMap.get(x).get(y);
+    }
+    tile[type] = data;
+    newMap = newMap.set(x, newMap.get(x).set(y, tile));
+
+    this.setState({ map: newMap });
+  }
+
   render() {
+    const { monsters, selectedTile } = this.state;
     const characterId = sessionStorage.getItem('character_id');
 
     if (!this.state.loaded) {
@@ -203,31 +240,55 @@ class Game extends Component {
         {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
         {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} hideModal={this.hideModal} />}
         <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
-        {characterId != -1 && <Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col> }
-        <Col md={9}>
-          <MapGrid
-            characters={this.state.characters}
-            x={this.state.x}
-            y={this.state.y}
-            map={this.state.map}
-            playing={true}
-            moveEvent={this.moveEvent}
-          />
-        </Col>
-        <Col md={3}>
-          {characterId != -1 ? (
-            <CharacterSheetSidebar id={characterId}/>
-          ) : (
-            <div>
-              <DropdownButton title="Characters">
-                {this.state.characters.map((character) => (
-                  <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
-                ))}
-              </DropdownButton>
-              {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character}/>)}
-            </div>
-          )}
-        </Col>
+        {characterId != -1 ? (<Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col>) : (<div/>)}
+        <Row>
+          <Col md={9}>
+            <MapGrid
+              characters={this.state.characters}
+              x={this.state.x}
+              y={this.state.y}
+              map={this.state.map}
+              playing={true}
+              moveEvent={this.moveEvent}
+              selectedX={this.state.selectedX}
+              selectedY={this.state.selectedY}
+              editTile={this.editTile}
+              selectedTool='edit'
+              selectedLayer='monsters'
+              selectedTile={selectedTile}
+              selectTile={this.selectTile}
+            />
+          </Col>
+          <Col md={3}>
+            {characterId != -1 ? (
+              <CharacterSheetSidebar id={characterId}/>
+            ) : (
+              <div>
+                <DropdownButton title="Characters">
+                  {this.state.characters.map((character) => (
+                    <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
+                  ))}
+                </DropdownButton>
+                {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character}/>)}
+              </div>
+            )}
+          </Col>
+        </Row>
+        <Row>
+        {characterId == -1 ? (
+          <div>
+            <Col md={10} mdPush={1}>
+              <InGameMonsterEditor
+                monsters={monsters}
+                editTile={this.editTile}
+                map={this.state.map}
+                selectedX={this.state.selectedX}
+                selectedY={this.state.selectedY}
+              />
+            </Col>
+          </div>
+        ) : (<div/>)}
+        </Row>
       </div>
     );
   }
