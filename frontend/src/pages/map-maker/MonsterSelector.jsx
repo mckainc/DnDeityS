@@ -40,6 +40,7 @@ class MonsterSelector extends Component {
 
   render() {
     const { monster, searchInput } = this.state;
+    console.log(monster);
     const filteredList = this.props.monsters.filter(monster => {
       return searchInput.toLowerCase() === monster.name.substring(0, searchInput.length).toLowerCase();
     }).sort((a, b) => a.name.localeCompare(b.name));

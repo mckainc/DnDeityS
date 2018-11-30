@@ -13,7 +13,6 @@ class InGameMonsterEditor extends Component {
     this.state = {
       ACForm : '',
       HPForm : '',
-
     }
   }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // types
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import serverURL from '../../objects/url.js';
 import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
 import Pusher from 'pusher-js';
@@ -11,8 +11,11 @@ import RaceType from '../../objects/RaceType';
 // components
 import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
+import InitiativeRequest from './InitiativeRequest';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
+import Initiative from './Initiative';
 import { Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
+import Notes from '../../components/Notes';
 import CharacterSheetHeader from './CharacterSheetHeader';
 import InGameMonsterEditor from './InGameMonsterEditor';
 
@@ -27,6 +30,10 @@ class Game extends Component {
       x: 25,
       y: 25,
       loaded: false,
+      showNoteModal: false,
+      showInitiativeRequest: false,
+      showInitiativeModal: false,
+      initiativeList: new List(),
       active_character: -1,
     }
   }
@@ -100,6 +107,24 @@ class Game extends Component {
     channel.bind('move-character', data => {
       this.moveCharacter(data.x, data.y, data.character);
     });
+
+    const characterId = sessionStorage.getItem('character_id');
+    if (characterId === '-1') {
+      // DM, subscribe to initiative results
+      channel.bind('initiative-response', data => {
+        if (!this.state.showInitiativeModal) { return; }
+        const char = characterArr.find(c => `${c.id}` === data.characterId);
+        char.initiative = data.initiative;
+
+        const initiativeList = this.state.initiativeList.push(char);
+        this.setState({ initiativeList });
+      })
+    } else {
+      // Player, subscribe to initiative requests
+      channel.bind('initiative-request', () => {
+        this.setState({ showInitiativeRequest: true });
+      })
+    }
   }
 
   moveCharacter = (x, y, character) => {
@@ -135,6 +160,51 @@ class Game extends Component {
     server.patch('/character/' + character.id, JSON.stringify(character))
   }
 
+  hideModal = () => {
+    this.setState({ showInitiativeModal: false, initiativeList: new List() });
+  }
+
+  hideNotes = () => {
+    this.setState({showNoteModal: false});
+  }
+
+  showNotes = () => {
+    this.setState({showNoteModal: true});
+  }
+
+  sendInitiativeRequest = () => {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'initiative-request',
+      message: {}
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
+    this.setState({ showInitiativeModal: true });
+  }
+
+  sendInitiativeResponse = (initiative) => {
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'initiative-response',
+      message: {
+        characterId: sessionStorage.getItem('character_id'),
+        initiative,
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
+    this.setState({ showInitiativeRequest: false });
+  }
+  
   changeCharacter(eventKey) {
     // console.log("Update character to: " + eventKey);
     this.setState({
@@ -177,7 +247,9 @@ class Game extends Component {
 
     return (
       <div className="Game">
-        <GameToolbar characterId={characterId}/>
+        {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
+        {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} hideModal={this.hideModal} />}
+        <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
         {characterId != -1 ? (<Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col>) : (<div/>)}
         <Row>
           <Col md={9}>

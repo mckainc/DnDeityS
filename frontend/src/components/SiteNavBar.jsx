@@ -23,6 +23,9 @@ class SiteNaveBar extends Component {
           <Nav>
             <NavItem><Link to="/MapList">Maps</Link></NavItem>
           </Nav>
+          <Nav>
+            <NavItem><Link to="/MonsterList">Monsters</Link></NavItem>
+          </Nav>
           <Nav pullRight>
             <NavItem><DiceTray/></NavItem>
           </Nav>
@@ -32,7 +35,7 @@ class SiteNaveBar extends Component {
               <Button className="save" bsSize="xsmall" onClick={this.props.save}>Save</Button>
             </NavItem>
             <NavItem>
-              <Notes save={this.props.save} characterId={this.props.characterId}/>
+                <Button bsSize="xsmall" onClick={this.props.showNotes}>Notes</Button>
             </NavItem>
           </Nav>
           }

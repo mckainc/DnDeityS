@@ -17,6 +17,7 @@ import DescriptionSection from './DescriptionSection';
 import SiteNavBar from '../../components/SiteNavBar';
 import CharacterNavBar from '../../components/CharacterNavBar';
 
+import Notes from '../../components/Notes';
 import { FormControl, Grid, Row, Col } from 'react-bootstrap';
 import LevelUpModal from '../../components/LevelUpModal'
 import './CharacterCreator.css';
@@ -44,7 +45,16 @@ class CharacterCreator extends Component {
       equipment: new Map(),
       spells: new Map(),
       backgrounds: new Map(),
+      showNoteModal: false,
     }
+  }
+
+  hideNotes = () => {
+    this.setState({showNoteModal: false});
+  }
+
+  showNotes = () => {
+    this.setState({showNoteModal: true});
   }
 
   componentWillMount() {
@@ -189,7 +199,8 @@ class CharacterCreator extends Component {
  
     return (
       <div className="CharacterCreator">
-        <SiteNavBar enableSave save={this.saveCharacter} characterId={this.props.match.params.characterId}/>
+        {this.state.showNoteModal && <Notes hideNotes={this.hideNotes} characterId={characterId}/>}
+        <SiteNavBar enableSave save={this.saveCharacter} characterId={this.props.match.params.characterId} showNotes={this.showNotes}/>
         <Grid fluid className="character-grid">
           <Row>
             <Col xs={1} md={1}>

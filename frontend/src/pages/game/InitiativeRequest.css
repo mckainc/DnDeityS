@@ -1,0 +1,7 @@
+.InitiativeRequest {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  z-index: 100;
+  width: 25%;
+}

@@ -54,6 +54,8 @@ class HomePage extends Component {
             <Button onClick = {() => this.handleClick("/CharacterCreator")}>Character Designer</Button>
           
             <Button onClick = {() => this.handleClick("/MapMaker")}>Map Designer</Button>
+
+            <Button onClick = {() => this.handleClick("/MonsterMaker")}>Monster Designer</Button>
              </Col>
             </Row>
             <Row>
