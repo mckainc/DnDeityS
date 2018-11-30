@@ -12,12 +12,14 @@ import MapGrid from '../../pages/map-maker/MapGrid';
 import GameToolbar from './GameToolbar';
 import InitiativeRequest from './InitiativeRequest';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
-import { Col } from 'react-bootstrap';
 import Initiative from './Initiative';
+import { Col, DropdownButton, MenuItem } from 'react-bootstrap';
+import CharacterSheetHeader from './CharacterSheetHeader';
 
 class Game extends Component {
   constructor(props) {
     super(props);
+    this.changeCharacter = this.changeCharacter.bind(this);
 
     this.state = {
       map: new Map(),
@@ -28,6 +30,7 @@ class Game extends Component {
       showInitiativeRequest: false,
       showInitiativeModal: false,
       initiativeList: new List(),
+      active_character: -1,
     }
   }
 
@@ -185,6 +188,13 @@ class Game extends Component {
     server.post('/pushmessage', JSON.stringify(json));
     this.setState({ showInitiativeRequest: false });
   }
+  
+  changeCharacter(eventKey) {
+    // console.log("Update character to: " + eventKey);
+    this.setState({
+      active_character: eventKey
+    });
+  }
 
   render() {
     const characterId = sessionStorage.getItem('character_id');
@@ -192,13 +202,15 @@ class Game extends Component {
     if (!this.state.loaded) {
       return <div className="Game" />
     }
+    // console.log(this.state);
 
     return (
       <div className="Game">
         {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
         {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} hideModal={this.hideModal} />}
         <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
-        <Col md={10}>
+        {characterId != -1 && <Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col> }
+        <Col md={9}>
           <MapGrid
             characters={this.state.characters}
             x={this.state.x}
@@ -208,8 +220,19 @@ class Game extends Component {
             moveEvent={this.moveEvent}
           />
         </Col>
-        <Col md={2}>
-          <CharacterSheetSidebar id={characterId}/>
+        <Col md={3}>
+          {characterId != -1 ? (
+            <CharacterSheetSidebar id={characterId}/>
+          ) : (
+            <div>
+              <DropdownButton title="Characters">
+                {this.state.characters.map((character) => (
+                  <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
+                ))}
+              </DropdownButton>
+              {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character}/>)}
+            </div>
+          )}
         </Col>
       </div>
     );

@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // components
-import { Navbar, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
-import CharacterSheetHeader from './CharacterSheetHeader';
+import { Navbar, Row, Nav, NavItem, Button } from 'react-bootstrap';
 import DiceTray from '../../components/DiceTray';
 import Notes from '../../components/Notes';
 
@@ -35,11 +34,6 @@ class GameToolbar extends Component {
               </Nav>
             }
           </Navbar>
-        </Row>
-        <Row>
-          <Col md={9} mdPush={1}>
-            <CharacterSheetHeader id={this.props.characterId}/>
-          </Col>
         </Row>
       </div>
     );
