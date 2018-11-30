@@ -14,7 +14,6 @@ class GameToolbar extends Component {
   }
 
   render() {
-    console.log(this.props.characterId)
     return (
       <div className="GameToolbar">
         <Row>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // types
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import serverURL from '../../objects/url.js';
 import { APP_CLUSTER, APP_KEY } from '../../objects/keys';
 import Pusher from 'pusher-js';
@@ -13,6 +13,7 @@ import GameToolbar from './GameToolbar';
 import InitiativeRequest from './InitiativeRequest';
 import CharacterSheetSidebar from './CharacterSheetSidebar';
 import { Col } from 'react-bootstrap';
+import Initiative from './Initiative';
 
 class Game extends Component {
   constructor(props) {
@@ -25,6 +26,8 @@ class Game extends Component {
       y: 25,
       loaded: false,
       showInitiativeRequest: false,
+      showInitiativeModal: false,
+      initiativeList: new List(),
     }
   }
 
@@ -92,7 +95,18 @@ class Game extends Component {
     if (characterId === '-1') {
       // DM, subscribe to initiative results
       channel.bind('initiative-response', data => {
-        console.log(data);
+        const char = characterArr.find(c => `${c.id}` === data.characterId);
+        char.initiative = data.initiative;
+
+        console.log(this.state.initiativeList)
+        let i;
+        for (i = 0; i < this.state.initiativeList.size; i++) {
+          if (this.state.initiativeList.get(i).initiative < char.initiative) {
+            break;
+          }
+        }
+        const initiativeList = this.state.initiativeList.insert(i, char);
+        this.setState({ initiativeList });
       })
     } else {
       // Player, subscribe to initiative requests
@@ -147,6 +161,7 @@ class Game extends Component {
     }
 
     server.post('/pushmessage', JSON.stringify(json));
+    this.setState({ showInitiativeModal: true });
   }
 
   sendInitiativeResponse = (initiative) => {
@@ -177,6 +192,7 @@ class Game extends Component {
     return (
       <div className="Game">
         {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
+        {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} />}
         <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
         <Col md={10}>
           <MapGrid
