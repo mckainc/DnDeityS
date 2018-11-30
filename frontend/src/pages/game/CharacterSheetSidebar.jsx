@@ -92,6 +92,9 @@ class CharacterSheetSidebar extends Component {
         if (typeof races.get(response.data[2]) !== 'undefined') {
           s_bonuses = races.get(response.data[2]).description.ability_bonuses;
         }
+        if (s_bonuses === null) {
+          s_bonuses = [0, 0, 0, 0, 0, 0];
+        }
         for (let i = 0; i < 6; i++) {
           a_scores[i] = '' + (Number(a_scores[i]) + s_bonuses[i]);
         }
