@@ -621,7 +621,7 @@ def create_monster():
 	values_list = []	
 	try:
 		name = request.get_json(force=True)['name']
-		data = json.dumps(request.get_json(force=True)['data'])
+		data = json.dumps(request.get_json(force=True)['description'])
 		userid = request.get_json(force=True)['userid']
 		values_list.append(name)
 		values_list.append(data)
