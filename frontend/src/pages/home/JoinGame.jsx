@@ -22,7 +22,9 @@ class JoinGame extends Component {
       character: undefined,
       characters: new Map(),
       startGame: false,
+      sending: false,
       searchInput: '',
+      username: '',
     }
   }
 
@@ -50,6 +52,12 @@ class JoinGame extends Component {
         });
         this.setState({ characters });
       });
+    
+    // Get username
+    server.get('/getusername/' + userId)
+      .then(response => {
+        this.setState({ username: response.data[1] });
+      })
   }
 
   handleChange = e => {
@@ -65,7 +73,7 @@ class JoinGame extends Component {
       channel: this.state.code,
       event: 'join-lobby',
       message: {
-        username: 'nick',
+        username: this.state.username,
         character: this.state.character.name,
         race: this.state.character.race,
         class: this.state.character.class,
@@ -91,6 +99,8 @@ class JoinGame extends Component {
       sessionStorage.setItem('characters', JSON.stringify(data.characters));
       this.setState({ startGame: true });
     })
+
+    this.setState({ sending: true });
   }
 
   selectCharacter = character => {
@@ -109,7 +119,9 @@ class JoinGame extends Component {
 
   render() {
     const { character, searchInput } = this.state;
-    const filteredList = this.state.characters.filter(character => {
+    const filteredList = this.state.characters
+      .filter(character => character.image !== null )
+      .filter(character => {
       return searchInput.toLowerCase() === character.name.substring(0, searchInput.length).toLowerCase();
     }).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -161,9 +173,14 @@ class JoinGame extends Component {
                   onChange={this.handleChange}
                 />
               </Col>
+              {!this.state.sending && 
               <Col sm={2}>
-                <Button onClick={this.join} disabled={typeof character === 'undefined'}>Join</Button>
-              </Col>
+                <Button onClick={this.join} disabled={typeof character === 'undefined'} style={{ float: 'right'}}>Join</Button>
+              </Col>}
+              {this.state.sending && 
+              <Col sm={2}>
+                <Button disabled style={{ float: 'right'}}>Waiting...</Button>
+              </Col>}
             </FormGroup>
           </Form>
         </Modal.Body>

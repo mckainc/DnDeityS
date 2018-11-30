@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // components
-import { Navbar, Row, Col, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, Row, Nav, NavItem, Button } from 'react-bootstrap';
 import DiceTray from '../../components/DiceTray';
 import Notes from '../../components/Notes';
 
@@ -26,6 +26,13 @@ class GameToolbar extends Component {
             <Nav pullRight>
               <NavItem><Notes characterId={sessionStorage.getItem('character_id')}/></NavItem>
             </Nav>
+            {this.props.characterId === '-1' &&
+              <Nav pullRight>
+                <NavItem>
+                  <Button bsSize="xsmall" onClick={this.props.sendInitiativeRequest}>Initiative</Button>
+                </NavItem>
+              </Nav>
+            }
           </Navbar>
         </Row>
       </div>
