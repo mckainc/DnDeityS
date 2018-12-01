@@ -613,7 +613,7 @@ def update_monster(monster_id):
 	except KeyError as e:
 		name = ''
 	try:
-		description = request.get_json(force=True)['description']
+		description = json.dumps(request.get_json(force=True)['description'])
 		query += "MonsterData = %s, "
 		values_list.append(description)
 	except KeyError as e:
