@@ -22,8 +22,8 @@ class CharacterSheetSidebar extends Component {
     this.state = {
       dmMode: props.dmMode,
       character_id: props.id,
-      character: {},
-      loaded: false
+      character: this.props.character,
+      loaded: false,
     }
   }
 
@@ -74,11 +74,25 @@ class CharacterSheetSidebar extends Component {
       server.get('/character/' + character_id)
       .then(response => {
         const character = {};
+        let passed_character = {};
+        if (typeof this.props.characters !== 'undefined') {
+          this.props.characters.map((value, key) => {
+            if (value.character === response.data[4]) {
+              passed_character = value;
+            }
+          });
+        }
+        character.name = response.data[4];
 
         if (this.state.dmMode) {
-          character.name = response.data[4];
           character.description = "level " + JSON.parse(response.data[14]).level + " " + response.data[2] + " " + response.data[3];
-          character.hp = response.data[6] + "/" + response.data[7];
+          if (typeof passed_character.hp !== 'undefined') {
+            character.hp = passed_character.hp;
+          }
+          else {
+            character.hp = response.data[6];
+          }
+          character.maxHp = response.data[7];
         }
 
         let a_scores;
@@ -104,7 +118,12 @@ class CharacterSheetSidebar extends Component {
         }
         character.ability_scores = a_scores;
         character.ability_modifiers = ability_modifiers;
-        character.armor_class = 10 + Math.floor((Number(a_scores[1]) - 10) / 2);
+        if (typeof passed_character.armor_class !== 'undefined') {
+          character.armor_class = passed_character.armor_class;
+        }
+        else {
+          character.armor_class = 10 + Math.floor((Number(a_scores[1]) - 10) / 2);
+        }
 
         let inventory = [];
         JSON.parse(response.data[10]).forEach(item => {
@@ -307,6 +326,23 @@ class CharacterSheetSidebar extends Component {
     const { character, ACForm } = this.state;
     character.armor_class = ACForm;
     console.log("change AC to " + ACForm);
+
+    let name = character.name;
+
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'change-character',
+      message: {
+        name,
+        character,
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
     this.setState({character});
   }
 
@@ -316,7 +352,7 @@ class CharacterSheetSidebar extends Component {
 
   componentWillReceiveProps(next_props) {
     if (next_props.id != this.props.id) {
-      this.setState({character_id: next_props.id}, function () {
+      this.setState({character_id: next_props.id}, function() {
         this.componentWillMount();
       });
     }
@@ -384,7 +420,7 @@ class CharacterSheetSidebar extends Component {
 
     return (
       <div className="CharacterSheetSidebar">
-        {this.state.dmMode && <div><h4>{character.name}</h4><h4>{character.description}</h4><h5>HP: {character.hp}</h5></div>}
+        {this.state.dmMode && <div><h4>{character.name}</h4><h4>{character.description}</h4><h5>HP: {character.hp + '/' + character.maxHp}</h5></div>}
         <Tabs defaultActiveKey={1} id="character-sidebar-tab">
           <Tab eventKey={1} title="Ability Scores">
             <Panel>
@@ -392,6 +428,7 @@ class CharacterSheetSidebar extends Component {
                 <Panel.Title componentClass="h3">Armor Class</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{character.armor_class}</Panel.Body>
+              {!this.state.dmMode ? (
               <Panel.Footer>
                 <form>
                   <FormGroup>
@@ -404,6 +441,7 @@ class CharacterSheetSidebar extends Component {
                   </FormGroup>
                 </form>
               </Panel.Footer>
+              ) : (<div/>)}
             </Panel>
             <Panel>
               <Panel.Heading>
@@ -491,7 +529,7 @@ class CharacterSheetSidebar extends Component {
               <Panel.Body>{character.languages}</Panel.Body>
             </Panel>
           </Tab>
-        </Tabs>;
+        </Tabs>
       </div>
     );
   }
