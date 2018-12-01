@@ -24,6 +24,23 @@ class CharacterSheetHeader extends Component {
   handleHPClick = () => {
     const { HPForm, character } = this.state;
     character.hp = HPForm;
+    
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+
+    let name = character.name;
+
+    const json = {
+      channel: sessionStorage.getItem('channel'),
+      event: 'change-character',
+      message: {
+        name,
+        character,
+      }
+    }
+
+    server.post('/pushmessage', JSON.stringify(json));
     this.setState({ character })
   }
 

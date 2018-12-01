@@ -104,6 +104,10 @@ class Game extends Component {
     const code = sessionStorage.getItem('channel');
     const channel = pusher.subscribe(code);
 
+    channel.bind('change-character', data => {
+      this.changeLiveCharacter(data.name, data.character);
+    });
+
     channel.bind('move-character', data => {
       this.moveCharacter(data.x, data.y, data.character);
     });
@@ -125,6 +129,38 @@ class Game extends Component {
         this.setState({ showInitiativeRequest: true });
       })
     }
+  }
+
+  changeLiveCharacter = (name, character) => {
+    const { characters } = this.state;
+    console.log("RECEIVED!!!!!!!!!!!!!!!!!!");
+    console.log(character);
+    let k = '';
+    let temp_character;
+    characters.map((value, key) => {
+      if (value.character === name) {
+        k = key;
+      }
+    });
+    console.log("Key: " + k);
+    if (typeof characters.get(k) === 'undefined') {
+      console.log("character not found");
+      return;
+    }
+    temp_character = characters.get(k);
+    if (typeof character.hp !== 'undefined') {
+      temp_character.hp = character.hp;
+    }
+    if (typeof character.armor_class !== 'undefined') {
+      temp_character.armor_class = character.armor_class;
+    }
+    console.log("Change character " + k);
+    console.log("From");
+    console.log(characters.get(k));
+    console.log("to");
+    console.log(temp_character);
+    let newCharacters = characters.set(k, temp_character);
+    this.setState({ characters: newCharacters });
   }
 
   moveCharacter = (x, y, character) => {
@@ -230,10 +266,42 @@ class Game extends Component {
     if (newMap.get(x).has(y)) {
       tile = newMap.get(x).get(y);
     }
-    tile[type] = data;
+
+    if (type === 'monster' && data === 'undefined') {
+      delete tile['monster'];
+    }
+    else {
+      tile[type] = data;
+    }
+
     newMap = newMap.set(x, newMap.get(x).set(y, tile));
+    console.log(newMap.toObject());
 
     this.setState({ map: newMap });
+  }
+
+  saveMap = () => {
+    const { map } = this.state;
+    const server = axios.create({
+      baseURL: serverURL,
+    });
+    let mapJSON = {};
+
+    // push all of the tiles onto an array
+    let tiles = [];
+    map.forEach((xmap, x) => xmap.forEach((tile, y) => {
+      const t = tile;
+      t.x = x;
+      t.y = y;
+      tiles.push(t);
+    }));
+
+    mapJSON.tiles = tiles;
+
+    server.patch('/map/' + localStorage.getItem('map_id'), JSON.stringify(mapJSON)).then(response => {
+      this.componentWillMount();
+    });
+    return;
   }
 
   render() {
@@ -250,7 +318,7 @@ class Game extends Component {
         {this.state.showInitiativeRequest && <InitiativeRequest sendInitiativeResponse={this.sendInitiativeResponse} /> }
         {this.state.showInitiativeModal && <Initiative initiativeList={this.state.initiativeList} hideModal={this.hideModal} />}
         <GameToolbar characterId={characterId} sendInitiativeRequest={this.sendInitiativeRequest} />
-        {characterId != -1 ? (<Col md={10} mdPush={1}><CharacterSheetHeader id={characterId}/></Col>) : (<div/>)}
+        {characterId != -1 ? (<Col md={10} mdPush={1}><CharacterSheetHeader id={characterId} /></Col>) : (<div/>)}
         <Row>
           <Col md={9}>
             <MapGrid
@@ -275,11 +343,11 @@ class Game extends Component {
             ) : (
               <div>
                 <DropdownButton title="Characters">
-                  {this.state.characters.map((character) => (
-                    <MenuItem key={character.id} eventKey={character.id} onSelect={this.changeCharacter}>{character.character}</MenuItem>
+                  {this.state.characters.map((value, key) => (
+                    <MenuItem key={value.id} eventKey={value.id} onSelect={this.changeCharacter}>{value.character}</MenuItem>
                   ))}
                 </DropdownButton>
-                {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character}/>)}
+                {this.state.active_character != -1 && (<CharacterSheetSidebar dmMode={true} id={this.state.active_character} characters={this.state.characters}/>)}
               </div>
             )}
           </Col>
@@ -294,6 +362,7 @@ class Game extends Component {
                 map={this.state.map}
                 selectedX={this.state.selectedX}
                 selectedY={this.state.selectedY}
+                saveMap={this.saveMap}
               />
             </Col>
           </div>
